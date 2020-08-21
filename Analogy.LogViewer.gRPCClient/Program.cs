@@ -13,11 +13,17 @@ namespace Analogy.LogViewer.gRPCClient
 {
     class Program
     {
-        private static  AnalogyMessageProducer producer;
+        private static AnalogyMessageProducer producer;
         static async Task Main(string[] args)
         {
-            await producer.Log("test", "this", AnalogyLogLevel.Error);
-            await producer.Log("test2", "this2", AnalogyLogLevel.Event);
+            producer=new AnalogyMessageProducer();
+            for (int i = 0; i < 10000; i++)
+            {
+                await producer.Log("test:" + i, "this", AnalogyLogLevel.Error);
+                await producer.Log("test2:" + i, "this2", AnalogyLogLevel.Event);
+                await Task.Delay(500);
+            }
+
             Console.ReadKey();
         }
 

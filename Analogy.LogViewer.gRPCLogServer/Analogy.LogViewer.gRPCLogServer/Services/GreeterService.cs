@@ -41,22 +41,30 @@ namespace Analogy.LogViewer.gRPCLogServer
             return new AnalogyMessageReply { Message = "Reply at " + DateTime.Now };
         }
 
-        public override Task SubscribeForConsumeMessages(AnalogyConsumerMessage request, IServerStreamWriter<AnalogyLogMessage> responseStream, ServerCallContext context)
+        public override async Task SubscribeForConsumeMessages(AnalogyConsumerMessage request, IServerStreamWriter<AnalogyLogMessage> responseStream, ServerCallContext context)
         {
             Sender.AddConsumer(request.Message, responseStream);
-            return Task.CompletedTask;
-
+            try
+            {
+                await AwaitCancellation(context.CancellationToken);
+            }
+            catch (Exception e)
+            {
+              _logger.LogError(e,"Error");
+            }
         }
 
         private async Task HandleClientActions(IAsyncStreamReader<AnalogyLogMessage> requestStream,
             CancellationToken token)
         {
+            ulong i = 0;
             try
             {
                 await foreach (var message in requestStream.ReadAllAsync(token))
                 {
                     try
                     {
+                        Console.WriteLine("Received " +i++);
                         Sender.AddMessage(message);
                         //Interfaces.AnalogyLogMessage m = new Interfaces.AnalogyLogMessage
                         //{

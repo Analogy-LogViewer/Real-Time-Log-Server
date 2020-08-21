@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Analogy.Interfaces;
 using Analogy.LogViewer.gRPCLogServer;
 using Google.Protobuf.WellKnownTypes;
@@ -16,6 +18,7 @@ namespace Analogy.LogViewer.gRPCClient
         private static gRPCLogServer.Analogy.AnalogyClient client { get; set; }
         private GrpcChannel channel;
         private AsyncServerStreamingCall<AnalogyLogMessage> stream;
+        private CancellationTokenSource cts;
 
         static AnalogyMessageConsumer()
         {
@@ -32,14 +35,16 @@ namespace Analogy.LogViewer.gRPCClient
 
         public async IAsyncEnumerable<Interfaces.AnalogyLogMessage> GetMessages()
         {
+            cts=new CancellationTokenSource();
             await foreach (var m in stream.ResponseStream.ReadAllAsync())
             {
+
                 Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
                 {
                     Id = Guid.Parse((ReadOnlySpan<char>) m.Id),
                     Category = m.Category,
                     Class = (AnalogyLogClass) Enum.Parse(typeof(AnalogyLogClass), m.Class),
-                    Date = m.Date.ToDateTime(),
+                    Date = m.Date.ToDateTime().ToLocalTime(),
                     FileName = m.FileName,
                     Level = (AnalogyLogLevel) Enum.Parse(typeof(AnalogyLogLevel), m.Level),
                     LineNumber = m.LineNumber,
@@ -53,7 +58,15 @@ namespace Analogy.LogViewer.gRPCClient
                     User = m.User
                 };
                 yield return msg;
+                if (cts.Token.IsCancellationRequested)
+                    yield break;
+                
             }
+        }
+
+        public void Stop()
+        {
+            cts?.Cancel();
         }
     }
 }
