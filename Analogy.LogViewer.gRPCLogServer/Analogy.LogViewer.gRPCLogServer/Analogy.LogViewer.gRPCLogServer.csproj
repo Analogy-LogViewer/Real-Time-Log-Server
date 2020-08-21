@@ -1,9 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Exe</OutputType>
     <StartupObject>Analogy.LogViewer.gRPCLogServer.Program</StartupObject>
+    <Authors>Lior Banai</Authors>
+    <Company>Analogy.LogViewer</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPCLogServer</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPCLogServer</PackageProjectUrl>
   </PropertyGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos\Analogy.proto" GrpcServices="Server" />

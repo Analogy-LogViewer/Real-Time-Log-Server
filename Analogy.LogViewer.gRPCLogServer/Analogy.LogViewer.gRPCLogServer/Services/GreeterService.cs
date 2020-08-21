@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Analogy.Interfaces;
 using Grpc.Core;
@@ -12,40 +13,90 @@ namespace Analogy.LogViewer.gRPCLogServer
     public class GreeterService : Analogy.AnalogyBase
     {
         private readonly ILogger<GreeterService> _logger;
+        private AnalogyViewerSender Sender { get; }
 
-        public GreeterService(ILogger<GreeterService> logger)
+        public GreeterService(AnalogyViewerSender sender, ILogger<GreeterService> logger)
         {
             _logger = logger;
+            Sender = sender;
         }
 
-        public override Task<AnalogyMessageReply> SendMessage(AnalogyLogMessage message, ServerCallContext context)
+        public override async Task<AnalogyMessageReply> SubscribeForSendMessages(
+            IAsyncStreamReader<AnalogyLogMessage> requestStream, ServerCallContext context)
         {
-            Interfaces.AnalogyLogMessage m = new Interfaces.AnalogyLogMessage
-            {
-                Text = message.Text,
-                ThreadId = message.ThreadId,
-                MachineName = message.MachineName,
-                Id = Guid.Parse(message.Id),
-                Category = message.Category,
-                Source = message.Source,
-                MethodName = message.MethodName,
-                FileName = message.FileName,
-                LineNumber = message.LineNumber,
-                Class = (AnalogyLogClass)Enum.Parse(typeof(AnalogyLogClass), message.Class),
-                Level = (AnalogyLogLevel)Enum.Parse(typeof(AnalogyLogLevel), message.Level),
-                Module = message.Module,
-                ProcessId = message.ProcessId,
-                Date = message.Date.ToDateTime(),
-                User = message.User,
-                AdditionalInformation = null
+            var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken),
+                HandleClientActions(requestStream, context.CancellationToken));
 
-            };
-           // gRPCReporter.Instance.MessageReady(m);
-            return Task.FromResult(new AnalogyMessageReply
+            try
             {
-                Message = "Received at " + DateTime.Now
+                await Task.WhenAll(tasks);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
 
-            });
+            _logger.LogInformation("Subscription finished.");
+            // gRPCReporter.Instance.MessageReady(m);
+            return new AnalogyMessageReply { Message = "Reply at " + DateTime.Now };
+        }
+
+        public override Task SubscribeForConsumeMessages(AnalogyConsumerMessage request, IServerStreamWriter<AnalogyLogMessage> responseStream, ServerCallContext context)
+        {
+            Sender.AddConsumer(request.Message, responseStream);
+            return Task.CompletedTask;
+
+        }
+
+        private async Task HandleClientActions(IAsyncStreamReader<AnalogyLogMessage> requestStream,
+            CancellationToken token)
+        {
+            try
+            {
+                await foreach (var message in requestStream.ReadAllAsync(token))
+                {
+                    try
+                    {
+                        Sender.AddMessage(message);
+                        //Interfaces.AnalogyLogMessage m = new Interfaces.AnalogyLogMessage
+                        //{
+                        //    Text = message.Text,
+                        //    ThreadId = message.ThreadId,
+                        //    MachineName = message.MachineName,
+                        //    Id = Guid.Parse(message.Id),
+                        //    Category = message.Category,
+                        //    Source = message.Source,
+                        //    MethodName = message.MethodName,
+                        //    FileName = message.FileName,
+                        //    LineNumber = message.LineNumber,
+                        //    Class = (AnalogyLogClass) Enum.Parse(typeof(AnalogyLogClass), message.Class),
+                        //    Level = (AnalogyLogLevel) Enum.Parse(typeof(AnalogyLogLevel), message.Level),
+                        //    Module = message.Module,
+                        //    ProcessId = message.ProcessId,
+                        //    Date = message.Date.ToDateTime(),
+                        //    User = message.User,
+                        //    AdditionalInformation = null
+                        //};
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError($"Error  receiving messages: {e}");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError($"Error: {e.Message}");
+            }
+        }
+
+        private Task AwaitCancellation(CancellationToken token)
+        {
+            var completion = new TaskCompletionSource<object>();
+            token.Register(() => { completion.SetResult(null); });
+            return completion.Task;
+
         }
     }
 }

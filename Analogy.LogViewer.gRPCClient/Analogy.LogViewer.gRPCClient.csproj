@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Authors>Lior Banai</Authors>
+    <Company>Analogy.LogViewer</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Protos\Analogy.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.3.4" />
+    <PackageReference Include="Google.Protobuf" Version="3.11.4" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.27.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.27.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\Analogy.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+</Project>
