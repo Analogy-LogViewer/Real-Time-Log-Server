@@ -55,6 +55,10 @@ namespace Analogy.LogViewer.gRPCClient
             };
             await stream.RequestStream.WriteAsync(m);
         }
-
+        public void StopReceiving()
+        {
+            channel.Dispose();
+            GrpcEnvironment.ShutdownChannelsAsync();
+        }
     }
 }

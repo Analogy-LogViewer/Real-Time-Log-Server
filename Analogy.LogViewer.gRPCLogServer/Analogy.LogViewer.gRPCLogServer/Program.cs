@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Grpc.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +16,8 @@ namespace Analogy.LogViewer.gRPCLogServer
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+            GrpcEnvironment.KillServersAsync();
+
         }
 
         // Additional configuration is required to successfully run gRPC on macOS.

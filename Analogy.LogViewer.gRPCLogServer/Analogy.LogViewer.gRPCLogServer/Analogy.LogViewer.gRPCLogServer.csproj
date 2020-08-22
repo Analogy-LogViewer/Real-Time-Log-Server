@@ -18,6 +18,7 @@
 	<ItemGroup>
     <PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.3.4" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.31.0" />
+    <PackageReference Include="Grpc.Core" Version="2.31.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.7" />
   </ItemGroup>
