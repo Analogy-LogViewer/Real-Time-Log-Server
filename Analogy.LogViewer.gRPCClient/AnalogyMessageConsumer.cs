@@ -63,12 +63,10 @@ namespace Analogy.LogViewer.gRPCClient
                 
             }
         }
-
-        public void Stop()
+        public Task Stop()
         {
             _cts?.Cancel();
-            GrpcEnvironment.ShutdownChannelsAsync();
-
+            return GrpcEnvironment.ShutdownChannelsAsync();
         }
     }
 }
