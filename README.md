@@ -15,3 +15,23 @@
 gRPC Log Server (Windows Services) to receive and then forward messages to Analogy Log Viewer
 
 Combined with  https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC
+
+
+## Usage
+Once you have setup Analogy Log Server you can start sending messages to it:
+Add Nuget package [Analogy.AspNetCore.LogProvider](Analogy.AspNetCore.LogProvider) and then add to the Configure method the following in te Startup.cs
+
+```csharp
+
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+ {
+     loggerFactory.AddAnalogyLogger(new AnalogyLoggerConfiguration
+     {
+         LogLevel = LogLevel.Trace,
+         EventId = 0,
+         AnalogyServerUrl = "http://localhost:6000"
+      });
+     }
+
+```
+
