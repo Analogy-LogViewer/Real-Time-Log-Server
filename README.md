@@ -41,7 +41,7 @@ Add nuget [Analogy.LogViewer.NLog.Targets](https://www.nuget.org/packages/Analog
 
   <extensions>
     <add assembly="NLog.Web.AspNetCore"/>
-    <add assembly="Nlog.Targets"/>
+    <add assembly="Analogy.LogViewer.NLog.Targets"/>
   </extensions>
  
   <targets>
@@ -56,16 +56,7 @@ Add nuget [Analogy.LogViewer.NLog.Targets](https://www.nuget.org/packages/Analog
         maxArchiveFiles="100"
         archiveAboveSize="30000000">
     </target>
-    <target xsi:type="File" name="KafkaErrorsLog"
-    fileName="c:\KALPA\logs\${processname:fullName=false}-KX-KafkaError.nlog"
-    layout="${longdate}|${uppercase:${level}}|${logger}|${message} ${exception:format=tostring}|${processname:fullName=false}|${processid}"
-    keepFileOpen="false"
-    archiveFileName="c:\KALPA\logs\${processname:fullName=false}-KX-KafkaError-${shortdate}.{##}.nlog"
-    archiveNumbering="Sequence"
-    archiveEvery="Day"
-    maxArchiveFiles="100"
-    archiveAboveSize="30000000">
-    </target>
+    <!-- write logs to Analogy Log Server  -->
     <target xsi:type="NlogAnalogyGRPCTarget" name="NLogToAnalogyGRPCTarget"
             layout="${longdate}|${uppercase:${level}}|${logger}|${message} ${exception:format=tostring}|${processname:fullName=false}|${processid}">
       <contextproperty name="MachineName" layout="${machinename}" />
@@ -78,7 +69,6 @@ Add nuget [Analogy.LogViewer.NLog.Targets](https://www.nuget.org/packages/Analog
 
   <rules>
     <logger name="*" minlevel="Trace" writeTo="allfile" />
-    <logger name="KafkaErrors" minlevel="Trace" writeTo="KafkaErrorsLog"/>
     <logger name="*" minlevel="Trace" writeTo="NLogToAnalogyGRPCTarget" />
   </rules>
 </nlog>
