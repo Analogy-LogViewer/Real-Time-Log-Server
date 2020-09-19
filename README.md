@@ -14,7 +14,7 @@
 
 gRPC Log Server (Windows Services) to receive and then forward messages to Analogy Log Viewer.
 
-With Analogy Log server you can stream log messages from any [Supported languages](https://grpc.io/docs/languages/) and have them saved in a log files and view in real time using [Analogy Log Viewer](https://github.com/Analogy-LogViewer)/
+With Analogy Log server you can stream log messages from any [Supported languages](https://grpc.io/docs/languages/) and have them saved in a log files and view in real time using [Analogy Log Viewer](https://github.com/Analogy-LogViewer).
 
 There  are, currently, 4 types of gRPC clients:
 
