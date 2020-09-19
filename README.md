@@ -16,7 +16,7 @@ gRPC Log Server (Windows Services) to receive and then forward messages to Analo
 
 Combined with  https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC
 
-There  are, currently, 4 type of gRPC clients:
+There  are, currently, 4 types of gRPC clients:
 | Data Provider   |      Nuget Version |
 |----------|:---------------|
 | [NLog Target](https://github.com/Analogy-LogViewer/Analogy.LogViewer.NLog.Targets) | NLog target to stream logs to Analogy|
@@ -105,3 +105,4 @@ Add Nuget package [Analogy.AspNetCore.LogProvider](https://www.nuget.org/package
 
 ```
 
+- Python logging: go to [Python Logging](https://github.com/Analogy-LogViewer/Analogy-Python-Logging/) for more information.
