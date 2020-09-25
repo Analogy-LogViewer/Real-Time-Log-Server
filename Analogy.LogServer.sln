@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Analogy.LogServer", "Analog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Analogy.LogServer.Clients", "Analogy.LogServer.Clients\Analogy.LogServer.Clients.csproj", "{DB2A7822-0AD7-46D4-A931-04AA353C9DA8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Analogy.LogServer.Tests", "Analogy.LogServer.Tests\Analogy.LogServer.Tests.csproj", "{8789A83F-33C3-4D16-8C94-9BED20F044AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DB2A7822-0AD7-46D4-A931-04AA353C9DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2A7822-0AD7-46D4-A931-04AA353C9DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2A7822-0AD7-46D4-A931-04AA353C9DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8789A83F-33C3-4D16-8C94-9BED20F044AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8789A83F-33C3-4D16-8C94-9BED20F044AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8789A83F-33C3-4D16-8C94-9BED20F044AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8789A83F-33C3-4D16-8C94-9BED20F044AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
