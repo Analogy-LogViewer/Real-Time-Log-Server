@@ -12,7 +12,7 @@
 </a>
 </p>
 
-gRPC Log Server (Windows Services) to receive and then forward messages to Analogy Log Viewer. Client/Server release resides in [gRPC repo](https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC).
+gRPC Log Server (Windows Services) to receive and then forward messages to Analogy Log Viewer.
 
 The following modules exists:
 | Nuget   |      Version      |  Description |
