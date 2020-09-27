@@ -24,6 +24,7 @@ namespace Analogy.LogServer
             services.AddSingleton<GRPCLogConsumer>();
             services.AddGrpc();
             services.AddSingleton<MessagesContainer>();
+            //services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +46,7 @@ namespace Analogy.LogServer
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapHealthChecks("/health");
                 endpoints.MapGrpcService<GreeterService>();
 
                 endpoints.MapGet("/", async context =>
