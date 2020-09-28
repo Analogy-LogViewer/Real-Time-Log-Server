@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,12 +16,15 @@ namespace Analogy.LogServer
         private readonly List<ILogConsumer> _consumers;
         private ILogger<MessagesContainer> _logger;
         private readonly ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
-        public MessagesContainer(CommonSystemConfiguration serviceConfiguration, GRPCLogConsumer grpcLogConsumer, ILogger<MessagesContainer> logger)
+        public MessagesContainer(ServiceConfiguration serviceConfiguration, GRPCLogConsumer grpcLogConsumer, MessageHistoryContainer historyContainer, ILogger<MessagesContainer> logger)
         {
-            _consumers = new List<ILogConsumer> {grpcLogConsumer};
-            if (serviceConfiguration.LogAlsoToLogFile)
-                _consumers.Add(new LogFileConsumer(logger));
             _logger = logger;
+            _consumers = new List<ILogConsumer>();
+            AddConsumer(grpcLogConsumer);
+            if (serviceConfiguration.LogAlsoToLogFile)
+                AddConsumer(new LogFileConsumer(logger));
+            if (serviceConfiguration.HoursToKeepHistory > 0)
+                AddConsumer(historyContainer);
             messages = new BlockingCollection<AnalogyLogMessage>();
             _consumer = Task.Factory.StartNew(async () =>
             {
@@ -29,10 +33,7 @@ namespace Analogy.LogServer
                     try
                     {
                         _sync.EnterReadLock();
-                        foreach (ILogConsumer consumer in _consumers)
-                        {
-                            await consumer.ConsumeLog(msg);
-                        }
+                        await Task.WhenAll(_consumers.Select(c => c.ConsumeLog(msg)).ToArray());
                     }
                     finally
                     {

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Analogy.LogServer.Services
 {
@@ -12,13 +10,16 @@ namespace Analogy.LogServer.Services
     {
         private ILogger<GreeterService> Logger { get; }
         private MessagesContainer MessageContainer { get; }
-        private CommonSystemConfiguration SystemConfiguration { get; }
+        private MessageHistoryContainer HistoryContainer { get; }
+        private ServiceConfiguration ServiceConfiguration { get; }
+        private Process CurrentProcess { get; } = Process.GetCurrentProcess();
 
-        public CleanUpWorker(MessagesContainer messageContainer, CommonSystemConfiguration configuration, ILogger<GreeterService> logger)
+        public CleanUpWorker(MessagesContainer messageContainer, MessageHistoryContainer historyContainer, ServiceConfiguration configuration, ILogger<GreeterService> logger)
         {
             Logger = logger;
-            SystemConfiguration = configuration;
+            ServiceConfiguration = configuration;
             MessageContainer = messageContainer;
+            HistoryContainer = historyContainer;
 
         }
 
@@ -28,24 +29,19 @@ namespace Analogy.LogServer.Services
             {
                 try
                 {
-                    await Task.Delay(SystemConfiguration.CleanUpIntervalMinutes*60*1000, stoppingToken).ConfigureAwait(true);
+                    await Task.Delay(ServiceConfiguration.CleanUpIntervalMinutes * 60 * 1000, stoppingToken).ConfigureAwait(false);
+                    HistoryContainer.CleanMessages(ServiceConfiguration.HoursToKeepHistory);
+                    if (CurrentProcess.PrivateMemorySize64 / 1024 / 1024 > ServiceConfiguration.MemoryUsageInMB)
+                    {
+                        HistoryContainer.CleanMessagesByHalf();
+                    }
+
                 }
                 catch (TaskCanceledException)
                 {
                     Logger.LogInformation("Cancellation requested");
                     return;
                 }
-
-                try
-                {
-                  
-                }
-                catch (Exception e)
-                {
-                    Logger.LogError(e, "Error cleanup.");
-                }
-
-
             }
         }
     }

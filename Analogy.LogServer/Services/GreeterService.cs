@@ -86,6 +86,8 @@ namespace Analogy.LogServer.Services
                             message.Date = Timestamp.FromDateTime(DateTime.UtcNow);
                         }
 
+                        if (string.IsNullOrEmpty(message.Level))
+                            message.Level = AnalogyLogLevel.Unknown.ToString();
                         if (string.IsNullOrEmpty(message.Id))
                             message.Id = Guid.NewGuid().ToString();
                         MessageContainer.AddMessage(message);
