@@ -65,5 +65,18 @@ namespace Analogy.LogServer
                 _sync.ExitWriteLock();
             }
         }
+
+        public List<AnalogyLogMessage> GetOldMessages()
+        {
+            try
+            {
+                _sync.EnterWriteLock();
+                return _OldMessages.ToList();
+            }
+            finally
+            {
+                _sync.ExitWriteLock();
+            }
+        }
     }
 }

@@ -1,9 +1,11 @@
 using Analogy.Interfaces;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Grpc.Core.Utils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,12 +13,14 @@ namespace Analogy.LogServer.Services
 {
     public class GreeterService : Analogy.AnalogyBase
     {
+
         private readonly GRPCLogConsumer _grpcLogConsumer;
         private ILogger<GreeterService> Logger { get; }
         private MessagesContainer MessageContainer { get; }
-
-        public GreeterService(MessagesContainer messageContainer, GRPCLogConsumer grpcLogConsumer, ILogger<GreeterService> logger)
+        private MessageHistoryContainer MessageHistoryContainer { get; }
+        public GreeterService(MessagesContainer messageContainer, MessageHistoryContainer historyContainer, GRPCLogConsumer grpcLogConsumer, ILogger<GreeterService> logger)
         {
+            MessageHistoryContainer = historyContainer;
             _grpcLogConsumer = grpcLogConsumer;
             Logger = logger;
             MessageContainer = messageContainer;
@@ -47,7 +51,7 @@ namespace Analogy.LogServer.Services
             await responseStream.WriteAsync(new AnalogyLogMessage
             {
                 Category = "Server Message",
-                Text = "Connection Established",
+                Text = "Connection Established. Streaming old messages (if Any)",
                 Class = AnalogyLogClass.General.ToString(),
                 Level = AnalogyLogLevel.Analogy.ToString(),
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
@@ -63,6 +67,10 @@ namespace Analogy.LogServer.Services
                 User = Environment.UserName
 
             });
+            var oldMessages = MessageHistoryContainer.GetOldMessages();
+            if (oldMessages.Any())
+                await responseStream.WriteAllAsync(oldMessages);
+
             try
             {
                 await AwaitCancellation(context.CancellationToken);

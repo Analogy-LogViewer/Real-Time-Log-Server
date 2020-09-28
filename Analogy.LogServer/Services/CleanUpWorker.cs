@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +41,11 @@ namespace Analogy.LogServer.Services
                 catch (TaskCanceledException)
                 {
                     Logger.LogInformation("Cancellation requested");
+                    return;
+                }
+                catch (Exception e)
+                {
+                    Logger.LogInformation("General Error: {e}", e.Message);
                     return;
                 }
             }
