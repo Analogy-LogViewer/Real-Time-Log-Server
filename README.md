@@ -1,4 +1,4 @@
-# Analogy gRPC Log Server
+# Analogy Log Server
 
 <p align="center">
     
@@ -24,12 +24,6 @@ The following modules exists:
 | [NLog Target](https://github.com/Analogy-LogViewer/Analogy.LogViewer.NLog.Targets) |   [![Nuget](https://img.shields.io/nuget/v/Analogy.LogViewer.NLog.Targets)](https://www.nuget.org/packages/Analogy.LogViewer.NLog.Targets) | NLog target to stream logs to Analogy |
 | [Serilog Sink](https://github.com/Analogy-LogViewer/Analogy.LogViewer.Serilog.Sinks) |   [![Nuget](https://img.shields.io/nuget/v/Analogy.LogViewer.Serilog.Sinks)](https://www.nuget.org/packages/Analogy.LogViewer.Serilog.Sinks) | Serilog Sink for sending logs to Analogy |
 
-Windows Service:
-
-![Example](./Assets/Analogy.LogService.gif)
-
-With Analogy Log server you can stream log messages from any [Supported languages](https://grpc.io/docs/languages/) and have them saved in a log files and view in real time using [Analogy Log Viewer](https://github.com/Analogy-LogViewer).
-
 There  are, currently, 4 types of gRPC clients:
 
 | Data Provider   |      Nuget Version |
@@ -38,6 +32,12 @@ There  are, currently, 4 types of gRPC clients:
 | [Serilog Sink](https://github.com/Analogy-LogViewer/Analogy.LogViewer.Serilog) | Serilog Sink for sending logs to Analogy|
 | [Analogy.AspNetCore.LogProvider](https://github.com/Analogy-LogViewer/Analogy.AspNetCore.LogProvider/) | Custom logging provider in Asp.Net Core that write logs to Analogy |
 | [Python Logging](https://github.com/Analogy-LogViewer/Analogy-Python-Logging/) | Python gRPC client logger that sends logs to Analogy |
+
+Windows Service:
+
+![Example](./Assets/Analogy.LogService.gif)
+
+With Analogy Log server you can stream log messages from any [Supported languages](https://grpc.io/docs/languages/) and have them saved in a log files and view in real time using [Analogy Log Viewer](https://github.com/Analogy-LogViewer).
 
 ## Usage
 
