@@ -7,9 +7,9 @@
 		<Authors>Lior Banai</Authors>
 		<Company>Analogy.LogViewer</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Analogy-LogViewer/Real-Time-Log-Server</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Real-Time-Log-Server</PackageProjectUrl>
 		<ApplicationIcon>Analogy.gRPC.service.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
