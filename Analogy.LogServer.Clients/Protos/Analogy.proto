@@ -7,28 +7,28 @@ package greet;
 // The greeting service definition.
 service Analogy {
 	// Sends a greeting
-	rpc SubscribeForSendMessages (stream AnalogyLogMessage) returns (AnalogyMessageReply);
-	rpc SubscribeForConsumeMessages (AnalogyConsumerMessage) returns (stream AnalogyLogMessage);
+	rpc SubscribeForPublishingMessages (stream AnalogyGRPCLogMessage) returns (AnalogyMessageReply);
+	rpc SubscribeForConsumingMessages (AnalogyConsumerMessage) returns (stream AnalogyGRPCLogMessage);
 }
 
 // The request message containing the user's name.
-message AnalogyLogMessage {
-	string Id = 1;
-	google.protobuf.Timestamp Date = 2;
-	string Text =3;
-	string Category =4;
-	string Source =5;
-	string MethodName =6;
-	string FileName =7;
-	int32 LineNumber =8;
-	string Class=9;
-	string MachineName=10;
-	string Level=11;
-	string Module =12;
-	int32 ProcessId =13;
-	int32 ThreadId =14;
-	string User =15;
-	map<string,string> AdditionalInformation=16;
+message AnalogyGRPCLogMessage {
+	string Text = 1;
+	AnalogyGRPCLogLevel Level = 2;
+	google.protobuf.Timestamp Date = 3;
+	int32 ProcessId =4;
+	int32 ThreadId =5;
+	string Module =6;
+	string Source = 7;
+	string MethodName = 8;
+	string FileName = 9;
+	int32 LineNumber = 10;
+	string MachineName=11;
+	string Category = 12;
+	string User =13;
+	map<string,string> AdditionalInformation=14;
+	string Id = 15;
+	AnalogyGRPCLogClass Class=16;
 }
 
 // The response message containing the greetings.
@@ -37,4 +37,35 @@ message AnalogyMessageReply {
 }
 message AnalogyConsumerMessage {
 	string message = 1;
+	bool streamOldMessages=2;
+}
+
+enum AnalogyGRPCLogClass{
+	GENERAL=0;
+	/// <summary>
+	/// Security logs (audit trails)
+	/// </summary>
+	SECURITY=1;
+	/// <summary>
+	/// Hazard issues
+	/// </summary>
+	HAZARD=2;
+	//
+	// Summary:
+	//Protected Health Information
+	PHI=3;
+}
+
+enum AnalogyGRPCLogLevel
+{
+	UNKNOWN=0;
+	TRACE=1;
+	VERBOSE=2;
+	DEBUG=3;
+	INFORMATION=4;
+	WARNING=5;
+	ERROR=6;
+	CRITICAL=7;
+	ANALOGY=8;
+	NONE=9;
 }

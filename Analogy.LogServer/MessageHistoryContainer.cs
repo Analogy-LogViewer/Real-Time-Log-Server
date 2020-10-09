@@ -12,15 +12,15 @@ namespace Analogy.LogServer
     {
         private readonly ReaderWriterLockSlim _sync;
 
-        private List<AnalogyLogMessage> _OldMessages;
+        private List<AnalogyGRPCLogMessage> _OldMessages;
 
         public MessageHistoryContainer()
         {
-            _OldMessages = new List<AnalogyLogMessage>();
+            _OldMessages = new List<AnalogyGRPCLogMessage>();
             _sync = new ReaderWriterLockSlim();
         }
 
-        public Task ConsumeLog(AnalogyLogMessage msg)
+        public Task ConsumeLog(AnalogyGRPCLogMessage msg)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Analogy.LogServer
             }
         }
 
-        public List<AnalogyLogMessage> GetOldMessages()
+        public List<AnalogyGRPCLogMessage> GetOldMessages()
         {
             try
             {

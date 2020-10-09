@@ -1,4 +1,5 @@
 ﻿using Analogy.LogServer.Interfaces;
+using Analogy.LogServer.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Analogy.LogServer
 {
     public class MessagesContainer
     {
-        private readonly BlockingCollection<AnalogyLogMessage> messages;
+        private readonly BlockingCollection<AnalogyGRPCLogMessage> messages;
 
         private Task _consumer;
         private readonly List<ILogConsumer> _consumers;
@@ -22,10 +23,15 @@ namespace Analogy.LogServer
             _consumers = new List<ILogConsumer>();
             AddConsumer(grpcLogConsumer);
             if (serviceConfiguration.LogAlsoToLogFile)
+            {
                 AddConsumer(new LogFileConsumer(logger));
+            }
             if (serviceConfiguration.HoursToKeepHistory > 0)
+            {
                 AddConsumer(historyContainer);
-            messages = new BlockingCollection<AnalogyLogMessage>();
+            }
+
+            messages = new BlockingCollection<AnalogyGRPCLogMessage>();
             _consumer = Task.Factory.StartNew(async () =>
             {
                 foreach (var msg in messages.GetConsumingEnumerable())
@@ -43,7 +49,7 @@ namespace Analogy.LogServer
             });
         }
 
-        public void AddMessage(AnalogyLogMessage m) => messages.Add(m);
+        public void AddMessage(AnalogyGRPCLogMessage m) => messages.Add(m);
 
         public void AddConsumer(ILogConsumer consumer)
         {

@@ -63,6 +63,7 @@ namespace Analogy.LogServer
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<CleanUpWorker>();
+                    services.AddHostedService<WindowsEventLogsMonitor>();
                 }).UseWindowsService();
     }
 }

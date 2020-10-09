@@ -25,7 +25,7 @@ namespace Analogy.LogServer.Tests
             var ai = new Dictionary<string, string> {{"some key", "some value"}};
             for (int i = 0; i < 100000; i++)
             {
-                await p.Log(text: "test " + i, source: "none", additionalInformation: ai, level:AnalogyLogLevel.Information).ConfigureAwait(false);
+                await p.Log(text: "test " + i, source: "none", additionalInformation: ai, level:AnalogyGRPCLogLevel.Information).ConfigureAwait(false);
                 await Task.Delay(500).ConfigureAwait(false);
             }
 
@@ -33,16 +33,18 @@ namespace Analogy.LogServer.Tests
             btnProducer.Enabled = true;
         }
 
-        private void btnConsumer_Click(object sender, EventArgs e)
+      
+        private async void btnConsumer_Click_1(object sender, EventArgs e)
         {
-            //if (consuming) return;
-            //consuming = true;
-            //btnConsumer.Enabled = false;
-            //var c = new AnalogyMessageConsumer("http://localhost:6000");
-            //await foreach (var m in c.GetMessages().ConfigureAwait(false))
-            //    richTextBox1.Text += Environment.NewLine + m;
-            //consuming = false;
-            //btnConsumer.Enabled = true;
+            if (consuming) return;
+            consuming = true;
+            btnConsumer.Enabled = false;
+           
+            var c = new AnalogyMessageConsumer("http://localhost:6000");
+            await foreach (var m in c.GetMessages().ConfigureAwait(false))
+                richTextBox1.Text += Environment.NewLine + m;
+            consuming = false;
+            btnConsumer.Enabled = true;
         }
     }
 }

@@ -30,13 +30,15 @@
         {
             this.btnProducer = new System.Windows.Forms.Button();
             this.txtIP = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.btnConsumer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnProducer
             // 
-            this.btnProducer.Location = new System.Drawing.Point(12, 12);
+            this.btnProducer.Location = new System.Drawing.Point(12, 22);
             this.btnProducer.Name = "btnProducer";
-            this.btnProducer.Size = new System.Drawing.Size(166, 54);
+            this.btnProducer.Size = new System.Drawing.Size(166, 27);
             this.btnProducer.TabIndex = 0;
             this.btnProducer.Text = "Produce Messages";
             this.btnProducer.UseVisualStyleBackColor = true;
@@ -50,11 +52,34 @@
             this.txtIP.TabIndex = 1;
             this.txtIP.Text = "localhost";
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.Location = new System.Drawing.Point(199, 65);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(373, 318);
+            this.richTextBox1.TabIndex = 2;
+            this.richTextBox1.Text = "";
+            // 
+            // btnConsumer
+            // 
+            this.btnConsumer.Location = new System.Drawing.Point(12, 65);
+            this.btnConsumer.Name = "btnConsumer";
+            this.btnConsumer.Size = new System.Drawing.Size(166, 27);
+            this.btnConsumer.TabIndex = 3;
+            this.btnConsumer.Text = "Consume Messages";
+            this.btnConsumer.UseVisualStyleBackColor = true;
+            this.btnConsumer.Click += new System.EventHandler(this.btnConsumer_Click_1);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(585, 76);
+            this.ClientSize = new System.Drawing.Size(585, 392);
+            this.Controls.Add(this.btnConsumer);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.txtIP);
             this.Controls.Add(this.btnProducer);
             this.Name = "TestForm";
@@ -68,6 +93,8 @@
 
         private System.Windows.Forms.Button btnProducer;
         private System.Windows.Forms.TextBox txtIP;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button btnConsumer;
     }
 }
 

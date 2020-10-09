@@ -12,17 +12,17 @@ namespace Analogy.LogServer
     public class GRPCLogConsumer : ILogConsumer
     {
         private readonly ILogger<GRPCLogConsumer> _logger;
-        private List<(IServerStreamWriter<AnalogyLogMessage> stream, bool active)> clients;
+        private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)> clients;
         private readonly ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
         private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
 
         public GRPCLogConsumer(ILogger<GRPCLogConsumer> logger)
         {
             _logger = logger;
-            clients = new List<(IServerStreamWriter<AnalogyLogMessage> stream, bool active)>();
+            clients = new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)>();
         }
 
-        public void AddGrpcConsumer(string requestMessage, IServerStreamWriter<AnalogyLogMessage> responseStream)
+        public void AddGrpcConsumer(string requestMessage, IServerStreamWriter<AnalogyGRPCLogMessage> responseStream)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Analogy.LogServer
             }
         }
 
-        public void RemoveGrpcConsumer(IServerStreamWriter<AnalogyLogMessage> responseStream)
+        public void RemoveGrpcConsumer(IServerStreamWriter<AnalogyGRPCLogMessage> responseStream)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Analogy.LogServer
             }
         }
 
-        public async Task ConsumeLog(AnalogyLogMessage msg)
+        public async Task ConsumeLog(AnalogyGRPCLogMessage msg)
         {
             try
             {

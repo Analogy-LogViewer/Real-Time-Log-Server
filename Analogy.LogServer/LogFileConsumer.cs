@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Analogy.Interfaces;
-using Analogy.LogServer.Interfaces;
+﻿using Analogy.LogServer.Interfaces;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Analogy.LogServer
 {
@@ -16,36 +13,31 @@ namespace Analogy.LogServer
             this.logger = logger;
         }
 
-        public Task ConsumeLog(AnalogyLogMessage msg)
+        public Task ConsumeLog(AnalogyGRPCLogMessage msg)
         {
             switch (msg.Level)
             {
 
-                case "Disabled":
-                case "None":
-                    break;
-                case "Trace":
+                case AnalogyGRPCLogLevel.None:
+                case AnalogyGRPCLogLevel.Trace:
                     logger.LogTrace(msg.Text);
                     break;
-                case "Verbose":
-                case "Unknown":
-                case "Event":
-                case "Information":
-                case "AnalogyInformation":
-                case "Analogy":
+                case AnalogyGRPCLogLevel.Verbose:
+                case AnalogyGRPCLogLevel.Unknown:
+                case AnalogyGRPCLogLevel.Information:
+                case AnalogyGRPCLogLevel.Analogy:
                     logger.LogInformation(msg.Text);
                     break;
-                case "Debug":
+                case AnalogyGRPCLogLevel.Debug:
                     logger.LogDebug(msg.Text);
                     break;
-                case "Warning":
+                case AnalogyGRPCLogLevel.Warning:
                     logger.LogWarning(msg.Text);
                     break;
-                case "Error":
+                case AnalogyGRPCLogLevel.Error:
                     logger.LogError(msg.Text);
                     break;
-                case "Fatal":
-                case "Critical":
+                case AnalogyGRPCLogLevel.Critical:
                     logger.LogCritical(msg.Text);
                     break;
                 default:

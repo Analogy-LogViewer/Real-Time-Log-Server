@@ -5,14 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Enum = System.Enum;
 
 namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageConsumer : IDisposable
     {
         private static Analogy.AnalogyClient client { get; set; }
-        private readonly AsyncServerStreamingCall<AnalogyLogMessage> _stream;
+        private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
         private CancellationTokenSource _cts;
         private GrpcChannel channel;
         static AnalogyMessageConsumer()
@@ -26,7 +25,7 @@ namespace Analogy.LogServer.Clients
             channel = GrpcChannel.ForAddress(address);
             client = new Analogy.AnalogyClient(channel);
             AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
-            _stream = client.SubscribeForConsumeMessages(m);
+            _stream = client.SubscribeForConsumingMessages(m);
         }
 
         public async IAsyncEnumerable<Interfaces.AnalogyLogMessage> GetMessages()
@@ -39,6 +38,8 @@ namespace Analogy.LogServer.Clients
                 {
                     Id = Guid.Parse((ReadOnlySpan<char>)m.Id),
                     Category = m.Category,
+                    Level = (AnalogyLogLevel)m.Level,
+                    Class = (AnalogyLogClass)m.Class,
                     Date = m.Date.ToDateTime().ToLocalTime(),
                     FileName = m.FileName,
                     LineNumber = m.LineNumber,
@@ -51,24 +52,6 @@ namespace Analogy.LogServer.Clients
                     ThreadId = m.ThreadId,
                     User = m.User
                 };
-                if (Enum.TryParse(m.Level, out AnalogyLogLevel all))
-                {
-                    msg.Level = all;
-                }
-                else
-                {
-                    msg.Level = AnalogyLogLevel.Unknown;
-                    m.Text += $" [Unknown log level: {m.Level}]";
-                }
-                if (Enum.TryParse(m.Class, out AnalogyLogClass alc))
-                {
-                    msg.Class = alc;
-                }
-                else
-                {
-                    msg.Class = AnalogyLogClass.General;
-                    m.Text += $" [Unknown log class: {m.Class}]";
-                }
                 yield return msg;
                 if (token.IsCancellationRequested)
                     yield break;

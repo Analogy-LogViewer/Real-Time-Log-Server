@@ -25,6 +25,7 @@ namespace Analogy.LogServer
             services.AddGrpc();
             services.AddSingleton<MessagesContainer>();
             services.AddSingleton<MessageHistoryContainer>();
+            services.AddSingleton<WindowsEventLogsMonitor>();
             //services.AddHealthChecks();
         }
 

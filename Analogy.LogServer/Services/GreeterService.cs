@@ -25,9 +25,7 @@ namespace Analogy.LogServer.Services
             Logger = logger;
             MessageContainer = messageContainer;
         }
-
-        public override async Task<AnalogyMessageReply> SubscribeForSendMessages(
-            IAsyncStreamReader<AnalogyLogMessage> requestStream, ServerCallContext context)
+        public override async Task<AnalogyMessageReply> SubscribeForPublishingMessages(IAsyncStreamReader<AnalogyGRPCLogMessage> requestStream, ServerCallContext context)
         {
             Logger.LogInformation("Client subscribe for sending messages");
             var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken),
@@ -45,21 +43,19 @@ namespace Analogy.LogServer.Services
             return new AnalogyMessageReply { Message = "Reply at " + DateTime.Now };
         }
 
-        public override async Task SubscribeForConsumeMessages(AnalogyConsumerMessage request, IServerStreamWriter<AnalogyLogMessage> responseStream, ServerCallContext context)
+        public override async Task SubscribeForConsumingMessages(AnalogyConsumerMessage request, IServerStreamWriter<AnalogyGRPCLogMessage> responseStream, ServerCallContext context)
         {
             _grpcLogConsumer.AddGrpcConsumer(request.Message, responseStream);
-            await responseStream.WriteAsync(new AnalogyLogMessage
+            await responseStream.WriteAsync(new AnalogyGRPCLogMessage
             {
                 Category = "Server Message",
                 Text = "Connection Established. Streaming old messages (if Any)",
-                Class = AnalogyLogClass.General.ToString(),
-                Level = AnalogyLogLevel.Analogy.ToString(),
+                Level =AnalogyGRPCLogLevel.Analogy,
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
                 FileName = "",
                 Id = Guid.NewGuid().ToString(),
                 LineNumber = 0,
                 MachineName = Environment.MachineName,
-                MethodName = nameof(SubscribeForConsumeMessages),
                 Module = Process.GetCurrentProcess().ProcessName,
                 ProcessId = Process.GetCurrentProcess().Id,
                 Source = "Server Operations",
@@ -81,7 +77,7 @@ namespace Analogy.LogServer.Services
             }
         }
 
-        private async Task HandleClientActions(IAsyncStreamReader<AnalogyLogMessage> requestStream, CancellationToken token)
+        private async Task HandleClientActions(IAsyncStreamReader<AnalogyGRPCLogMessage> requestStream, CancellationToken token)
         {
             try
             {
@@ -93,9 +89,6 @@ namespace Analogy.LogServer.Services
                         {
                             message.Date = Timestamp.FromDateTime(DateTime.UtcNow);
                         }
-
-                        if (string.IsNullOrEmpty(message.Level))
-                            message.Level = AnalogyLogLevel.Unknown.ToString();
                         if (string.IsNullOrEmpty(message.Id))
                             message.Id = Guid.NewGuid().ToString();
                         MessageContainer.AddMessage(message);

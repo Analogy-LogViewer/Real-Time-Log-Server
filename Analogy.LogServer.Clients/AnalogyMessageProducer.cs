@@ -19,7 +19,7 @@ namespace Analogy.LogServer.Clients
         private static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
         private static Analogy.AnalogyClient client { get; set; }
         private GrpcChannel channel;
-        private AsyncClientStreamingCall<AnalogyLogMessage, AnalogyMessageReply> stream;
+        private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream;
         private ILogger _logger;
         private bool connected = true;
         private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
@@ -37,7 +37,7 @@ namespace Analogy.LogServer.Clients
                 // channel = GrpcChannel.ForAddress("http://localhost:6000");
                 channel = GrpcChannel.ForAddress(address);
                 client = new Analogy.AnalogyClient(channel);
-                stream = client.SubscribeForSendMessages();
+                stream = client.SubscribeForPublishingMessages();
             }
             catch (Exception e)
             {
@@ -46,25 +46,25 @@ namespace Analogy.LogServer.Clients
 
         }
 
-        public async Task Log(string text, string source, AnalogyLogLevel level, string category = "",
-            string machineName = null, string userName = null, string processName = null, int processId = -1, int threadId = -1, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string filePath = "")
+        public async Task Log(string text, string source, AnalogyGRPCLogLevel level, string category = "",
+            string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string filePath = "")
         {
             if (!connected) return;
-            var m = new AnalogyLogMessage()
+            var m = new AnalogyGRPCLogMessage()
             {
                 Text = text,
                 Category = category,
-                Class = AnalogyLogClass.General.ToString(),
+                Class =AnalogyGRPCLogClass.General,
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
                 FileName = filePath,
                 Id = Guid.NewGuid().ToString(),
-                Level = level.ToString(),
+                Level = level,
                 LineNumber = lineNumber,
                 MachineName = machineName ?? Environment.MachineName,
                 MethodName = memberName,
                 Module = processName ?? ProcessName,
-                ProcessId = processId != -1 ? processId : ProcessId,
-                ThreadId = threadId != -1 ? threadId : Thread.CurrentThread.ManagedThreadId,
+                ProcessId = processId,
+                ThreadId = threadId != 0 ? threadId : Thread.CurrentThread.ManagedThreadId,
                 Source = source,
                 User = userName ?? Environment.UserName,
             };
