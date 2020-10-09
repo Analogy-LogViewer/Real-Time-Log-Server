@@ -1,8 +1,7 @@
-# Analogy Log Server
+# Analogy Log Server  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/83269666e9d24b4dbbb9175b029f5b3f)](https://app.codacy.com/gh/Analogy-LogViewer/Real-Time-Log-Server?utm_source=github.com&utm_medium=referral&utm_content=Analogy-LogViewer/Real-Time-Log-Server&utm_campaign=Badge_Grade)
 
 <p align="center">
     
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/83269666e9d24b4dbbb9175b029f5b3f)](https://app.codacy.com/gh/Analogy-LogViewer/Real-Time-Log-Server?utm_source=github.com&utm_medium=referral&utm_content=Analogy-LogViewer/Real-Time-Log-Server&utm_campaign=Badge_Grade)
 [![Gitter](https://badges.gitter.im/Analogy-LogViewer/community.svg)](https://gitter.im/Analogy-LogViewer/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) ![.NET Core Desktop](https://github.com/Analogy-LogViewer/Real-Time-Log-Server/workflows/.NET%20Core%20Desktop/badge.svg) 
 [![Build Status](https://dev.azure.com/Analogy-LogViewer/Analogy%20Log%20Viewer/_apis/build/status/Analogy-LogViewer.Real-Time-Log-Server?branchName=master)](https://dev.azure.com/Analogy-LogViewer/Analogy%20Log%20Viewer/_build/latest?definitionId=40&branchName=master)
     <img src="https://img.shields.io/github/issues/Analogy-LogViewer/Analogy.LogViewer.gRPCLogServer"  alt="Issues" />
