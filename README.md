@@ -14,6 +14,10 @@
 
 gRPC Log Server (Windows Services) to receive and then forward messages to Analogy Log Viewer.
 
+Analogy Log server supports to following real time data:
+- Windows Event logs (configurable in the server settings)
+- Any gRPC client that implements the Protofile (currentlly there are fully implemented C#, Python and JAVA (Poc) clients)
+
 The following modules exists:
 | Nuget   |      Version      |  Description |
 |----------|:-------------:|------|
