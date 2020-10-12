@@ -46,7 +46,7 @@ namespace Analogy.LogServer.Clients
 
         }
 
-        public async Task Log(string text, string source, AnalogyGRPCLogLevel level, string category = "",
+        public async Task Log(string text, string source, AnalogyLogLevel level, string category = "",
             string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string filePath = "")
         {
             if (!connected) return;
@@ -58,7 +58,7 @@ namespace Analogy.LogServer.Clients
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
                 FileName = filePath,
                 Id = Guid.NewGuid().ToString(),
-                Level = level,
+                Level = GetLogLevel(level),
                 LineNumber = lineNumber,
                 MachineName = machineName ?? Environment.MachineName,
                 MethodName = memberName,
@@ -90,6 +90,36 @@ namespace Analogy.LogServer.Clients
                 _semaphoreSlim.Release();
             }
         }
+
+        private AnalogyGRPCLogLevel GetLogLevel(AnalogyLogLevel level)
+        {
+            switch (level)
+            {
+                case AnalogyLogLevel.Unknown:
+                    return AnalogyGRPCLogLevel.Unknown;
+                case AnalogyLogLevel.Trace:
+                    return AnalogyGRPCLogLevel.Trace;
+                case AnalogyLogLevel.Verbose:
+                    return AnalogyGRPCLogLevel.Verbose;
+                case AnalogyLogLevel.Debug:
+                    return AnalogyGRPCLogLevel.Debug;
+                case AnalogyLogLevel.Information:
+                    return AnalogyGRPCLogLevel.Information;
+                case AnalogyLogLevel.Warning:
+                    return AnalogyGRPCLogLevel.Warning;
+                case AnalogyLogLevel.Error:
+                    return AnalogyGRPCLogLevel.Error;
+                case AnalogyLogLevel.Critical:
+                    return AnalogyGRPCLogLevel.Critical; 
+                case AnalogyLogLevel.Analogy:
+                    return AnalogyGRPCLogLevel.Analogy;
+                case AnalogyLogLevel.None:
+                    return AnalogyGRPCLogLevel.None;
+                default:
+                    return AnalogyGRPCLogLevel.Unknown;
+            }
+        }
+
         public void StopReceiving()
         {
             try
