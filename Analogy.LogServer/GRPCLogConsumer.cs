@@ -44,8 +44,9 @@ namespace Analogy.LogServer
                 _sync.EnterWriteLock();
                 var exist = clients.Exists(c => c.stream == responseStream);
                 if (exist)
+                {
                     clients.RemoveAll(c => c.stream == responseStream);
-
+                }
             }
             finally
             {
@@ -63,7 +64,11 @@ namespace Analogy.LogServer
                 for (int i = 0; i < clients.Count; i++)
                 {
                     var (stream, active) = clients[i];
-                    if (!active) continue;
+                    if (!active)
+                    {
+                        continue;
+                    }
+
                     try
                     {
                         await _semaphoreSlim.WaitAsync();

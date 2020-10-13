@@ -17,7 +17,7 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Version>0.4.0</Version>
+		<Version>0.4.1</Version>
 		<Copyright>Lior Banai @ 2020</Copyright>
 	</PropertyGroup>
 	<ItemGroup>

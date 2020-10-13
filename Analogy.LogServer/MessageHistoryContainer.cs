@@ -43,7 +43,7 @@ namespace Analogy.LogServer
             try
             {
                 _sync.EnterWriteLock();
-                _OldMessages.RemoveAll(m => m.Date <= Timestamp.FromDateTime(DateTime.Now.AddHours(-deleteOlderHours)));
+                _OldMessages.RemoveAll(m => m.Date <= Timestamp.FromDateTime(DateTime.Now.AddHours(-deleteOlderHours).ToUniversalTime()));
             }
             finally
             {
@@ -58,7 +58,9 @@ namespace Analogy.LogServer
             {
                 _sync.EnterWriteLock();
                 if (_OldMessages.Any())
+                {
                     _OldMessages.RemoveRange(0, _OldMessages.Count / 2);
+                }
             }
             finally
             {

@@ -18,7 +18,11 @@ namespace Analogy.LogServer.Tests
 
         private async void btnProducer_Click(object sender, EventArgs e)
         {
-            if (producing) return;
+            if (producing)
+            {
+                return;
+            }
+
             producing = true;
             btnProducer.Enabled = false;
             var p = new AnalogyMessageProducer($"http://{txtIP.Text}:6000", null);
@@ -36,7 +40,11 @@ namespace Analogy.LogServer.Tests
       
         private async void btnConsumer_Click_1(object sender, EventArgs e)
         {
-            if (consuming) return;
+            if (consuming)
+            {
+                return;
+            }
+
             consuming = true;
             btnConsumer.Enabled = false;
            

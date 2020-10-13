@@ -54,8 +54,9 @@ namespace Analogy.LogServer.Clients
                 };
                 yield return msg;
                 if (token.IsCancellationRequested)
+                {
                     yield break;
-
+                }
             }
         }
         public Task Stop()

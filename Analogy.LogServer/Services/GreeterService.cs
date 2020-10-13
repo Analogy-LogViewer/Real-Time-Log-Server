@@ -65,7 +65,9 @@ namespace Analogy.LogServer.Services
             });
             var oldMessages = MessageHistoryContainer.GetOldMessages();
             if (oldMessages.Any())
+            {
                 await responseStream.WriteAllAsync(oldMessages);
+            }
 
             try
             {
@@ -90,7 +92,10 @@ namespace Analogy.LogServer.Services
                             message.Date = Timestamp.FromDateTime(DateTime.UtcNow);
                         }
                         if (string.IsNullOrEmpty(message.Id))
+                        {
                             message.Id = Guid.NewGuid().ToString();
+                        }
+
                         MessageContainer.AddMessage(message);
                     }
                     catch (Exception e)

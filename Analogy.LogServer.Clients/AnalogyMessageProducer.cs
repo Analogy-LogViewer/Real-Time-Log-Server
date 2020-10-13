@@ -49,7 +49,11 @@ namespace Analogy.LogServer.Clients
         public async Task Log(string text, string source, AnalogyLogLevel level, string category = "",
             string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string filePath = "")
         {
-            if (!connected) return;
+            if (!connected)
+            {
+                return;
+            }
+
             var m = new AnalogyGRPCLogMessage()
             {
                 Text = text,
@@ -69,10 +73,12 @@ namespace Analogy.LogServer.Clients
                 User = userName ?? Environment.UserName,
             };
             if (additionalInformation != null)
+            {
                 foreach (KeyValuePair<string, string> keyValuePair in additionalInformation)
                 {
                     m.AdditionalInformation.Add(keyValuePair.Key, keyValuePair.Value);
                 }
+            }
 
             try
             {
