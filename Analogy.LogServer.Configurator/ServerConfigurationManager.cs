@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Analogy.LogServer.Configurator
 {
@@ -13,7 +14,7 @@ namespace Analogy.LogServer.Configurator
         public static ServerConfigurationManager ConfigurationManager { get; set; } = _instance.Value;
         private string ServerSettingFile { get; } = "appsettings_LogServer.json";
 
-        public ServiceConfiguration ServiceConfiguration { get; }
+        public ServerConfiguration ServerConfiguration { get; }
 
         public ServerConfigurationManager()
         {
@@ -21,7 +22,11 @@ namespace Analogy.LogServer.Configurator
             try
             {
                 string data = File.ReadAllText(ServerSettingFile);
-                ServiceConfiguration = JsonConvert.DeserializeObject<ServiceConfiguration>(data);
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    ContractResolver = new DefaultContractResolver()
+                };
+                ServerConfiguration = JsonConvert.DeserializeObject<ServerConfiguration>(data, settings);
             }
             catch (Exception e)
             {
@@ -34,7 +39,13 @@ namespace Analogy.LogServer.Configurator
         {
             try
             {
-                File.WriteAllText(ServerSettingFile, JsonConvert.SerializeObject(ServiceConfiguration));
+
+                // serialize JSON directly to a file
+                using (StreamWriter file = File.CreateText(ServerSettingFile))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, ServerConfiguration);
+                }
             }
             catch (Exception ex)
             {

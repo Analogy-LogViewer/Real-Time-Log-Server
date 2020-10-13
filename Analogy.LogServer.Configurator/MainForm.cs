@@ -14,7 +14,7 @@ namespace Analogy.LogServer.Configurator
 {
     public partial class MainForm : Form
     {
-        private ServiceConfiguration ServiceConfiguration => ServerConfigurationManager.ConfigurationManager.ServiceConfiguration;
+        private ServerConfiguration ServiceConfiguration => ServerConfigurationManager.ConfigurationManager.ServerConfiguration;
         public MainForm()
         {
             InitializeComponent();
@@ -37,22 +37,22 @@ namespace Analogy.LogServer.Configurator
 
         private void LoadSettings()
         {
-            chLogToFile.Checked = ServiceConfiguration.LogAlsoToLogFile;
+            chLogToFile.Checked = ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile;
             txtbLogFileLocation.Text = ServiceConfiguration.Serilog.WriteTo[1].Args.pathFormat;
-            nudHoursToKeepHistory.Value = ServiceConfiguration.HoursToKeepHistory;
-            nudMemoryUsageInMB.Value = ServiceConfiguration.MemoryUsageInMB;
-            nudCleanUpIntervalMinutes.Value = ServiceConfiguration.CleanUpIntervalMinutes;
-            chkbEnableWindowsEventLogs.Checked = ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring;
+            nudHoursToKeepHistory.Value = ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory;
+            nudMemoryUsageInMB.Value = ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB;
+            nudCleanUpIntervalMinutes.Value = ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes;
+            chkbEnableWindowsEventLogs.Checked = ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring;
         }
 
         private void SaveSettings()
         {
-            ServiceConfiguration.LogAlsoToLogFile= chLogToFile.Checked;
+            ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile = chLogToFile.Checked;
             ServiceConfiguration.Serilog.WriteTo[1].Args.pathFormat=txtbLogFileLocation.Text;
-            ServiceConfiguration.HoursToKeepHistory=(int)nudHoursToKeepHistory.Value ;
-            ServiceConfiguration.MemoryUsageInMB=(int)nudMemoryUsageInMB.Value;
-            ServiceConfiguration.CleanUpIntervalMinutes =(int)nudCleanUpIntervalMinutes.Value;
-            ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring=chkbEnableWindowsEventLogs.Checked;
+            ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory =(int)nudHoursToKeepHistory.Value ;
+            ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB =(int)nudMemoryUsageInMB.Value;
+            ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes =(int)nudCleanUpIntervalMinutes.Value;
+            ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring=chkbEnableWindowsEventLogs.Checked;
         }
     }
 }

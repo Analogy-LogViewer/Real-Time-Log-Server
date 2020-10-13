@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace Analogy.LogServer.Configurator
 {
+    public class ServerConfiguration
+    {
+        public ServiceConfiguration ServiceConfiguration { get; set; }
+        public Serilog Serilog { get; set; }
+    }
     public class ServiceConfiguration
     {
         public int HoursToKeepHistory { get; set; }
@@ -11,8 +16,7 @@ namespace Analogy.LogServer.Configurator
         public int MemoryUsageInMB { get; set; }
 
         public WindowsEventLogsConfiguration WindowsEventLogsConfiguration { get; set; }
-        public Serilog Serilog { get; set; }
-
+  
         public ServiceConfiguration()
         {
         }

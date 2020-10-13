@@ -9,7 +9,6 @@ namespace Analogy.LogServer
         public int CleanUpIntervalMinutes { get; set; }
         public bool LogAlsoToLogFile { get; set; }
         public int MemoryUsageInMB { get; set; }
-
         public WindowsEventLogsConfiguration WindowsEventLogsConfiguration { get; set; }
         public ServiceConfiguration()
         {

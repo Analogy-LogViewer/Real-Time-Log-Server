@@ -10,13 +10,13 @@ namespace Analogy.LogViewer.WindowsEventLogs
 {
     public partial class EventLogsSettings : UserControl
     {
-        private ServiceConfiguration Configuration { get; }
+        private ServerConfiguration Configuration { get; }
 
         public EventLogsSettings()
         {
             InitializeComponent();
         }
-         public EventLogsSettings(ServiceConfiguration configuration):this()
+         public EventLogsSettings(ServerConfiguration configuration):this()
          {
              Configuration = configuration;
          }
@@ -43,14 +43,15 @@ namespace Analogy.LogViewer.WindowsEventLogs
         }
         private void UpdateUserSettingList()
         {
+            Configuration.ServiceConfiguration.WindowsEventLogsConfiguration.LogsToMonitor= lstSelected.Items.Cast<string>().ToList();
         }
 
         private void EventLogsSettings_Load(object sender, EventArgs e)
         {
-            lstSelected.Items.AddRange(Configuration.WindowsEventLogsConfiguration.LogsToMonitor.ToArray());
+            lstSelected.Items.AddRange(Configuration.ServiceConfiguration.WindowsEventLogsConfiguration.LogsToMonitor.ToArray());
             try
             {
-                var all = System.Diagnostics.Eventing.Reader.EventLogSession.GlobalSession.GetLogNames().Where(EventLog.Exists).ToList().Except(Configuration.WindowsEventLogsConfiguration.LogsToMonitor).ToArray();
+                var all = System.Diagnostics.Eventing.Reader.EventLogSession.GlobalSession.GetLogNames().Where(EventLog.Exists).ToList().Except(Configuration.ServiceConfiguration.WindowsEventLogsConfiguration.LogsToMonitor).ToArray();
                 lstAvailable.Items.AddRange(all);
             }
             catch (Exception exception)
