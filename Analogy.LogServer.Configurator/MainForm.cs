@@ -17,5 +17,9 @@ namespace Analogy.LogServer.Configurator
             InitializeComponent();
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ServerConfigurationManager.ConfigurationManager.Save();
+        }
     }
 }

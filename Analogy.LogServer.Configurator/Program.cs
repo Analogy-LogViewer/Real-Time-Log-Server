@@ -14,7 +14,9 @@ namespace Analogy.LogServer.Configurator
         [STAThread]
         static void Main()
         {
+#if !NET472
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
+#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
