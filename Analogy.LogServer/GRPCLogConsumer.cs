@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Analogy.LogServer.Interfaces;
+using Grpc.Core;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Analogy.LogServer.Interfaces;
-using Grpc.Core;
-using Microsoft.Extensions.Logging;
 
 namespace Analogy.LogServer
 {
@@ -13,13 +13,16 @@ namespace Analogy.LogServer
     {
         private readonly ILogger<GRPCLogConsumer> _logger;
         private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)> clients;
+        private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add)> pendingClients;
         private readonly ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
         private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)> ActiveClients { get; set; }
 
         public GRPCLogConsumer(ILogger<GRPCLogConsumer> logger)
         {
             _logger = logger;
             clients = new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)>();
+            pendingClients=new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add)>();
         }
 
         public void AddGrpcConsumer(string requestMessage, IServerStreamWriter<AnalogyGRPCLogMessage> responseStream)
@@ -28,7 +31,7 @@ namespace Analogy.LogServer
             {
                 _logger.LogInformation("Adding client with message: {message}", requestMessage);
                 _sync.EnterWriteLock();
-                clients.Add((responseStream, true));
+                pendingClients.Add((responseStream, true));
             }
             finally
             {
@@ -40,13 +43,9 @@ namespace Analogy.LogServer
         {
             try
             {
-                _logger.LogInformation("Removing client with message: {message}");
+                _logger.LogInformation("removing client with message");
                 _sync.EnterWriteLock();
-                var exist = clients.Exists(c => c.stream == responseStream);
-                if (exist)
-                {
-                    clients.RemoveAll(c => c.stream == responseStream);
-                }
+                pendingClients.Add((responseStream, false));
             }
             finally
             {
@@ -56,40 +55,43 @@ namespace Analogy.LogServer
 
         public async Task ConsumeLog(AnalogyGRPCLogMessage msg)
         {
-            try
+            //_sync.EnterWriteLock();
+            //if (pendingClients.Any())
+            //{
+            //    foreach ((IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add) pendingClient in pendingClients)
+            //    {
+            //        if (pendingClient
+            //    }
+            //}
+
+            for (int i = 0; i < clients.Count; i++)
             {
-
-
-                _sync.EnterReadLock();
-                for (int i = 0; i < clients.Count; i++)
+                var (stream, active) = clients[i];
+                if (!active)
                 {
-                    var (stream, active) = clients[i];
-                    if (!active)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    try
-                    {
-                        await _semaphoreSlim.WaitAsync();
-                        await stream.WriteAsync(msg);
-                    }
-                    catch (Exception e)
-                    {
-                        clients[i] = (stream, false);
-                        _logger.LogDebug(e, "Error sending message");
-                    }
-                    finally
-                    {
-                        _semaphoreSlim.Release();
-                    }
+                try
+                {
+                    await _semaphoreSlim.WaitAsync();
+                    await stream.WriteAsync(msg);
+                }
+                catch (Exception e)
+                {
+                    clients[i] = (stream, false);
+                    _logger.LogDebug(e, "Error sending message");
+                }
+                finally
+                {
+                    _semaphoreSlim.Release();
                 }
             }
-            finally
-            {
-                _sync.ExitReadLock();
-            }
+
+
         }
+
+
 
         public override string ToString() => $"gRPC consumer";
     }
