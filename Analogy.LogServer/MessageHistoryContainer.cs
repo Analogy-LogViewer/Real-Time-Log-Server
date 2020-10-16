@@ -10,31 +10,29 @@ namespace Analogy.LogServer
 {
     public class MessageHistoryContainer : ILogConsumer
     {
-        private readonly ReaderWriterLockSlim _sync;
-
+        private SemaphoreSlim _semaphoreSlim;
         private List<AnalogyGRPCLogMessage> _OldMessages;
 
         public MessageHistoryContainer()
         {
             _OldMessages = new List<AnalogyGRPCLogMessage>();
-            _sync = new ReaderWriterLockSlim();
+            _semaphoreSlim = new SemaphoreSlim(1);
         }
 
-        public Task ConsumeLog(AnalogyGRPCLogMessage msg)
+        public async Task ConsumeLog(AnalogyGRPCLogMessage msg)
         {
             try
             {
-                _sync.EnterWriteLock();
+                await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
                 _OldMessages.Add(msg);
             }
             finally
             {
-                _sync.ExitWriteLock();
+                _semaphoreSlim.Release();
             }
-            return Task.CompletedTask;
         }
 
-        public void CleanMessages(int deleteOlderHours)
+        public async Task CleanMessages(int deleteOlderHours)
         {
             if (deleteOlderHours < 1)
             {
@@ -42,42 +40,41 @@ namespace Analogy.LogServer
             }
             try
             {
-                _sync.EnterWriteLock();
+                await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
                 _OldMessages.RemoveAll(m => m.Date <= Timestamp.FromDateTime(DateTime.Now.AddHours(-deleteOlderHours).ToUniversalTime()));
             }
             finally
             {
-                _sync.ExitWriteLock();
+                _semaphoreSlim.Release();
             }
 
         }
 
-        public void CleanMessagesByHalf()
+        public async Task CleanMessagesByHalf()
         {
             try
             {
-                _sync.EnterWriteLock();
-                if (_OldMessages.Any())
+                await _semaphoreSlim.WaitAsync().ConfigureAwait(false); if (_OldMessages.Any())
                 {
                     _OldMessages.RemoveRange(0, _OldMessages.Count / 2);
                 }
             }
             finally
             {
-                _sync.ExitWriteLock();
+                _semaphoreSlim.Release(); 
             }
         }
 
-        public List<AnalogyGRPCLogMessage> GetOldMessages()
+        public async Task<List<AnalogyGRPCLogMessage>> GetOldMessages()
         {
             try
             {
-                _sync.EnterWriteLock();
-                return _OldMessages.ToList();
+                await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+               return _OldMessages.ToList();
             }
             finally
             {
-                _sync.ExitWriteLock();
+                _semaphoreSlim.Release();
             }
         }
     }

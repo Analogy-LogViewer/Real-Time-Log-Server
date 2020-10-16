@@ -63,7 +63,7 @@ namespace Analogy.LogServer.Services
                 User = Environment.UserName
 
             });
-            var oldMessages = MessageHistoryContainer.GetOldMessages();
+            var oldMessages =await MessageHistoryContainer.GetOldMessages().ConfigureAwait(false);
             if (oldMessages.Any())
             {
                 await responseStream.WriteAllAsync(oldMessages);
