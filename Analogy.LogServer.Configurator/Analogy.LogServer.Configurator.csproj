@@ -18,41 +18,43 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Copyright>Lior Banai @ 2020</Copyright>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.7.5" />
-	  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-			  		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.7.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>		        
-			  		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
+		</PackageReference>
+		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>		        
+		</PackageReference>
+		<PackageReference Include="System.Resources.Extensions" Version="4.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="..\Assets\Analogy.gRPC.service.png">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
+		<None Include="..\Assets\Analogy.gRPC.service.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Properties\Settings.Designer.cs">
-	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Settings.settings</DependentUpon>
-	  </Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Properties\Settings.settings">
-	    <Generator>SettingsSingleFileGenerator</Generator>
-	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-	  </None>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
 	</ItemGroup>
 
 </Project>
