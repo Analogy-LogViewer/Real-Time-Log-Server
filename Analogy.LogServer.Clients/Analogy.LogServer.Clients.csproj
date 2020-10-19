@@ -10,7 +10,7 @@
 		<Copyright>Lior Banai @ 2020</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
-		<Version>0.4.1</Version>
+		<Version>0.4.2</Version>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
