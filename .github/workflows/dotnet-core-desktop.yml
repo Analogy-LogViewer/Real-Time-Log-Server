@@ -63,6 +63,7 @@ jobs:
   push-nuget:
     name: 'Push NuGet Packages'
     needs: build
+    if: ${{ github.event_name == 'push'}}
     runs-on: windows-latest
     steps:
       - name: 'Download Artifact'
