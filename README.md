@@ -114,4 +114,9 @@ Add Nuget package [Analogy.AspNetCore.LogProvider](https://www.nuget.org/package
 
 ```
 
+you can see forbbiden port by running:
+
+```
+netsh interface ipv4 show excludedportrange protocol=tcp
+```
 - Python logging: go to [Python Logging](https://github.com/Analogy-LogViewer/Analogy-Python-Logging/) for more information.
