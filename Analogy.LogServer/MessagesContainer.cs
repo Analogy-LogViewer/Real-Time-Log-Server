@@ -1,4 +1,5 @@
-﻿using Analogy.LogServer.Interfaces;
+﻿using System;
+using Analogy.LogServer.Interfaces;
 using Analogy.LogServer.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -16,7 +17,7 @@ namespace Analogy.LogServer
         private Task _consumer;
         private readonly List<ILogConsumer> _consumers;
         private ILogger<MessagesContainer> _logger;
-        private readonly ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
+        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
         public MessagesContainer(ServiceConfiguration serviceConfiguration, GRPCLogConsumer grpcLogConsumer, MessageHistoryContainer historyContainer, ILogger<MessagesContainer> logger)
         {
             _logger = logger;
@@ -38,12 +39,16 @@ namespace Analogy.LogServer
                 {
                     try
                     {
-                        _sync.EnterReadLock();
+                        await _semaphoreSlim.WaitAsync();
                         await Task.WhenAll(_consumers.Select(c => c.ConsumeLog(msg)).ToArray());
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e,"Error publishing message");
                     }
                     finally
                     {
-                        _sync.ExitReadLock();
+                        _semaphoreSlim.Release();
                     }
                 }
             });
@@ -55,7 +60,7 @@ namespace Analogy.LogServer
         {
             try
             {
-                _sync.EnterWriteLock();
+                _semaphoreSlim.Wait();
                 if (!_consumers.Contains(consumer))
                 {
                     _logger.LogInformation("Add new consumer: {consumer}", consumer);
@@ -64,7 +69,7 @@ namespace Analogy.LogServer
             }
             finally
             {
-                _sync.ExitWriteLock();
+                _semaphoreSlim.Release();
             }
         }
 
@@ -72,12 +77,12 @@ namespace Analogy.LogServer
         {
             try
             {
-                _sync.EnterWriteLock();
+                _semaphoreSlim.Wait();
                 _consumers.Remove(consumer);
             }
             finally
             {
-                _sync.ExitWriteLock();
+                _semaphoreSlim.Release();
             }
         }
 

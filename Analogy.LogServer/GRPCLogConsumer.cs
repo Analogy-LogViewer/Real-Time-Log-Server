@@ -72,6 +72,7 @@ namespace Analogy.LogServer
                         }
                     }
                 }
+                pendingClients.Clear();
             }
             finally
             {
