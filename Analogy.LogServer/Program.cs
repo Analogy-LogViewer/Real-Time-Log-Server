@@ -1,8 +1,3 @@
-using System;
-using System.IO;
-using System.Net;
-using System.Reflection;
-using System.Threading.Tasks;
 using Analogy.LogServer.Services;
 using Grpc.Core;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Analogy.LogServer
 {
@@ -18,6 +17,7 @@ namespace Analogy.LogServer
     {
         public static async Task Main()
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
@@ -40,6 +40,11 @@ namespace Analogy.LogServer
             {
                 Log.CloseAndFlush();
             }
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Log.Error(e.ExceptionObject as Exception,"Error: {e}",e);
         }
 
         private static IHostBuilder CreateHostBuilder() =>
