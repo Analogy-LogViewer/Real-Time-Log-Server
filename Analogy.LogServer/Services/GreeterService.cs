@@ -27,10 +27,12 @@ namespace Analogy.LogServer.Services
         }
         public override async Task<AnalogyMessageReply> SubscribeForPublishingMessages(IAsyncStreamReader<AnalogyGRPCLogMessage> requestStream, ServerCallContext context)
         {
-            Logger.LogInformation("Client subscribe for sending messages");
-            var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken),
-                HandleClientActions(requestStream, context.CancellationToken));
-
+            string connectionInfo = context.RequestHeaders.Any()
+                ? string.Join(",", context.RequestHeaders.Select(h => h.Value).ToArray())
+                : string.Empty;
+            Logger.LogInformation($"Client subscribe for sending messages. request info :{connectionInfo}");
+            var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken), HandleClientPublisingMessages(requestStream,context, context.CancellationToken));
+            Logger.LogWarning($"Client subscribe ended for: {connectionInfo}");
             try
             {
                 await Task.WhenAll(tasks);
@@ -79,7 +81,8 @@ namespace Analogy.LogServer.Services
             }
         }
 
-        private async Task HandleClientActions(IAsyncStreamReader<AnalogyGRPCLogMessage> requestStream, CancellationToken token)
+        private async Task HandleClientPublisingMessages(IAsyncStreamReader<AnalogyGRPCLogMessage> requestStream,
+            ServerCallContext serverCallContext, CancellationToken token)
         {
             try
             {
@@ -91,6 +94,7 @@ namespace Analogy.LogServer.Services
                         {
                             message.Date = Timestamp.FromDateTime(DateTime.UtcNow);
                         }
+
                         if (string.IsNullOrEmpty(message.Id))
                         {
                             message.Id = Guid.NewGuid().ToString();
@@ -104,10 +108,15 @@ namespace Analogy.LogServer.Services
                     }
                 }
             }
+            catch (TaskCanceledException)
+            {
+                Logger.LogError($"Consuming ended for Peer: {serverCallContext.Peer}");
+
+            }
             catch (Exception e)
             {
 
-                Logger.LogError($"Error: {e.Message}");
+                Logger.LogError($"Error: {e.Message}. Peer: {serverCallContext.Peer}");
             }
         }
 
