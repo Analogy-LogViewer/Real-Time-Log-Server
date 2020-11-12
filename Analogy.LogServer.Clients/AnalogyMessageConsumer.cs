@@ -36,7 +36,7 @@ namespace Analogy.LogServer.Clients
                 var token = _cts.Token;
                 Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
                 {
-                    Id = Guid.Parse((ReadOnlySpan<char>)m.Id),
+
                     Category = m.Category,
                     Level = (AnalogyLogLevel)m.Level,
                     Class = (AnalogyLogClass)m.Class,
@@ -52,6 +52,10 @@ namespace Analogy.LogServer.Clients
                     ThreadId = m.ThreadId,
                     User = m.User
                 };
+
+                msg.Id = string.IsNullOrEmpty(m.Id)
+                    ? Guid.NewGuid()
+                    : Guid.TryParse(m.Id, out Guid id) ? id : Guid.NewGuid();
                 yield return msg;
                 if (token.IsCancellationRequested)
                 {
