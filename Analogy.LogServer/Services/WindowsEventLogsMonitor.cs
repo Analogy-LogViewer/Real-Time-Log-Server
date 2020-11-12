@@ -37,7 +37,7 @@ namespace Analogy.LogServer.Services
                 catch (Exception e)
                 {
                     string m = "Error Opening log. Please make sure you are running as Administrator." + Environment.NewLine + "Error:" + e.Message;
-                    AnalogyGRPCLogMessage err = new AnalogyGRPCLogMessage { Level = AnalogyGRPCLogLevel.Error, Text = m, Date = Timestamp.FromDateTime(DateTime.UtcNow) };
+                    AnalogyGRPCLogMessage err = new AnalogyGRPCLogMessage { Level = AnalogyGRPCLogLevel.Error, Text = m, Date = Timestamp.FromDateTime(DateTime.UtcNow) ,Id = Guid.NewGuid().ToString()};
                     MessageContainer.AddMessage(err);
                 }
             }
@@ -80,7 +80,9 @@ namespace Analogy.LogServer.Services
                     string m = "Error Opening log. Please make sure you are running as Administrator." + Environment.NewLine + "Error:" + e.Message;
                     AnalogyGRPCLogMessage err = new AnalogyGRPCLogMessage
                     {
-                        Level = AnalogyGRPCLogLevel.Error, Text = m, Date = Timestamp.FromDateTime(DateTime.UtcNow)
+                        Level = AnalogyGRPCLogLevel.Error, Text = m, 
+                        Date = Timestamp.FromDateTime(DateTime.UtcNow),
+                        Id = Guid.NewGuid().ToString()
                     };
                     MessageContainer.AddMessage(err);
                 }

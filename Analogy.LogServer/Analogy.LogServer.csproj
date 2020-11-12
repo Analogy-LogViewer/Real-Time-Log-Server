@@ -17,7 +17,7 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Version>0.4.6</Version>
+		<Version>0.4.7</Version>
 		<Copyright>Lior Banai @ 2020</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
@@ -28,15 +28,16 @@
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.7.9.5" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.33.1" />
 		<PackageReference Include="Grpc.Core" Version="2.33.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.8" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.8" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.8" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.10" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

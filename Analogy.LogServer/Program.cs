@@ -57,12 +57,9 @@ namespace Analogy.LogServer
                    webBuilder.UseConfiguration(config)
                        .ConfigureKestrel((context, options) =>
                        {
-                           options.Configure(context.Configuration.GetSection("Kestrel"))
-                               .Endpoint("Https", listenOptions =>
-                               {
-                                   listenOptions.ListenOptions.Protocols = HttpProtocols.Http2;
-                               });
+                           options.Configure(context.Configuration.GetSection("Kestrel"));
                        })
+                     
                        .UseStartup<Startup>();
                })
                 .ConfigureServices((hostContext, services) =>

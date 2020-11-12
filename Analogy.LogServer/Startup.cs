@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
+
 namespace Analogy.LogServer
 {
     public class Startup
@@ -17,7 +20,8 @@ namespace Analogy.LogServer
         public Startup(IConfiguration configuration) => Configuration = configuration;
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddNewtonsoftJson(options =>
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             ServiceConfiguration serviceConfiguration = new ServiceConfiguration();
             Configuration.Bind("ServiceConfiguration", serviceConfiguration);
             services.AddSingleton(serviceConfiguration);
@@ -26,6 +30,7 @@ namespace Analogy.LogServer
             services.AddSingleton<MessagesContainer>();
             services.AddSingleton<MessageHistoryContainer>();
             services.AddSingleton<WindowsEventLogsMonitor>();
+
             //services.AddHealthChecks();
         }
 
@@ -48,9 +53,8 @@ namespace Analogy.LogServer
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapHealthChecks("/health");
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapGrpcService<GreeterService>();
-
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
