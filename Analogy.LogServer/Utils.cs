@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -41,6 +42,7 @@ namespace Analogy.LogServer
                     return AnalogyGRPCLogLevel.Information;
                 case "WRN":
                 case "Warn":
+                case "warn":
                 case "WARN":
                 case "Warning":
                 case "WARNING":
