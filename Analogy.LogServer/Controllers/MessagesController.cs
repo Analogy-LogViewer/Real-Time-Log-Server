@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Analogy.Interfaces;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,31 +19,34 @@ namespace Analogy.LogServer.Controllers
             this.messageContainer = messageContainer;
             Logger = logger;
         }
+        public class Message
+        {
+
+            public string Text { get; set; }
+
+            public string Level { get; set; }
+
+            public string Source { get; set; }
+            public string Module { get; set; }
+
+            public Message()
+            {
+                Text = Level = Source = Module = string.Empty;
+            }
+        }
+
+
         [HttpPost()]
-        public async Task<ActionResult> LogMessage(string msg,string level)
+        public async Task<ActionResult> LogMessage(Message msg)
         {
             AnalogyGRPCLogMessage m = new AnalogyGRPCLogMessage();
-            m.Text = msg;
+            m.Text = msg.Text;
             m.Date = Timestamp.FromDateTime(DateTime.UtcNow);
             m.Category = "Http Post";
-            m.Source = string.Empty;
-            m.Module = string.Empty;
+            m.Source = msg.Source;
+            m.Module = msg.Module;
             m.Id = Guid.NewGuid().ToString();
-            switch (level)
-            {
-                case "Error":
-                    Logger.LogError(msg);
-                    m.Level = AnalogyGRPCLogLevel.Error;
-                    break;
-                case "Info":
-                    Logger.LogInformation(msg); 
-                    m.Level = AnalogyGRPCLogLevel.Information;
-                    break;
-                case "warn":
-                    Logger.LogWarning(msg);
-                    m.Level = AnalogyGRPCLogLevel.Warning;
-                    break;
-            }
+            m.Level = Utils.GetLogLevelFromString(msg.Level);
             messageContainer.AddMessage(m);
             return Ok();
         }
