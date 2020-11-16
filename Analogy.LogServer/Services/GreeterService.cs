@@ -108,10 +108,9 @@ namespace Analogy.LogServer.Services
                     }
                 }
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
                 Logger.LogError($"Consuming ended for Peer: {serverCallContext.Peer}");
-
             }
             catch (Exception e)
             {
