@@ -31,7 +31,7 @@
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.8.2.5" />
 		<PackageReference Include="Google.Protobuf" Version="3.14.0" />
-		<PackageReference Include="Grpc.Core" Version="2.33.1" />
+		<PackageReference Include="Grpc.Core" Version="2.34.0" />
 		<PackageReference Include="Grpc.Net.Client" Version="2.33.1" />
 		<PackageReference Include="Grpc.Tools" Version="2.33.1">
 			<PrivateAssets>all</PrivateAssets>
