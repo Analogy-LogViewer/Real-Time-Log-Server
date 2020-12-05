@@ -5,9 +5,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogServer.Clients" Version="0.4.10" />
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.8.2.5" />
 		<PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Analogy.LogServer.Clients\Analogy.LogServer.Clients.csproj" />
 	</ItemGroup>
 
 </Project>

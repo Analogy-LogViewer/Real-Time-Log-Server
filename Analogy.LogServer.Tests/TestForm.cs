@@ -25,11 +25,11 @@ namespace Analogy.LogServer.Tests
 
             producing = true;
             btnProducer.Enabled = false;
-            var p = new AnalogyMessageProducer($"http://{txtIP.Text}:6000", null);
-            var ai = new Dictionary<string, string> {{"some key", "some value"}};
+            var p = new AnalogyMessageProducer($"http://{txtIP.Text}", null);
+            var ai = new Dictionary<string, string> { { "some key", "some value" } };
             for (int i = 0; i < 100000; i++)
             {
-                await p.Log(text: "test " + i, source: "none", additionalInformation: ai, level:AnalogyLogLevel.Information).ConfigureAwait(false);
+                await p.Log(text: "test " + i, source: "none", additionalInformation: ai, level: AnalogyLogLevel.Information).ConfigureAwait(false);
                 await Task.Delay(500).ConfigureAwait(false);
             }
 
@@ -37,7 +37,7 @@ namespace Analogy.LogServer.Tests
             btnProducer.Enabled = true;
         }
 
-      
+
         private async void btnConsumer_Click_1(object sender, EventArgs e)
         {
             if (consuming)
@@ -47,8 +47,8 @@ namespace Analogy.LogServer.Tests
 
             consuming = true;
             btnConsumer.Enabled = false;
-           
-            var c = new AnalogyMessageConsumer("http://localhost:6000");
+
+            var c = new AnalogyMessageConsumer($"http://{txtIP.Text}");
             await foreach (var m in c.GetMessages().ConfigureAwait(false))
                 richTextBox1.Text += Environment.NewLine + m;
             consuming = false;
