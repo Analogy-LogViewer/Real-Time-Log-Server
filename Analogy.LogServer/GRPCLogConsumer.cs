@@ -65,7 +65,9 @@ namespace Analogy.LogServer
                         pendingClients)
                     {
                         if (pendingClient.add)
+                        {
                             clients.Add((pendingClient.stream, true));
+                        }
                         else
                         {
                             clients.RemoveAll(c => c.stream == pendingClient.stream);

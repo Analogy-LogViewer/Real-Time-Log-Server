@@ -28,7 +28,11 @@ namespace Analogy.LogServer.Configurator
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (DesignMode) return;
+            if (DesignMode)
+            {
+                return;
+            }
+
             EventLogsSettings els=new EventLogsSettings(ServiceConfiguration);
             gbWindowsEventsLog.Controls.Add(els);
             els.Dock = DockStyle.Fill;

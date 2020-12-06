@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.8.2.5" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.9.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>

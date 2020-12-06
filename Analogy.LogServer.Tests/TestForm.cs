@@ -50,7 +50,10 @@ namespace Analogy.LogServer.Tests
 
             var c = new AnalogyMessageConsumer($"http://{txtIP.Text}");
             await foreach (var m in c.GetMessages().ConfigureAwait(false))
+            {
                 richTextBox1.Text += Environment.NewLine + m;
+            }
+
             consuming = false;
             btnConsumer.Enabled = true;
         }

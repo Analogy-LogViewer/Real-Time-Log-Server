@@ -10,7 +10,10 @@ namespace Analogy.LogServer.Clients.Test.Console
         {
             string ip = "localhost";
             if (args.Length >= 2)
+            {
                 ip = args[1];
+            }
+
             var p = new AnalogyMessageProducer($"http://{ip}:7000", null);
             var ai = new Dictionary<string, string> { { "some key", "some value" } };
             for (int i = 0; i < 100000; i++)
