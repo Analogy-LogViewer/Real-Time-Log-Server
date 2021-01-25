@@ -1,4 +1,5 @@
-﻿using Analogy.Interfaces;
+﻿#if NETCOREAPP3_1_OR_GREATER
+using Analogy.Interfaces;
 using Grpc.Core;
 using Grpc.Net.Client;
 using System;
@@ -79,3 +80,4 @@ namespace Analogy.LogServer.Clients
         }
     }
 }
+#endif

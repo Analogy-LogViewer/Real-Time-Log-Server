@@ -1,0 +1,95 @@
+﻿#if !NETCOREAPP3_1_OR_GREATER
+using Analogy.Interfaces;
+using Grpc.Core;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Grpc.Core.Utils;
+
+namespace Analogy.LogServer.Clients
+{
+    public class AnalogyMessageConsumer : IDisposable
+    {
+        public event EventHandler<Interfaces.AnalogyLogMessage> OnNewMessage;
+        private static Analogy.AnalogyClient client { get; set; }
+        private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
+        private CancellationTokenSource _cts;
+        private Channel channel;
+        private Task consumer;
+        static AnalogyMessageConsumer()
+        {
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+        }
+
+        public AnalogyMessageConsumer(string address)
+        {
+            channel = new Channel(address, ChannelCredentials.Insecure);
+            client = new Analogy.AnalogyClient(channel);
+            AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
+            _stream = client.SubscribeForConsumingMessages(m);
+            consumer = Task.Factory.StartNew(GetMessages);
+        }
+
+        private async Task GetMessages()
+        {
+            _cts = new CancellationTokenSource();
+            try
+            {
+                while (await _stream.ResponseStream.MoveNext(_cts.Token))
+                {
+                    var m = _stream.ResponseStream.Current;
+                    var token = _cts.Token;
+                    Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
+                    {
+
+                        Category = m.Category,
+                        Level = (AnalogyLogLevel)m.Level,
+                        Class = (AnalogyLogClass)m.Class,
+                        Date = m.Date.ToDateTime().ToLocalTime(),
+                        FileName = m.FileName,
+                        LineNumber = m.LineNumber,
+                        MachineName = m.MachineName,
+                        MethodName = m.MethodName,
+                        Module = m.Module,
+                        ProcessId = m.ProcessId,
+                        Source = m.Source,
+                        Text = m.Text,
+                        ThreadId = m.ThreadId,
+                        User = m.User
+                    };
+
+                    msg.Id = string.IsNullOrEmpty(m.Id)
+                        ? Guid.NewGuid()
+                        : Guid.TryParse(m.Id, out Guid id) ? id : Guid.NewGuid();
+                    OnNewMessage?.Invoke(this, msg);
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+              
+            }
+           
+        }
+        public async Task Stop()
+        {
+            _cts?.Cancel();
+            await consumer;
+            await channel.ShutdownAsync();
+        }
+
+        public void Dispose()
+        {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _stream?.Dispose();
+            channel?.ShutdownAsync();
+
+        }
+    }
+}
+#endif
