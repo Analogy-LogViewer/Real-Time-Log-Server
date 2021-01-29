@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_1_OR_GREATER
+﻿#if NETCOREAPP3_1
 using Analogy.Interfaces;
 using Grpc.Core;
 using Grpc.Net.Client;

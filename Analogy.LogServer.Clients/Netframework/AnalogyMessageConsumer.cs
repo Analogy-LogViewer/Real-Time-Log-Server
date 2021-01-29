@@ -1,17 +1,18 @@
-﻿#if !NETCOREAPP3_1_OR_GREATER
+﻿#if !NETCOREAPP3_1
 using Analogy.Interfaces;
 using Grpc.Core;
+using Grpc.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Grpc.Core.Utils;
 
 namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageConsumer : IDisposable
     {
         public event EventHandler<Interfaces.AnalogyLogMessage> OnNewMessage;
+        public event EventHandler<string> OnError;
         private static Analogy.AnalogyClient client { get; set; }
         private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
         private CancellationTokenSource _cts;
@@ -71,9 +72,9 @@ namespace Analogy.LogServer.Clients
             }
             catch (Exception e)
             {
-              
+                OnError?.Invoke(this, e.Message);
             }
-           
+
         }
         public async Task Stop()
         {

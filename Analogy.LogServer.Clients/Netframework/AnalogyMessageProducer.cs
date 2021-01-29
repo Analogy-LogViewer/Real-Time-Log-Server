@@ -1,5 +1,6 @@
-﻿#if !NETCOREAPP3_1_OR_GREATER
+﻿#if !NETCOREAPP3_1
 using Analogy.Interfaces;
+using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
@@ -8,7 +9,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Protobuf.Collections;
 
 namespace Analogy.LogServer.Clients
 {
@@ -38,7 +38,7 @@ namespace Analogy.LogServer.Clients
             }
             catch (Exception e)
             {
-                OnError?.Invoke(this,$"Error creating gRPC Connection: {e.Message}");
+                OnError?.Invoke(this, $"Error creating gRPC Connection: {e.Message}");
             }
 
         }
@@ -55,7 +55,7 @@ namespace Analogy.LogServer.Clients
             {
                 Text = text,
                 Category = category,
-                Class =AnalogyGRPCLogClass.General,
+                Class = AnalogyGRPCLogClass.General,
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
                 FileName = filePath,
                 Id = Guid.NewGuid().ToString(),
@@ -113,7 +113,7 @@ namespace Analogy.LogServer.Clients
                 case AnalogyLogLevel.Error:
                     return AnalogyGRPCLogLevel.Error;
                 case AnalogyLogLevel.Critical:
-                    return AnalogyGRPCLogLevel.Critical; 
+                    return AnalogyGRPCLogLevel.Critical;
                 case AnalogyLogLevel.Analogy:
                     return AnalogyGRPCLogLevel.Analogy;
                 case AnalogyLogLevel.None:

@@ -1,5 +1,6 @@
-﻿#if NETCOREAPP3_1_OR_GREATER
+﻿#if NETCOREAPP3_1
 using Analogy.Interfaces;
+using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -10,18 +11,17 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Protobuf.Collections;
 
 namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageProducer : IDisposable
     {
+        public event EventHandler<string> OnError;
         private static readonly int ProcessId = Process.GetCurrentProcess().Id;
         private static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
         private static Analogy.AnalogyClient client { get; set; }
         private GrpcChannel channel;
         private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream;
-        private ILogger _logger;
         private bool connected = true;
         private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
 
@@ -30,9 +30,8 @@ namespace Analogy.LogServer.Clients
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
         }
 
-        public AnalogyMessageProducer(string address, ILogger logger)
+        public AnalogyMessageProducer(string address)
         {
-            _logger = logger;
             try
             {
                 // channel = GrpcChannel.ForAddress("http://localhost:6000");
@@ -42,7 +41,7 @@ namespace Analogy.LogServer.Clients
             }
             catch (Exception e)
             {
-                logger?.LogError(e, "Error creating gRPC Connection");
+                OnError?.Invoke(this, $"Error creating gRPC Connection: {e}");
             }
 
         }
@@ -59,7 +58,7 @@ namespace Analogy.LogServer.Clients
             {
                 Text = text,
                 Category = category,
-                Class =AnalogyGRPCLogClass.General,
+                Class = AnalogyGRPCLogClass.General,
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
                 FileName = filePath,
                 Id = Guid.NewGuid().ToString(),
@@ -90,7 +89,7 @@ namespace Analogy.LogServer.Clients
             catch (Exception e)
             {
                 connected = false;
-                _logger?.LogError(e, "Error sending message to gRPC Server");
+                OnError?.Invoke(this, $"Error sending message to gRPC Server: {e}");
             }
             finally
             {
@@ -117,7 +116,7 @@ namespace Analogy.LogServer.Clients
                 case AnalogyLogLevel.Error:
                     return AnalogyGRPCLogLevel.Error;
                 case AnalogyLogLevel.Critical:
-                    return AnalogyGRPCLogLevel.Critical; 
+                    return AnalogyGRPCLogLevel.Critical;
                 case AnalogyLogLevel.Analogy:
                     return AnalogyGRPCLogLevel.Analogy;
                 case AnalogyLogLevel.None:
@@ -136,7 +135,7 @@ namespace Analogy.LogServer.Clients
             }
             catch (Exception e)
             {
-                _logger?.LogError(e, "Error closing  gRPC connection to Server");
+                OnError?.Invoke(this, $"Error closing  gRPC connection to Server: {e}");
 
             }
 
@@ -152,7 +151,7 @@ namespace Analogy.LogServer.Clients
             }
             catch (Exception e)
             {
-                _logger?.LogError(e, "Error during dispose");
+                OnError?.Invoke(this, $"Error during dispose: {e}");
             }
         }
     }
