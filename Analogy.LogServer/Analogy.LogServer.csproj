@@ -19,7 +19,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<Version>0.4.15</Version>
+		<Version>0.4.16</Version>
 		<Copyright>Lior Banai @ 2020</Copyright>
 	</PropertyGroup>
 	<ItemGroup>

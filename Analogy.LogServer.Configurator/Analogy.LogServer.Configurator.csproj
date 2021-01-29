@@ -14,7 +14,7 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Version>0.0.1</Version>
+		<Version>0.0.2</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Copyright>Lior Banai @ 2020</Copyright>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.9.1.2" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.10.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
