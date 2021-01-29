@@ -19,7 +19,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<Version>0.4.16</Version>
+		<Version>0.4.17</Version>
 		<Copyright>Lior Banai @ 2020</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.9.1.2" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.10.2" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
 		<PackageReference Include="Grpc.Core" Version="2.35.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.10" />
