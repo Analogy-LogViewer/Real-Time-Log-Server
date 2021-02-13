@@ -10,7 +10,7 @@
 		<Copyright>Lior Banai @ 2020</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
-		<Version>0.5.3</Version>
+		<Version>0.5.4</Version>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -53,6 +53,6 @@
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1'">
-		<PackageReference Include="Grpc.Net.Client" Version="2.34.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
 	</ItemGroup>
 </Project>
