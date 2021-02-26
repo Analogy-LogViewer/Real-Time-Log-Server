@@ -20,7 +20,7 @@ namespace Analogy.LogServer.Clients.Test.Console
                 ip = args[1];
             }
 
-            var p = new AnalogyMessageProducer($"http://{ip}:6000", null);
+            var p = new AnalogyMessageProducer($"http://{ip}:6000");
             var ai = new Dictionary<string, string> { { "some key", "some value" } };
             for (int i = 0; i < 100000; i++)
             {
