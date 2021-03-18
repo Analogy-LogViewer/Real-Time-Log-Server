@@ -53,6 +53,6 @@
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1'">
-		<PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.36.0" />
 	</ItemGroup>
 </Project>
