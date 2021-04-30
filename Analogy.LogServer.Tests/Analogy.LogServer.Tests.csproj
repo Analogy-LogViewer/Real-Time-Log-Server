@@ -15,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.12.5" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.13.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
 	</ItemGroup>
 
