@@ -1,4 +1,4 @@
-﻿#if !NETCOREAPP3_1
+﻿#if !NETCOREAPP3_1 && !NET
 using Analogy.Interfaces;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;

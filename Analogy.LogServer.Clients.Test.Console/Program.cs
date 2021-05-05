@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Analogy.LogServer.Clients.Test.Console
 {
-#if NETCOREAPP3_1_OR_GREATER
-
+#if NETCOREAPP3_1 || NET
     public class Program
     {    
         public static TargetFrameworkAttribute CurrentFrameworkAttribute => (TargetFrameworkAttribute)Assembly.GetExecutingAssembly().GetCustomAttribute(typeof(TargetFrameworkAttribute));
