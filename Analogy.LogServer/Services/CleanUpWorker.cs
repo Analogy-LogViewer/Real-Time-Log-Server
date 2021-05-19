@@ -31,10 +31,10 @@ namespace Analogy.LogServer.Services
                 try
                 {
                     await Task.Delay(ServiceConfiguration.CleanUpIntervalMinutes * 60 * 1000, stoppingToken).ConfigureAwait(false);
-                    HistoryContainer.CleanMessages(ServiceConfiguration.HoursToKeepHistory);
+                  await  HistoryContainer.CleanMessages(ServiceConfiguration.HoursToKeepHistory);
                     if (CurrentProcess.PrivateMemorySize64 / 1024 / 1024 > ServiceConfiguration.MemoryUsageInMB)
                     {
-                        HistoryContainer.CleanMessagesByHalf();
+                      await  HistoryContainer.CleanMessagesByHalf();
                     }
 
                 }
