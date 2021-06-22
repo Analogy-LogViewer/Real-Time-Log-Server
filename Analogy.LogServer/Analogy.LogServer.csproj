@@ -19,7 +19,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<Version>0.6.0</Version>
+		<Version>0.6.2</Version>
 		<Copyright>Lior Banai @ 2020</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
@@ -28,8 +28,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.13.0" />
-		<PackageReference Include="Grpc.AspNetCore" Version="2.37.0" />
-		<PackageReference Include="Grpc.Core" Version="2.37.1" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
+		<PackageReference Include="Grpc.Core" Version="2.38.1" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
