@@ -52,8 +52,4 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows' ">
-		<PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
-	</ItemGroup>
 </Project>
