@@ -20,8 +20,7 @@ namespace Analogy.LogServer
         public Startup(IConfiguration configuration) => Configuration = configuration;
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddNewtonsoftJson(options =>
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddMvc();
             ServiceConfiguration serviceConfiguration = new ServiceConfiguration();
             Configuration.Bind("ServiceConfiguration", serviceConfiguration);
             services.AddSingleton(serviceConfiguration);
