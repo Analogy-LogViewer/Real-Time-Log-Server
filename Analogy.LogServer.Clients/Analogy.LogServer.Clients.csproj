@@ -7,10 +7,10 @@
 		<Authors>Lior Banai</Authors>
 		<Company>Analogy.LogViewer</Company>
 		<Description>grpc client to send messages To Analogy Log Viewer with gRPC server running</Description>
-		<Copyright>Lior Banai @ 2020</Copyright>
+		<Copyright>Lior Banai @ 2020-2021</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
-		<Version>0.7.0</Version>
+		<Version>0.7.1</Version>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -38,7 +38,7 @@
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.15.1" />
 		<PackageReference Include="Google.Protobuf" Version="3.19.1" />
 		<PackageReference Include="Grpc.Core" Version="2.42.0" />
-		<PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.41.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.42.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
