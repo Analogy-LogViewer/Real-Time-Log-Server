@@ -28,7 +28,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.15.1" />
-		<PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.41.0" />
 		<PackageReference Include="Grpc.Core" Version="2.42.0" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
