@@ -35,6 +35,7 @@ namespace Analogy.LogServer.Services
                     if (CurrentProcess.PrivateMemorySize64 / 1024 / 1024 > ServiceConfiguration.MemoryUsageInMB)
                     {
                         await HistoryContainer.CleanMessagesByHalf();
+                        GC.Collect();
                     }
 
                 }
