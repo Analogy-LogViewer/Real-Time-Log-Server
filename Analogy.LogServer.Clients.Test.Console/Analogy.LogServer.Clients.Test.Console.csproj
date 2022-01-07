@@ -5,7 +5,7 @@
 		<TargetFrameworks>net6.0-windows;net5.0-windows;net48;net471;net472;netcoreapp3.1</TargetFrameworks>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.15.1" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.15.2" />
 		<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
