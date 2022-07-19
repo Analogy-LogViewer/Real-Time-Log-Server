@@ -23,8 +23,9 @@ namespace Analogy.LogServer
                 .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
                 .AddJsonFile("appsettings_LogServer.json").Build();
 
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
-
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateBootstrapLogger();
             try
             {
                 Log.Information("Starting Analogy Log Server");
@@ -48,7 +49,10 @@ namespace Analogy.LogServer
         }
 
         private static IHostBuilder CreateHostBuilder() =>
-            Host.CreateDefaultBuilder().UseSerilog()
+            Host.CreateDefaultBuilder().UseSerilog((context, services, configuration) => configuration
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .Enrich.FromLogContext())
                 .ConfigureWebHostDefaults(webBuilder =>
                {
                    var config = new ConfigurationBuilder()
