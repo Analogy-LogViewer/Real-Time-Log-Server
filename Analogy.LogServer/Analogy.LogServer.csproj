@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows;net5.0-windows;netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<StartupObject>Analogy.LogServer.Program</StartupObject>
 		<Authors>Lior Banai</Authors>
@@ -19,7 +19,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<Version>0.8.5</Version>
+		<Version>0.9.0</Version>
 		<Copyright>Lior Banai @ 2020-2022</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="3.2.4" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="3.3.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.48.0" />
 		<PackageReference Include="Grpc.Core" Version="2.46.3" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.1.1">
@@ -63,12 +63,12 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0-windows' ">
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="6.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="appsettings_LogServer.json">
