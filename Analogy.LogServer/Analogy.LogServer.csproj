@@ -46,22 +46,6 @@
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.17" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.17" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.17" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.17" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.17" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.17" />
-	</ItemGroup>
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0-windows' ">
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="5.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-	</ItemGroup>
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0-windows' ">
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="6.0.9" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
