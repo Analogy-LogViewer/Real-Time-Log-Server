@@ -25,7 +25,7 @@ namespace Analogy.LogServer.Tests
 
             producing = true;
             btnProducer.Enabled = false;
-            var p = new AnalogyMessageProducer($"http://{txtIP.Text}", null);
+            var p = new AnalogyMessageProducer($"http://{txtIP.Text}");
             var ai = new Dictionary<string, string> { { "some key", "some value" } };
             for (int i = 0; i < 100000; i++)
             {
