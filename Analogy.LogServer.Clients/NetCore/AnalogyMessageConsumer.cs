@@ -20,6 +20,10 @@ namespace Analogy.LogServer.Clients
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
         public AnalogyMessageConsumer(string address)
         {
             //using var channel = GrpcChannel.ForAddress("http://localhost:6000");

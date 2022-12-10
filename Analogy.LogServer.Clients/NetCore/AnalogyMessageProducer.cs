@@ -29,7 +29,10 @@ namespace Analogy.LogServer.Clients
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address">The address. for example: http://localhost:6000</param>
         public AnalogyMessageProducer(string address)
         {
             try
