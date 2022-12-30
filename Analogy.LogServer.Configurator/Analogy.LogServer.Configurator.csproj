@@ -16,13 +16,13 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<Version>0.0.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Lior Banai @ 2020</Copyright>
+		<Copyright>Lior Banai @ 2020-2023</Copyright>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="3.5.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="3.6.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
