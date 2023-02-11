@@ -142,6 +142,19 @@ namespace Analogy.LogServer.Clients
             }
 
         }
+        public async Task StopReceivingAsync()
+        {
+            try
+            {
+                await channel.ShutdownAsync();
+            }
+            catch (Exception e)
+            {
+                OnError?.Invoke(this, $"Error closing  gRPC connection to Server: {e}");
+
+            }
+
+        }
 
         public void Dispose()
         {
