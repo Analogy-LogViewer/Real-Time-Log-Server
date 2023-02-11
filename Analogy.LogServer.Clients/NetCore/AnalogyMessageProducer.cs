@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Analogy.LogServer.Clients
 {
-    public class AnalogyMessageProducer : IDisposable
+    public class AnalogyMessageProducer : IDisposable, IAsyncDisposable
     {
         public event EventHandler<string> OnError;
         private static readonly int ProcessId = Process.GetCurrentProcess().Id;
@@ -133,8 +133,7 @@ namespace Analogy.LogServer.Clients
         {
             try
             {
-                channel.Dispose();
-                GrpcEnvironment.ShutdownChannelsAsync();
+                channel.ShutdownAsync().Wait(5000);
             }
             catch (Exception e)
             {
@@ -150,6 +149,24 @@ namespace Analogy.LogServer.Clients
             {
                 _semaphoreSlim.Dispose();
                 channel?.Dispose();
+                stream?.Dispose();
+            }
+            catch (Exception e)
+            {
+                OnError?.Invoke(this, $"Error during dispose: {e}");
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            try
+            {
+                _semaphoreSlim.Dispose();
+                if (channel != null)
+                {
+                    await channel.ShutdownAsync();
+                }
+
                 stream?.Dispose();
             }
             catch (Exception e)
