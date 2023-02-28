@@ -23,7 +23,7 @@ namespace Analogy.LogServer.Clients
         private GrpcChannel channel;
         private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream;
         private bool connected = true;
-        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         static AnalogyMessageProducer()
         {
