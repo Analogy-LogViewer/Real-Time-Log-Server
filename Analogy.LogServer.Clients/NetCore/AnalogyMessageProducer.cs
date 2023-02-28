@@ -1,10 +1,8 @@
 ﻿#if NETCOREAPP3_1 || NET
 using Analogy.Interfaces;
-using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,7 +66,7 @@ namespace Analogy.LogServer.Clients
                 MachineName = machineName ?? Environment.MachineName,
                 MethodName = memberName,
                 Module = processName ?? ProcessName,
-                ProcessId = processId,
+                ProcessId = processId != 0 ? processId : ProcessId,
                 ThreadId = threadId != 0 ? threadId : Thread.CurrentThread.ManagedThreadId,
                 Source = source,
                 User = userName ?? Environment.UserName,
