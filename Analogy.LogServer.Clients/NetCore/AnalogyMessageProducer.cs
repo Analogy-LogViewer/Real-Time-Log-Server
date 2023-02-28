@@ -19,11 +19,10 @@ namespace Analogy.LogServer.Clients
         public event EventHandler<string> OnError;
         private static readonly int ProcessId = Process.GetCurrentProcess().Id;
         private static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
-        private static Analogy.AnalogyClient client { get; set; }
         private GrpcChannel channel;
         private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream;
         private bool connected = true;
-        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         static AnalogyMessageProducer()
         {
@@ -37,9 +36,8 @@ namespace Analogy.LogServer.Clients
         {
             try
             {
-                // channel = GrpcChannel.ForAddress("http://localhost:6000");
                 channel = GrpcChannel.ForAddress(address);
-                client = new Analogy.AnalogyClient(channel);
+                var client = new Analogy.AnalogyClient(channel);
                 stream = client.SubscribeForPublishingMessages();
             }
             catch (Exception e)
