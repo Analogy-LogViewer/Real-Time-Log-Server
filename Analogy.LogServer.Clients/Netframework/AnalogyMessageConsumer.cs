@@ -44,7 +44,6 @@ namespace Analogy.LogServer.Clients
                     Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
                     {
 
-                        Category = m.Category,
                         Level = (AnalogyLogLevel)m.Level,
                         Class = (AnalogyLogClass)m.Class,
                         Date = m.Date.ToDateTime().ToLocalTime(),
@@ -59,7 +58,10 @@ namespace Analogy.LogServer.Clients
                         ThreadId = m.ThreadId,
                         User = m.User
                     };
-
+                    if (!string.IsNullOrEmpty(m.Category))
+                    {
+                        msg.AddOrReplaceAdditionalProperty("Category", m.Category);
+                    }
                     msg.Id = string.IsNullOrEmpty(m.Id)
                         ? Guid.NewGuid()
                         : Guid.TryParse(m.Id, out Guid id) ? id : Guid.NewGuid();
