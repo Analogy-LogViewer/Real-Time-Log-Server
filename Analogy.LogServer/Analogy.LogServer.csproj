@@ -19,7 +19,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-		<Version>1.2.0</Version>
+		<Version>1.3.0</Version>
 		<Copyright>Lior Banai @ 2020-2023</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="3.8.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="3.8.3" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
@@ -48,8 +48,8 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0-windows' ">
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="7.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="7.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
