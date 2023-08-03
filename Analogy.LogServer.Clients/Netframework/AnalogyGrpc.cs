@@ -268,9 +268,9 @@ namespace Analogy.LogServer
 
         /// <summary>Field number for the "LineNumber" field.</summary>
         public const int LineNumberFieldNumber = 10;
-        private int lineNumber_;
+        private long lineNumber_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int LineNumber
+        public long LineNumber
         {
             get { return lineNumber_; }
             set
@@ -475,7 +475,7 @@ namespace Analogy.LogServer
             if (LineNumber != 0)
             {
                 output.WriteRawTag(80);
-                output.WriteInt32(LineNumber);
+                output.WriteInt64(LineNumber);
             }
             if (MachineName.Length != 0)
             {
@@ -551,7 +551,7 @@ namespace Analogy.LogServer
             }
             if (LineNumber != 0)
             {
-                size += 1 + pb::CodedOutputStream.ComputeInt32Size(LineNumber);
+                size += 1 + pb::CodedOutputStream.ComputeInt64Size(LineNumber);
             }
             if (MachineName.Length != 0)
             {

@@ -43,7 +43,7 @@ namespace Analogy.LogServer.Clients
         }
 
         public async Task Log(string text, string source, AnalogyLogLevel level, string category = "",
-            string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string filePath = "")
+            string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] long lineNumber = 0, [CallerFilePath] string filePath = "")
         {
             if (!connected)
             {

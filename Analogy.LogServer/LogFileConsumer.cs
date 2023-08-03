@@ -41,7 +41,7 @@ namespace Analogy.LogServer
                     logger.LogCritical(msg.Text);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(msg));
             }
             return Task.CompletedTask;
         }

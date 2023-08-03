@@ -11,7 +11,7 @@ namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageConsumer : IDisposable
     {
-        private static Analogy.AnalogyClient client { get; set; }
+        private static Analogy.AnalogyClient Client { get; set; }
         private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
         private CancellationTokenSource _cts;
         private GrpcChannel channel;
@@ -28,9 +28,9 @@ namespace Analogy.LogServer.Clients
         {
             //using var channel = GrpcChannel.ForAddress("http://localhost:6000");
             channel = GrpcChannel.ForAddress(address);
-            client = new Analogy.AnalogyClient(channel);
+            Client = new Analogy.AnalogyClient(channel);
             AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
-            _stream = client.SubscribeForConsumingMessages(m);
+            _stream = Client.SubscribeForConsumingMessages(m);
         }
 
         public async IAsyncEnumerable<Interfaces.AnalogyLogMessage> GetMessages()
@@ -44,7 +44,7 @@ namespace Analogy.LogServer.Clients
 
                     Level = (AnalogyLogLevel)m.Level,
                     Class = (AnalogyLogClass)m.Class,
-                    Date = m.Date.ToDateTime().ToLocalTime(),
+                    Date = m.Date.ToDateTimeOffset().ToLocalTime(),
                     FileName = m.FileName,
                     LineNumber = m.LineNumber,
                     MachineName = m.MachineName,
