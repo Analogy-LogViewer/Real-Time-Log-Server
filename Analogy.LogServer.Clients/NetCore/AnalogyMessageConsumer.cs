@@ -44,7 +44,7 @@ namespace Analogy.LogServer.Clients
 
                     Level = (AnalogyLogLevel)m.Level,
                     Class = (AnalogyLogClass)m.Class,
-                    Date = m.Date.ToDateTimeOffset().ToLocalTime(),
+                    Date = m.Date.ToDateTime().ToLocalTime(),
                     FileName = m.FileName,
                     LineNumber = m.LineNumber,
                     MachineName = m.MachineName,

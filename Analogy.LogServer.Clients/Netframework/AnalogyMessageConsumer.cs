@@ -13,7 +13,7 @@ namespace Analogy.LogServer.Clients
     {
         public event EventHandler<Interfaces.AnalogyLogMessage> OnNewMessage;
         public event EventHandler<string> OnError;
-        private static Analogy.AnalogyClient client { get; set; }
+        private static Analogy.AnalogyClient Client { get; set; }
         private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
         private CancellationTokenSource _cts;
         private Channel channel;
@@ -26,9 +26,9 @@ namespace Analogy.LogServer.Clients
         public AnalogyMessageConsumer(string address)
         {
             channel = new Channel(address, ChannelCredentials.Insecure);
-            client = new Analogy.AnalogyClient(channel);
+            Client = new Analogy.AnalogyClient(channel);
             AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
-            _stream = client.SubscribeForConsumingMessages(m);
+            _stream = Client.SubscribeForConsumingMessages(m);
             consumer = Task.Factory.StartNew(GetMessages);
         }
 
@@ -46,7 +46,7 @@ namespace Analogy.LogServer.Clients
 
                         Level = (AnalogyLogLevel)m.Level,
                         Class = (AnalogyLogClass)m.Class,
-                        Date = m.Date.ToDateTimeOffset().ToLocalTime(),
+                        Date = m.Date.ToDateTime().ToLocalTime(),
                         FileName = m.FileName,
                         LineNumber = m.LineNumber,
                         MachineName = m.MachineName,
