@@ -10,7 +10,7 @@
 		<Copyright>Lior Banai @ 2020-2023</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
-		<VersionPrefix>5.0.0.0</VersionPrefix>
+		<VersionPrefix>5.0.1.0</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
@@ -40,9 +40,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.0" />
-		<PackageReference Include="Google.Protobuf" Version="3.24.1" />
+		<PackageReference Include="Google.Protobuf" Version="3.24.2" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
-		<PackageReference Include="Grpc.Net.Client" Version="2.55.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.56.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.57.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
