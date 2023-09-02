@@ -22,7 +22,7 @@ jobs:
       Test_Project_Path: Analogy.LogServer.Tests\Analogy.LogServer.Tests.csproj 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -52,13 +52,12 @@ jobs:
 
     # Publish Artifacts 
     - name: 'Publish Artifacts'   
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
        name: 'artifactory'
        path: |
         ./Analogy.LogServer.Clients/bin/${{ matrix.configuration }}
         ./Analogy.LogServer/bin/${{ matrix.configuration }}
-        ./Analogy.LogServer.Configurator/bin/${{ matrix.configuration }}
         
   push-nuget:
     name: 'Push NuGet Packages'
@@ -67,7 +66,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: 'Download Artifact'
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: 'artifactory'
       - name: 'Dotnet NuGet Push'
