@@ -74,12 +74,6 @@ jobs:
           Get-ChildItem .\artifactory\Analogy.LogServer.Clients\bin\Release -Filter *.nupkg |
           Where-Object { !$_.Name.Contains('preview') } |
           ForEach-Object { dotnet nuget push $_ --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{secrets.NUGET_CLIENTS_API_KEY}} }
-          Get-ChildItem .\artifactory\Analogy.LogServer\bin\Release -Filter *.nupkg |
-          Where-Object { !$_.Name.Contains('preview') } |
-          ForEach-Object { dotnet nuget push $_ --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{secrets.NUGET_LOGSERVER_API_KEY}} }
-           Get-ChildItem .\artifactory\Analogy.LogServer.Configurator\bin\Release -Filter *.nupkg |
-          Where-Object { !$_.Name.Contains('preview') } |
-          ForEach-Object { dotnet nuget push $_ --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{secrets.NUGET_LOGCONFIGURATOR_API_KEY}} }
         shell: pwsh
 
 
