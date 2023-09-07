@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net7.0-windows;net6.0-windows;net48;net471</TargetFrameworks>
@@ -42,7 +42,7 @@
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.3" />
 		<PackageReference Include="Google.Protobuf" Version="3.24.2" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
-		<PackageReference Include="Grpc.Net.Client" Version="2.56.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.57.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.57.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
