@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.3" />
-		<PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
