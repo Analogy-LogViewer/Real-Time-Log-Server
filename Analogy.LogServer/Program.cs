@@ -45,7 +45,7 @@ namespace Analogy.LogServer
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Log.Error(e.ExceptionObject as Exception,"Error: {e}",e);
+            Log.Error(e.ExceptionObject as Exception, "Error: {e}", e);
         }
 
         private static IHostBuilder CreateHostBuilder() =>
@@ -63,7 +63,7 @@ namespace Analogy.LogServer
                        {
                            options.Configure(context.Configuration.GetSection("Kestrel"));
                        })
-                     
+
                        .UseStartup<Startup>();
                })
                 .ConfigureServices((hostContext, services) =>

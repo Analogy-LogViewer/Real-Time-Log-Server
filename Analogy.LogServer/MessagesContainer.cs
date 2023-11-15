@@ -1,7 +1,6 @@
-﻿using System;
-using Analogy.LogServer.Interfaces;
-using Analogy.LogServer.Services;
+﻿using Analogy.LogServer.Interfaces;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +43,7 @@ namespace Analogy.LogServer
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError(e,"Error publishing message");
+                        _logger.LogError(e, "Error publishing message");
                     }
                     finally
                     {
@@ -85,7 +84,6 @@ namespace Analogy.LogServer
                 _semaphoreSlim.Release();
             }
         }
-
 
         public void Stop()
         {

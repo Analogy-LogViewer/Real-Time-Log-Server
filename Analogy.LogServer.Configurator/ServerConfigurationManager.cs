@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Analogy.LogServer.Configurator
 {
@@ -18,13 +18,12 @@ namespace Analogy.LogServer.Configurator
 
         public ServerConfigurationManager()
         {
-
             try
             {
                 string data = File.ReadAllText(ServerSettingFile);
                 JsonSerializerSettings settings = new JsonSerializerSettings()
                 {
-                    ContractResolver = new DefaultContractResolver()
+                    ContractResolver = new DefaultContractResolver(),
                 };
                 ServerConfiguration = JsonConvert.DeserializeObject<ServerConfiguration>(data, settings);
             }
@@ -32,14 +31,12 @@ namespace Analogy.LogServer.Configurator
             {
                 MessageBox.Show($"Error loading configuration file: {e.Message}");
             }
-
         }
 
         public void Save()
         {
             try
             {
-
                 // serialize JSON directly to a file
                 using (StreamWriter file = File.CreateText(ServerSettingFile))
                 {
@@ -49,8 +46,7 @@ namespace Analogy.LogServer.Configurator
             }
             catch (Exception ex)
             {
-                MessageBox.Show( $"Unable to save file {ServerSettingFile}: {ex}");
-
+                MessageBox.Show($"Unable to save file {ServerSettingFile}: {ex}");
             }
         }
     }

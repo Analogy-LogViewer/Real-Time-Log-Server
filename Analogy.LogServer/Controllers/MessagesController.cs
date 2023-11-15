@@ -48,7 +48,7 @@ namespace Analogy.LogServer.Controllers
                 MachineName = msg.MachineName,
                 FileName = string.Empty,
                 MethodName = string.Empty,
-                User = string.Empty
+                User = string.Empty,
             };
             messageContainer.AddMessage(m);
             return Ok();
@@ -70,12 +70,10 @@ namespace Analogy.LogServer.Controllers
                 Class = AnalogyGRPCLogClass.General,
                 FileName = string.Empty,
                 MethodName = string.Empty,
-                User = string.Empty
-
+                User = string.Empty,
             };
             messageContainer.AddMessage(m);
             return Ok();
         }
-
     }
 }

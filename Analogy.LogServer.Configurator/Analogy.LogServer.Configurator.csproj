@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net7.0-windows;net6.0-windows;net48;net471</TargetFrameworks>
+		<TargetFrameworks>net8.0-windows;net7.0-windows;net6.0-windows;net48;net471</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<IsPackable>true</IsPackable>
 		<Authors>Lior Banai</Authors>
@@ -16,13 +16,13 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<Version>0.0.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Lior Banai @ 2020-2023</Copyright>
+		<Copyright>Lior Banai @ 2020-2024</Copyright>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.3" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="6.0.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
@@ -32,7 +32,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

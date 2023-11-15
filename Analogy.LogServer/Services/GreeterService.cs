@@ -13,7 +13,6 @@ namespace Analogy.LogServer.Services
 {
     public class GreeterService : Analogy.AnalogyBase
     {
-
         private readonly GRPCLogConsumer _grpcLogConsumer;
         private ILogger<GreeterService> Logger { get; }
         private MessagesContainer MessageContainer { get; }
@@ -31,7 +30,7 @@ namespace Analogy.LogServer.Services
                 ? string.Join(",", context.RequestHeaders.Select(h => h.Value).ToArray())
                 : string.Empty;
             Logger.LogInformation($"Client subscribe for sending messages. request info :{connectionInfo}");
-            var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken), HandleClientPublisingMessages(requestStream,context, context.CancellationToken));
+            var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken), HandleClientPublisingMessages(requestStream, context, context.CancellationToken));
             Logger.LogWarning($"Client subscribe ended for: {connectionInfo}");
             try
             {
@@ -52,7 +51,7 @@ namespace Analogy.LogServer.Services
             {
                 Category = "Server Message",
                 Text = "Connection Established. Streaming old messages (if Any)",
-                Level =AnalogyGRPCLogLevel.Analogy,
+                Level = AnalogyGRPCLogLevel.Analogy,
                 Date = Timestamp.FromDateTime(DateTime.UtcNow),
                 FileName = "",
                 Id = Guid.NewGuid().ToString(),
@@ -62,10 +61,9 @@ namespace Analogy.LogServer.Services
                 ProcessId = Process.GetCurrentProcess().Id,
                 Source = "Server Operations",
                 ThreadId = Thread.CurrentThread.ManagedThreadId,
-                User = Environment.UserName
-
+                User = Environment.UserName,
             });
-            var oldMessages =await MessageHistoryContainer.GetOldMessages().ConfigureAwait(false);
+            var oldMessages = await MessageHistoryContainer.GetOldMessages().ConfigureAwait(false);
             if (oldMessages.Any())
             {
                 await responseStream.WriteAllAsync(oldMessages);
@@ -114,7 +112,6 @@ namespace Analogy.LogServer.Services
             }
             catch (Exception e)
             {
-
                 Logger.LogError($"Error: {e.Message}. Peer: {serverCallContext.Peer}");
             }
         }
@@ -124,8 +121,6 @@ namespace Analogy.LogServer.Services
             var completion = new TaskCompletionSource<object>();
             token.Register(() => { completion.SetResult(null); });
             return completion.Task;
-
         }
     }
 }
-

@@ -17,7 +17,6 @@ namespace Analogy.LogServer
         {
             switch (msg.Level)
             {
-
                 case AnalogyGRPCLogLevel.None:
                 case AnalogyGRPCLogLevel.Trace:
                     logger.LogTrace(msg.Text);

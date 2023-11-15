@@ -37,7 +37,6 @@ namespace Analogy.LogServer.Tests
             btnProducer.Enabled = true;
         }
 
-
         private async void btnConsumer_Click_1(object sender, EventArgs e)
         {
             if (consuming)

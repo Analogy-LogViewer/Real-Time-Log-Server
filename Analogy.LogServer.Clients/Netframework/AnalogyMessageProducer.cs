@@ -39,7 +39,6 @@ namespace Analogy.LogServer.Clients
             {
                 OnError?.Invoke(this, $"Error creating gRPC Connection: {e.Message}");
             }
-
         }
 
         public async Task Log(string text, string source, AnalogyLogLevel level, string category = "",
@@ -80,7 +79,6 @@ namespace Analogy.LogServer.Clients
             {
                 await _semaphoreSlim.WaitAsync();
                 await stream.RequestStream.WriteAsync(m);
-
             }
             catch (Exception e)
             {
@@ -131,9 +129,7 @@ namespace Analogy.LogServer.Clients
             catch (Exception e)
             {
                 OnError?.Invoke(this, $"Error closing  gRPC connection to Server: {e.Message}");
-
             }
-
         }
         public async Task StopReceivingAsync()
         {
@@ -144,16 +140,14 @@ namespace Analogy.LogServer.Clients
             catch (Exception e)
             {
                 OnError?.Invoke(this, $"Error closing  gRPC connection to Server: {e}");
-
             }
-
         }
         public void Dispose()
         {
             try
             {
                 _semaphoreSlim.Dispose();
-                channel?.ShutdownAsync();
+                _ = (channel?.ShutdownAsync());
                 stream?.Dispose();
             }
             catch (Exception e)

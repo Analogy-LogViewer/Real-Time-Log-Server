@@ -21,7 +21,6 @@ namespace Analogy.LogServer.Services
             ServiceConfiguration = configuration;
             MessageContainer = messageContainer;
             HistoryContainer = historyContainer;
-
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -37,7 +36,6 @@ namespace Analogy.LogServer.Services
                         await HistoryContainer.CleanMessagesByHalf();
                         GC.Collect();
                     }
-
                 }
                 catch (TaskCanceledException)
                 {

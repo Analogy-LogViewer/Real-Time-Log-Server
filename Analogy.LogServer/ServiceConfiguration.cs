@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Analogy.Interfaces;
+﻿using Analogy.Interfaces;
+using System.Collections.Generic;
 
 namespace Analogy.LogServer
 {
@@ -15,13 +15,11 @@ namespace Analogy.LogServer
         }
     }
 
-
     public class WindowsEventLogsConfiguration
     {
         public bool EnableMonitoring { get; set; }
         public bool SaveToLogFile { get; set; }
         public AnalogyLogLevel MinimumLogLevel { get; set; }
         public List<string> LogsToMonitor { get; set; }
-        
     }
 }

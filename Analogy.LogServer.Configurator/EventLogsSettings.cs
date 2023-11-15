@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Analogy.LogServer.Configurator;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Analogy.LogServer.Configurator;
 
 namespace Analogy.LogViewer.WindowsEventLogs
 {
@@ -16,10 +16,10 @@ namespace Analogy.LogViewer.WindowsEventLogs
         {
             InitializeComponent();
         }
-         public EventLogsSettings(ServerConfiguration configuration):this()
-         {
-             Configuration = configuration;
-         }
+        public EventLogsSettings(ServerConfiguration configuration) : this()
+        {
+            Configuration = configuration;
+        }
         private void btnAdd_Click(object sender, EventArgs e)
         {
             List<string> selected = lstAvailable.SelectedItems.Cast<string>().ToList();
@@ -43,7 +43,7 @@ namespace Analogy.LogViewer.WindowsEventLogs
         }
         private void UpdateUserSettingList()
         {
-            Configuration.ServiceConfiguration.WindowsEventLogsConfiguration.LogsToMonitor= lstSelected.Items.Cast<string>().ToList();
+            Configuration.ServiceConfiguration.WindowsEventLogsConfiguration.LogsToMonitor = lstSelected.Items.Cast<string>().ToList();
         }
 
         private void EventLogsSettings_Load(object sender, EventArgs e)

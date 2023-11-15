@@ -16,12 +16,11 @@ namespace Analogy.LogServer.Configurator
         public int MemoryUsageInMB { get; set; }
 
         public WindowsEventLogsConfiguration WindowsEventLogsConfiguration { get; set; }
-  
+
         public ServiceConfiguration()
         {
         }
     }
-
 
     public class WindowsEventLogsConfiguration
     {
@@ -30,7 +29,6 @@ namespace Analogy.LogServer.Configurator
         public AnalogyLogLevel MinimumLogLevel { get; set; }
         public List<string> LogsToMonitor { get; set; }
     }
-
 
     public class Serilog
     {
@@ -65,5 +63,4 @@ namespace Analogy.LogServer.Configurator
         public string pathFormat { get; set; }
         public string formatter { get; set; }
     }
-
 }

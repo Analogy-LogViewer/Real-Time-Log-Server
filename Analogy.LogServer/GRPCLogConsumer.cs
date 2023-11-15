@@ -22,7 +22,7 @@ namespace Analogy.LogServer
         {
             _logger = logger;
             clients = new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)>();
-            pendingClients=new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add)>();
+            pendingClients = new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add)>();
         }
 
         public void AddGrpcConsumer(string requestMessage, IServerStreamWriter<AnalogyGRPCLogMessage> responseStream)
@@ -55,7 +55,6 @@ namespace Analogy.LogServer
 
         public async Task ConsumeLog(AnalogyGRPCLogMessage msg)
         {
-
             try
             {
                 await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
@@ -92,7 +91,7 @@ namespace Analogy.LogServer
                 try
                 {
                     await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                    await stream.WriteAsync(msg).ConfigureAwait(false); ;
+                    await stream.WriteAsync(msg).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -104,11 +103,7 @@ namespace Analogy.LogServer
                     _semaphoreSlim.Release();
                 }
             }
-
-
         }
-
-
 
         public override string ToString() => $"gRPC consumer";
     }

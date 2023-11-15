@@ -37,7 +37,7 @@ namespace Analogy.LogServer.Services
                 catch (Exception e)
                 {
                     string m = "Error Opening log. Please make sure you are running as Administrator." + Environment.NewLine + "Error:" + e.Message;
-                    AnalogyGRPCLogMessage err = new AnalogyGRPCLogMessage { Level = AnalogyGRPCLogLevel.Error, Text = m, Date = Timestamp.FromDateTime(DateTime.UtcNow) ,Id = Guid.NewGuid().ToString()};
+                    AnalogyGRPCLogMessage err = new AnalogyGRPCLogMessage { Level = AnalogyGRPCLogLevel.Error, Text = m, Date = Timestamp.FromDateTime(DateTime.UtcNow), Id = Guid.NewGuid().ToString() };
                     MessageContainer.AddMessage(err);
                 }
             }
@@ -60,6 +60,7 @@ namespace Analogy.LogServer.Services
                     {
                         var eventLog = new EventLog(logName);
                         Logs.Add(eventLog);
+                        
                         // set event handler
                         eventLog.EntryWritten += (apps, arg) =>
                         {
@@ -69,7 +70,6 @@ namespace Analogy.LogServer.Services
                                 m.Module = logName;
                                 MessageContainer.AddMessage(m);
                             }
-
                         };
 
                         eventLog.EnableRaisingEvents = true;
@@ -80,9 +80,10 @@ namespace Analogy.LogServer.Services
                     string m = "Error Opening log. Please make sure you are running as Administrator." + Environment.NewLine + "Error:" + e.Message;
                     AnalogyGRPCLogMessage err = new AnalogyGRPCLogMessage
                     {
-                        Level = AnalogyGRPCLogLevel.Error, Text = m, 
+                        Level = AnalogyGRPCLogLevel.Error,
+                        Text = m,
                         Date = Timestamp.FromDateTime(DateTime.UtcNow),
-                        Id = Guid.NewGuid().ToString()
+                        Id = Guid.NewGuid().ToString(),
                     };
                     MessageContainer.AddMessage(err);
                 }
@@ -160,6 +161,5 @@ namespace Analogy.LogServer.Services
             m.Module = eEntry.Source ?? "";
             return m;
         }
-
     }
 }

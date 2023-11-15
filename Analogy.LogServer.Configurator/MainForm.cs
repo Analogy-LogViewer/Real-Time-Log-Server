@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Analogy.LogViewer.WindowsEventLogs;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Analogy.LogViewer.WindowsEventLogs;
-using Newtonsoft.Json.Linq;
 
 namespace Analogy.LogServer.Configurator
 {
@@ -33,7 +33,7 @@ namespace Analogy.LogServer.Configurator
                 return;
             }
 
-            EventLogsSettings els=new EventLogsSettings(ServiceConfiguration);
+            EventLogsSettings els = new EventLogsSettings(ServiceConfiguration);
             gbWindowsEventsLog.Controls.Add(els);
             els.Dock = DockStyle.Fill;
             LoadSettings();
@@ -52,11 +52,11 @@ namespace Analogy.LogServer.Configurator
         private void SaveSettings()
         {
             ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile = chLogToFile.Checked;
-            ServiceConfiguration.Serilog.WriteTo[1].Args.pathFormat=txtbLogFileLocation.Text;
-            ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory =(int)nudHoursToKeepHistory.Value ;
-            ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB =(int)nudMemoryUsageInMB.Value;
-            ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes =(int)nudCleanUpIntervalMinutes.Value;
-            ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring=chkbEnableWindowsEventLogs.Checked;
+            ServiceConfiguration.Serilog.WriteTo[1].Args.pathFormat = txtbLogFileLocation.Text;
+            ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory = (int)nudHoursToKeepHistory.Value;
+            ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB = (int)nudMemoryUsageInMB.Value;
+            ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes = (int)nudCleanUpIntervalMinutes.Value;
+            ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring = chkbEnableWindowsEventLogs.Checked;
         }
     }
 }

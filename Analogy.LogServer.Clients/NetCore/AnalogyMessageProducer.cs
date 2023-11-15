@@ -26,9 +26,7 @@ namespace Analogy.LogServer.Clients
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
         }
-        /// <summary>
-        /// 
-        /// </summary>
+
         /// <param name="address">The address. for example: http://localhost:6000</param>
         public AnalogyMessageProducer(string address)
         {
@@ -42,7 +40,6 @@ namespace Analogy.LogServer.Clients
             {
                 OnError?.Invoke(this, $"Error creating gRPC Connection: {e}");
             }
-
         }
 
         public async Task Log(string text, string source, AnalogyLogLevel level, string category = "",
@@ -83,7 +80,6 @@ namespace Analogy.LogServer.Clients
             {
                 await _semaphoreSlim.WaitAsync();
                 await stream.RequestStream.WriteAsync(m);
-
             }
             catch (Exception e)
             {
@@ -134,9 +130,7 @@ namespace Analogy.LogServer.Clients
             catch (Exception e)
             {
                 OnError?.Invoke(this, $"Error closing  gRPC connection to Server: {e}");
-
             }
-
         }
         public async Task StopReceivingAsync()
         {
@@ -147,9 +141,7 @@ namespace Analogy.LogServer.Clients
             catch (Exception e)
             {
                 OnError?.Invoke(this, $"Error closing  gRPC connection to Server: {e}");
-
             }
-
         }
 
         public void Dispose()

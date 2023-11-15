@@ -47,7 +47,6 @@ namespace Analogy.LogServer
             {
                 _semaphoreSlim.Release();
             }
-
         }
 
         public async Task CleanMessagesByHalf()
@@ -61,7 +60,7 @@ namespace Analogy.LogServer
             }
             finally
             {
-                _semaphoreSlim.Release(); 
+                _semaphoreSlim.Release();
             }
         }
 
@@ -70,7 +69,7 @@ namespace Analogy.LogServer
             try
             {
                 await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
-               return _OldMessages.ToList();
+                return _OldMessages.ToList();
             }
             finally
             {

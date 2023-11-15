@@ -41,7 +41,6 @@ namespace Analogy.LogServer.Clients
                 var token = _cts.Token;
                 Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
                 {
-
                     Level = (AnalogyLogLevel)m.Level,
                     Class = (AnalogyLogClass)m.Class,
                     Date = m.Date.ToDateTime().ToLocalTime(),
@@ -54,7 +53,7 @@ namespace Analogy.LogServer.Clients
                     Source = m.Source,
                     Text = m.Text,
                     ThreadId = m.ThreadId,
-                    User = m.User
+                    User = m.User,
                 };
                 if (!string.IsNullOrEmpty(m.Category))
                 {
@@ -74,7 +73,6 @@ namespace Analogy.LogServer.Clients
         {
             _cts?.Cancel();
             return channel.ShutdownAsync();
-
         }
 
         public void Dispose()

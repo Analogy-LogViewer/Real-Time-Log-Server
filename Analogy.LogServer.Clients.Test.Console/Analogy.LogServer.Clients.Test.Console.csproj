@@ -5,8 +5,8 @@
 		<TargetFrameworks>net7.0-windows;net6.0-windows;net48;net471</TargetFrameworks>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.3" />
-		<PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="6.0.0.1" />
+		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Analogy.LogServer.Clients\Analogy.LogServer.Clients.csproj" />

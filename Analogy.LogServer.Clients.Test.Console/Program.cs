@@ -8,10 +8,10 @@ namespace Analogy.LogServer.Clients.Test.Console
 {
 #if NETCOREAPP3_1 || NET
     public class Program
-    {    
+    {
         public static TargetFrameworkAttribute CurrentFrameworkAttribute => (TargetFrameworkAttribute)Assembly.GetExecutingAssembly().GetCustomAttribute(typeof(TargetFrameworkAttribute));
 
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             string ip = "localhost";
             if (args.Length >= 2)
@@ -32,7 +32,7 @@ namespace Analogy.LogServer.Clients.Test.Console
     public class Program
     {
         public static TargetFrameworkAttribute CurrentFrameworkAttribute => (TargetFrameworkAttribute)Assembly.GetExecutingAssembly().GetCustomAttribute(typeof(TargetFrameworkAttribute));
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             string ip = "localhost";
             if (args.Length >= 2)

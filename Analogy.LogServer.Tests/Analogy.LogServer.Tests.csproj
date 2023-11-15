@@ -2,9 +2,9 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+		<TargetFrameworks>net8.0-windows;net7.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
-		<Copyright>Lior Banai @ 2020</Copyright>
+		<Copyright>Lior Banai @ 2020-2024</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
@@ -15,8 +15,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.3" />
-		<PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="6.0.0.1" />
+		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
