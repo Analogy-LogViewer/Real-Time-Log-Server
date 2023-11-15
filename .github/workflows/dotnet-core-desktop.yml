@@ -75,14 +75,7 @@ jobs:
           Where-Object { !$_.Name.Contains('preview') } |
           ForEach-Object { dotnet nuget push $_ --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{secrets.NUGET_CLIENTS_API_KEY}} }
         shell: pwsh
-
-
-      - name: Setup NuGet.exe for use with actions
-        uses: NuGet/setup-nuget@v1.0.5
-
-      - name: Add private GitHub registry to NuGet
-        run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/Analogy-LogViewer/index.json -Username Analogy-LogViewer -Password ${{ secrets.GITHUB_TOKEN }}
-
+        
 concurrency: 
   group: ${{ github.ref }}
   cancel-in-progress: true
