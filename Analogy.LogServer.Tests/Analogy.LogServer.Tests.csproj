@@ -5,13 +5,9 @@
 		<TargetFrameworks>net8.0-windows;net7.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Copyright>Lior Banai @ 2020-2024</Copyright>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
 		<PackageIcon>Analogy.gRPC2.png</PackageIcon>
-		<RepositoryType>git</RepositoryType>
-		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-
 	</PropertyGroup>
 
 	<ItemGroup>
