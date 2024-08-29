@@ -29,8 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="7.0.0.0" />
-		<PackageReference Include="Analogy.Interfaces.DataTypes" Version="1.0.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="7.0.0.1" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

@@ -15,8 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="7.0.0.0" />
-		<PackageReference Include="Analogy.Interfaces.DataTypes" Version="1.0.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="7.0.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
