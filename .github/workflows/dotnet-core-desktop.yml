@@ -52,9 +52,9 @@ jobs:
 
     # Publish Artifacts 
     - name: 'Publish Artifacts'   
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4.4.0
       with:
-       name: 'artifactory'
+       name: artifactory_${{ matrix.configuration }}
        path: |
         ./Analogy.LogServer.Clients/bin/${{ matrix.configuration }}
         ./Analogy.LogServer/bin/${{ matrix.configuration }}
@@ -66,12 +66,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: 'Download Artifact'
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
-          name: 'artifactory'
+          name: artifactory_Release
       - name: 'Dotnet NuGet Push'
         run: |
-          Get-ChildItem .\artifactory\Analogy.LogServer.Clients\bin\Release -Filter *.nupkg |
+          Get-ChildItem .\Analogy.LogServer.Clients\bin\Release -Filter *.nupkg |
           Where-Object { !$_.Name.Contains('preview') } |
           ForEach-Object { dotnet nuget push $_ --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{secrets.NUGET_CLIENTS_API_KEY}} }
         shell: pwsh
