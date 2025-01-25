@@ -16,19 +16,19 @@ message AnalogyGRPCLogMessage {
 	string Text = 1;
 	AnalogyGRPCLogLevel Level = 2;
 	google.protobuf.Timestamp Date = 3;
-	int32 ProcessId =4;
-	int32 ThreadId =5;
-	string Module =6;
+	int32 ProcessId = 4;
+	int32 ThreadId = 5;
+	string Module = 6;
 	string Source = 7;
 	string MethodName = 8;
 	string FileName = 9;
 	int32 LineNumber = 10;
-	string MachineName=11;
+	string MachineName= 11;
 	string Category = 12;
-	string User =13;
-	map<string,string> AdditionalInformation=14;
+	string User = 13;
+	map<string,string> AdditionalInformation = 14;
 	string Id = 15;
-	AnalogyGRPCLogClass Class=16;
+	AnalogyGRPCLogClass Class = 16;
 }
 
 // The response message containing the greetings.
