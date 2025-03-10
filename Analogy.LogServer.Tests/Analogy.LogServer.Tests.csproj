@@ -7,7 +7,6 @@
 		<Copyright>Lior Banai 2020-2025</Copyright>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
-		<PackageIcon>Analogy.gRPC2.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>

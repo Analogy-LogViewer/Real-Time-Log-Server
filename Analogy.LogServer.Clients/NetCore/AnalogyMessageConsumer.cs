@@ -26,7 +26,6 @@ namespace Analogy.LogServer.Clients
         /// <param name="address"></param>
         public AnalogyMessageConsumer(string address)
         {
-            //using var channel = GrpcChannel.ForAddress("http://localhost:6000");
             channel = GrpcChannel.ForAddress(address);
             Client = new Analogy.AnalogyClient(channel);
             AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
