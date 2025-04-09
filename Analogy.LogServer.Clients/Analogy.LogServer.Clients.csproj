@@ -8,7 +8,7 @@
 		<Description>grpc client to send messages To Analogy Log Viewer with gRPC server running</Description>
 		<Copyright>Lior Banai 2020-2025</Copyright>
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
-		<VersionPrefix>8.0.1.0</VersionPrefix>
+		<VersionPrefix>8.1.0</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
@@ -31,11 +31,10 @@
 		<PackageReference Include="Analogy.Interfaces.DataTypes" Version="2.0.0" />
 		<PackageReference Include="Google.Protobuf" Version="3.30.2" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
-		<PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.70.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.71.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.3" />
 	</ItemGroup>
 </Project>

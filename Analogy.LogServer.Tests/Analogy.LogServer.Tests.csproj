@@ -5,13 +5,14 @@
 		<TargetFrameworks>net9.0-windows;net8.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Copyright>Lior Banai 2020-2025</Copyright>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="8.0.0" />
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.3" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="8.1.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
