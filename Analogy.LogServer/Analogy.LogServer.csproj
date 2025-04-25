@@ -30,7 +30,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="8.1.0" />
-		<PackageReference Include="Grpc.AspNetCore" Version="2.70.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
