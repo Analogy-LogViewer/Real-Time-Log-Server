@@ -41,10 +41,10 @@
 		<PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.6" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="9.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.6" />
 	</ItemGroup>
 	<ItemGroup>
