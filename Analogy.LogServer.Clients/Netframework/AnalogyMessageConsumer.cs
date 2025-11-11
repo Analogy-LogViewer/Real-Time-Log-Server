@@ -11,7 +11,7 @@ namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageConsumer : IDisposable
     {
-        public event EventHandler<Interfaces.AnalogyLogMessage> OnNewMessage;
+        public event EventHandler<Interfaces.DataTypes.AnalogyLogMessage> OnNewMessage;
         public event EventHandler<string> OnError;
         private static Analogy.AnalogyClient Client { get; set; }
         private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
@@ -41,10 +41,10 @@ namespace Analogy.LogServer.Clients
                 {
                     var m = _stream.ResponseStream.Current;
                     var token = _cts.Token;
-                    Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
+                    Interfaces.DataTypes.AnalogyLogMessage msg = new Interfaces.DataTypes.AnalogyLogMessage()
                     {
-                        Level = (AnalogyLogLevel)m.Level,
-                        Class = (AnalogyLogClass)m.Class,
+                        Level = (Interfaces.DataTypes.AnalogyLogLevel)m.Level,
+                        Class = (Interfaces.DataTypes.AnalogyLogClass)m.Class,
                         Date = m.Date.ToDateTimeOffset(),
                         FileName = m.FileName,
                         LineNumber = m.LineNumber,

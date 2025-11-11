@@ -42,7 +42,7 @@ namespace Analogy.LogServer.Configurator
         private void LoadSettings()
         {
             chLogToFile.Checked = ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile;
-            txtbLogFileLocation.Text = ServiceConfiguration.Serilog.WriteTo[1].Args.pathFormat;
+            txtbLogFileLocation.Text = ServiceConfiguration.Serilog.WriteTo[1].Args.PathFormat;
             nudHoursToKeepHistory.Value = ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory;
             nudMemoryUsageInMB.Value = ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB;
             nudCleanUpIntervalMinutes.Value = ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes;
@@ -52,7 +52,7 @@ namespace Analogy.LogServer.Configurator
         private void SaveSettings()
         {
             ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile = chLogToFile.Checked;
-            ServiceConfiguration.Serilog.WriteTo[1].Args.pathFormat = txtbLogFileLocation.Text;
+            ServiceConfiguration.Serilog.WriteTo[1].Args.PathFormat = txtbLogFileLocation.Text;
             ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory = (int)nudHoursToKeepHistory.Value;
             ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB = (int)nudMemoryUsageInMB.Value;
             ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes = (int)nudCleanUpIntervalMinutes.Value;

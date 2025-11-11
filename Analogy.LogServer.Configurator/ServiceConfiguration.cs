@@ -1,4 +1,5 @@
 ﻿using Analogy.Interfaces;
+using Analogy.Interfaces.DataTypes;
 using System.Collections.Generic;
 
 namespace Analogy.LogServer.Configurator
@@ -60,7 +61,7 @@ namespace Analogy.LogServer.Configurator
 
     public class Args
     {
-        public string pathFormat { get; set; }
-        public string formatter { get; set; }
+        public string PathFormat { get; set; }
+        public string Formatter { get; set; }
     }
 }

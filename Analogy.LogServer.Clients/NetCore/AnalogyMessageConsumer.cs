@@ -32,16 +32,16 @@ namespace Analogy.LogServer.Clients
             _stream = Client.SubscribeForConsumingMessages(m);
         }
 
-        public async IAsyncEnumerable<Interfaces.AnalogyLogMessage> GetMessages()
+        public async IAsyncEnumerable<Interfaces.DataTypes.AnalogyLogMessage> GetMessages()
         {
             _cts = new CancellationTokenSource();
             await foreach (var m in _stream.ResponseStream.ReadAllAsync())
             {
                 var token = _cts.Token;
-                Interfaces.AnalogyLogMessage msg = new Interfaces.AnalogyLogMessage()
+                Interfaces.DataTypes.AnalogyLogMessage msg = new Interfaces.DataTypes.AnalogyLogMessage()
                 {
-                    Level = (AnalogyLogLevel)m.Level,
-                    Class = (AnalogyLogClass)m.Class,
+                    Level = (Interfaces.DataTypes.AnalogyLogLevel)m.Level,
+                    Class = (Interfaces.DataTypes.AnalogyLogClass)m.Class,
                     Date = m.Date.ToDateTimeOffset(),
                     FileName = m.FileName,
                     LineNumber = m.LineNumber,

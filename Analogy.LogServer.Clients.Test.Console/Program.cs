@@ -1,4 +1,5 @@
 ﻿using Analogy.Interfaces;
+using Analogy.Interfaces.DataTypes;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Versioning;
