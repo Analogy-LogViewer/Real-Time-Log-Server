@@ -16,9 +16,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="9.0.2" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="9.0.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-		<PackageReference Include="System.Resources.Extensions" Version="10.0.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,6 +41,10 @@
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.300" />
 	</ItemGroup>
 
 </Project>
