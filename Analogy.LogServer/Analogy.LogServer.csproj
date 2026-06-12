@@ -29,7 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="9.0.3" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="9.0.6" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.80.0" />
 		<PackageReference Include="Grpc.Core" Version="2.46.6" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -39,13 +39,10 @@
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.8" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="10.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.8" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.8" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="10.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.9" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="appsettings_LogServer.json">

@@ -54,10 +54,10 @@ namespace Analogy.LogServer
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext())
                 .ConfigureWebHostDefaults(webBuilder =>
-               {
-                   var config = new ConfigurationBuilder()
-                       .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))  //location of the exe file
-                       .AddJsonFile("appsettings_LogServer.json", optional: false, reloadOnChange: true).Build();
+                {
+                    var config = new ConfigurationBuilder()
+                        .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                        .AddJsonFile("appsettings_LogServer.json", optional: false, reloadOnChange: true).Build();
                    webBuilder.UseConfiguration(config)
                        .ConfigureKestrel((context, options) =>
                        {
