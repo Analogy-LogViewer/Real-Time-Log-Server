@@ -67,6 +67,10 @@ jobs:
     needs: build
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: windows-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Setup NuGet.exe for use with actions
         uses: NuGet/setup-nuget@v4
@@ -74,10 +78,15 @@ jobs:
         uses: actions/download-artifact@v8.0.1
         with:
           name: artifactory_Release
+      - name: 'NuGet login (OIDC)'
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: LiorBanai
       - name: 'Dotnet NuGet Push'
         run: |
           Get-ChildItem .\Analogy.LogServer.Clients\bin\Release -Filter *.nupkg |
-          ForEach-Object { dotnet nuget push $_ --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{secrets.NUGET_CLIENTS_API_KEY}} }
+          ForEach-Object { dotnet nuget push $_.FullName --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" }
         shell: pwsh
         
 concurrency: 
