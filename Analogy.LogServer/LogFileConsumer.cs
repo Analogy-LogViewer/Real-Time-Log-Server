@@ -19,25 +19,25 @@ namespace Analogy.LogServer
             {
                 case AnalogyGRPCLogLevel.None:
                 case AnalogyGRPCLogLevel.Trace:
-                    logger.LogTrace(msg.Text);
+                    logger.LogTrace("Trace: {Text}", msg.Text);
                     break;
                 case AnalogyGRPCLogLevel.Verbose:
                 case AnalogyGRPCLogLevel.Unknown:
                 case AnalogyGRPCLogLevel.Information:
                 case AnalogyGRPCLogLevel.Analogy:
-                    logger.LogInformation(msg.Text);
+                    logger.LogInformation("Message: {Text}", msg.Text);
                     break;
                 case AnalogyGRPCLogLevel.Debug:
-                    logger.LogDebug(msg.Text);
+                    logger.LogDebug("Debug: {Text}", msg.Text);
                     break;
                 case AnalogyGRPCLogLevel.Warning:
-                    logger.LogWarning(msg.Text);
+                    logger.LogWarning("Warning: {Text}", msg.Text);
                     break;
                 case AnalogyGRPCLogLevel.Error:
-                    logger.LogError(msg.Text);
+                    logger.LogError("Error: {Text}", msg.Text);
                     break;
                 case AnalogyGRPCLogLevel.Critical:
-                    logger.LogCritical(msg.Text);
+                    logger.LogCritical("Critical: {Text}", msg.Text);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(msg));

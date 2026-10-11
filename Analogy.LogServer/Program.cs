@@ -18,9 +18,13 @@ namespace Analogy.LogServer
         public static async Task Main()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var dir = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
+            if (!string.IsNullOrEmpty(dir))
+            {
+                Environment.CurrentDirectory = dir;
+            }
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                .SetBasePath(dir ?? Environment.CurrentDirectory)
                 .AddJsonFile("appsettings_LogServer.json").Build();
 
             Log.Logger = new LoggerConfiguration()
@@ -39,7 +43,7 @@ namespace Analogy.LogServer
             }
             finally
             {
-                Log.CloseAndFlush();
+                await Log.CloseAndFlushAsync();
             }
         }
 
@@ -55,17 +59,15 @@ namespace Analogy.LogServer
                     .Enrich.FromLogContext())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    var dir = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
                     var config = new ConfigurationBuilder()
-                        .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                        .SetBasePath(dir ?? Environment.CurrentDirectory)
                         .AddJsonFile("appsettings_LogServer.json", optional: false, reloadOnChange: true).Build();
-                   webBuilder.UseConfiguration(config)
-                       .ConfigureKestrel((context, options) =>
-                       {
-                           options.Configure(context.Configuration.GetSection("Kestrel"));
-                       })
+                    webBuilder.UseConfiguration(config)
+                        .ConfigureKestrel((context, options) => options.Configure(context.Configuration.GetSection("Kestrel")))
 
-                       .UseStartup<Startup>();
-               })
+                        .UseStartup<Startup>();
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<CleanUpWorker>();

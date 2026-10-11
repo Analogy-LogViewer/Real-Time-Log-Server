@@ -61,7 +61,6 @@ namespace Analogy.LogServer.Services
                     {
                         var eventLog = new EventLog(logName);
                         Logs.Add(eventLog);
-                        
                         // set event handler
                         eventLog.EntryWritten += (apps, arg) =>
                         {

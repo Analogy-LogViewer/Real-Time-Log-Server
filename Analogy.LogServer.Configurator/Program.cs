@@ -18,7 +18,7 @@ namespace Analogy.LogServer.Configurator
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetCompatibleTextRenderingDefault(defaultValue: false);
             Application.Run(new MainForm());
         }
     }

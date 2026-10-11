@@ -11,33 +11,29 @@ namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageConsumer : IDisposable
     {
-        private static Analogy.AnalogyClient Client { get; set; }
-        private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
-        private CancellationTokenSource _cts;
+        private static Analogy.AnalogyClient Client { get; set; } = null!;
+        private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> stream;
+        private CancellationTokenSource cts = new CancellationTokenSource();
         private GrpcChannel channel;
         static AnalogyMessageConsumer()
         {
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", isEnabled: true);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="address"></param>
         public AnalogyMessageConsumer(string address)
         {
             channel = GrpcChannel.ForAddress(address);
             Client = new Analogy.AnalogyClient(channel);
             AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
-            _stream = Client.SubscribeForConsumingMessages(m);
+            stream = Client.SubscribeForConsumingMessages(m);
         }
 
         public async IAsyncEnumerable<Interfaces.DataTypes.AnalogyLogMessage> GetMessages()
         {
-            _cts = new CancellationTokenSource();
-            await foreach (var m in _stream.ResponseStream.ReadAllAsync())
+            cts = new CancellationTokenSource();
+            await foreach (var m in stream.ResponseStream.ReadAllAsync())
             {
-                var token = _cts.Token;
+                var token = cts.Token;
                 Interfaces.DataTypes.AnalogyLogMessage msg = new Interfaces.DataTypes.AnalogyLogMessage()
                 {
                     Level = (Interfaces.DataTypes.AnalogyLogLevel)m.Level,
@@ -56,7 +52,7 @@ namespace Analogy.LogServer.Clients
                 };
                 if (!string.IsNullOrEmpty(m.Category))
                 {
-                    msg.AddOrReplaceAdditionalProperty("Category", m.Category);
+                    msg.AddOrReplaceAdditionalProperty("Category", m.Category, StringComparer.Ordinal);
                 }
                 msg.Id = string.IsNullOrEmpty(m.Id)
                     ? Guid.NewGuid()
@@ -68,17 +64,22 @@ namespace Analogy.LogServer.Clients
                 }
             }
         }
-        public Task Stop()
+        public async Task Stop()
         {
-            _cts?.Cancel();
-            return channel.ShutdownAsync();
+            if (cts is not null)
+            {
+                await cts.CancelAsync();
+            }
+            await channel.ShutdownAsync();
         }
 
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
         public void Dispose()
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _stream?.Dispose();
+            cts?.Cancel();
+            cts?.Dispose();
+            stream?.Dispose();
             channel?.Dispose();
         }
     }

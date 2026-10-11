@@ -13,14 +13,14 @@ namespace Analogy.LogServer.Services
 {
     public class GreeterService : Analogy.AnalogyBase
     {
-        private readonly GRPCLogConsumer _grpcLogConsumer;
+        private readonly GRPCLogConsumer grpcLogConsumer;
         private ILogger<GreeterService> Logger { get; }
         private MessagesContainer MessageContainer { get; }
         private MessageHistoryContainer MessageHistoryContainer { get; }
         public GreeterService(MessagesContainer messageContainer, MessageHistoryContainer historyContainer, GRPCLogConsumer grpcLogConsumer, ILogger<GreeterService> logger)
         {
             MessageHistoryContainer = historyContainer;
-            _grpcLogConsumer = grpcLogConsumer;
+            this.grpcLogConsumer = grpcLogConsumer;
             Logger = logger;
             MessageContainer = messageContainer;
         }
@@ -29,16 +29,16 @@ namespace Analogy.LogServer.Services
             string connectionInfo = context.RequestHeaders.Any()
                 ? string.Join(",", context.RequestHeaders.Select(h => h.Value).ToArray())
                 : string.Empty;
-            Logger.LogInformation($"Client subscribe for sending messages. request info :{connectionInfo}");
+            Logger.LogInformation("Client subscribe for sending messages. request info: {Info}", connectionInfo);
             var tasks = Task.WhenAll(AwaitCancellation(context.CancellationToken), HandleClientPublisingMessages(requestStream, context, context.CancellationToken));
-            Logger.LogWarning($"Client subscribe ended for: {connectionInfo}");
+            Logger.LogWarning("Client subscribe ended for: {Info}", connectionInfo);
             try
             {
                 await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {
-                Logger.LogInformation(ex.Message);
+                Logger.LogInformation("Error: {Error}", ex.Message);
             }
             Logger.LogInformation("Subscription finished.");
             return new AnalogyMessageReply { Message = "Reply at " + DateTime.Now };
@@ -46,7 +46,7 @@ namespace Analogy.LogServer.Services
 
         public override async Task SubscribeForConsumingMessages(AnalogyConsumerMessage request, IServerStreamWriter<AnalogyGRPCLogMessage> responseStream, ServerCallContext context)
         {
-            _grpcLogConsumer.AddGrpcConsumer(request.Message, responseStream);
+            grpcLogConsumer.AddGrpcConsumer(request.Message, responseStream);
             await responseStream.WriteAsync(new AnalogyGRPCLogMessage
             {
                 Category = "Server Message",
@@ -58,9 +58,9 @@ namespace Analogy.LogServer.Services
                 LineNumber = 0,
                 MachineName = Environment.MachineName,
                 Module = Process.GetCurrentProcess().ProcessName,
-                ProcessId = Process.GetCurrentProcess().Id,
+                ProcessId = Environment.ProcessId,
                 Source = "Server Operations",
-                ThreadId = Thread.CurrentThread.ManagedThreadId,
+                ThreadId = Environment.CurrentManagedThreadId,
                 User = Environment.UserName,
             });
             var oldMessages = await MessageHistoryContainer.GetOldMessages().ConfigureAwait(false);
@@ -102,24 +102,26 @@ namespace Analogy.LogServer.Services
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError($"Error  receiving messages: {e}");
+                        Logger.LogError("Error  receiving messages: {Error}", e.Message);
                     }
                 }
             }
             catch (OperationCanceledException)
             {
-                Logger.LogError($"Consuming ended for Peer: {serverCallContext.Peer}");
+                Logger.LogError("Consuming ended for Peer: {PEer}", serverCallContext.Peer);
             }
             catch (Exception e)
             {
-                Logger.LogError($"Error: {e.Message}. Peer: {serverCallContext.Peer}");
+                Logger.LogError("Error: {Error}", e.Message);
             }
         }
 
+#pragma warning disable CA1822 // Mark members as static
         private Task AwaitCancellation(CancellationToken token)
+#pragma warning restore CA1822 // Mark members as static
         {
             var completion = new TaskCompletionSource<object>();
-            token.Register(() => { completion.SetResult(null); });
+            token.Register(() => completion.SetResult(null!));
             return completion.Task;
         }
     }

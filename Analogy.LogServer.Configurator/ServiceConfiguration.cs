@@ -1,4 +1,7 @@
-﻿using Analogy.Interfaces;
+﻿#pragma warning disable MA0048 // File name must match type name
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable SA1649 // File name should match first type name
+using Analogy.Interfaces;
 using Analogy.Interfaces.DataTypes;
 using System.Collections.Generic;
 

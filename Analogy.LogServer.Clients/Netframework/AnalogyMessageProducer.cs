@@ -1,4 +1,6 @@
-﻿#if !NETCOREAPP3_1 && !NET
+﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable MA0046 // Use EventHandler<T> to declare events
+#if !NET
 using Analogy.Interfaces;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
@@ -15,16 +17,15 @@ namespace Analogy.LogServer.Clients
     public class AnalogyMessageProducer : IDisposable, IAsyncDisposable
     {
         public event EventHandler<string> OnError;
-        private static readonly int ProcessId = Process.GetCurrentProcess().Id;
         private static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
         private Channel channel;
         private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream;
         private bool connected = true;
-        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         static AnalogyMessageProducer()
         {
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", isEnabled: true);
         }
 
         public AnalogyMessageProducer(string address)
@@ -42,7 +43,7 @@ namespace Analogy.LogServer.Clients
         }
 
         public async Task Log(string text, string source, Interfaces.DataTypes.AnalogyLogLevel level, string category = "",
-            string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] long lineNumber = 0, [CallerFilePath] string filePath = "")
+            string machineName = "", string userName = "", string processName = "", int processId = 0, int threadId = 0, Dictionary<string, string>? additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] long lineNumber = 0, [CallerFilePath] string filePath = "")
         {
             if (!connected)
             {
@@ -63,11 +64,11 @@ namespace Analogy.LogServer.Clients
                 MethodName = memberName,
                 Module = processName ?? ProcessName,
                 ProcessId = processId,
-                ThreadId = threadId != 0 ? threadId : Thread.CurrentThread.ManagedThreadId,
+                ThreadId = threadId is not 0 ? threadId : Thread.CurrentThread.ManagedThreadId,
                 Source = source,
                 User = userName ?? Environment.UserName,
             };
-            if (additionalInformation != null)
+            if (additionalInformation is not null)
             {
                 foreach (KeyValuePair<string, string> keyValuePair in additionalInformation)
                 {
@@ -77,7 +78,7 @@ namespace Analogy.LogServer.Clients
 
             try
             {
-                await _semaphoreSlim.WaitAsync();
+                await semaphoreSlim.WaitAsync();
                 await stream.RequestStream.WriteAsync(m);
             }
             catch (Exception e)
@@ -87,7 +88,7 @@ namespace Analogy.LogServer.Clients
             }
             finally
             {
-                _semaphoreSlim.Release();
+                semaphoreSlim.Release();
             }
         }
 
@@ -135,8 +136,8 @@ namespace Analogy.LogServer.Clients
         {
             try
             {
-                _semaphoreSlim.Dispose();
-                _ = (channel?.ShutdownAsync());
+                semaphoreSlim.Dispose();
+                _ = channel?.ShutdownAsync();
                 stream?.Dispose();
             }
             catch (Exception e)
@@ -149,9 +150,9 @@ namespace Analogy.LogServer.Clients
         {
             try
             {
-                _semaphoreSlim.Dispose();
+                semaphoreSlim.Dispose();
 
-                if (channel != null)
+                if (channel is not null)
                 {
                     await channel.ShutdownAsync();
                 }

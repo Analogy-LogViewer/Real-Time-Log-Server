@@ -1,4 +1,4 @@
-﻿namespace Analogy.LogViewer.WindowsEventLogs
+﻿namespace Analogy.LogServer.Configurator
 {
     partial class EventLogsSettings
     {

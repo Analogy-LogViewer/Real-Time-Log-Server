@@ -1,17 +1,19 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿#pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Windows.Forms;
 
 namespace Analogy.LogServer.Configurator
 {
     public class ServerConfigurationManager
     {
-        private static readonly Lazy<ServerConfigurationManager> _instance =
+#pragma warning disable SA1311 // Static readonly fields should begin with upper-case letter
+        private static readonly Lazy<ServerConfigurationManager> instance =
+#pragma warning restore SA1311 // Static readonly fields should begin with upper-case letter
             new Lazy<ServerConfigurationManager>(() => new ServerConfigurationManager());
-        public static ServerConfigurationManager ConfigurationManager { get; set; } = _instance.Value;
+        public static ServerConfigurationManager ConfigurationManager { get; set; } = instance.Value;
         private string ServerSettingFile { get; } = "appsettings_LogServer.json";
 
         public ServerConfiguration ServerConfiguration { get; }
@@ -20,16 +22,17 @@ namespace Analogy.LogServer.Configurator
         {
             try
             {
-                string data = File.ReadAllText(ServerSettingFile);
-                JsonSerializerSettings settings = new JsonSerializerSettings()
+                var options = new JsonSerializerOptions
                 {
-                    ContractResolver = new DefaultContractResolver(),
+                    WriteIndented = true,
                 };
-                ServerConfiguration = JsonConvert.DeserializeObject<ServerConfiguration>(data, settings);
+                string data = File.ReadAllText(ServerSettingFile);
+                ServerConfiguration = JsonSerializer.Deserialize<ServerConfiguration>(data, options)!;
             }
             catch (Exception e)
             {
                 MessageBox.Show($"Error loading configuration file: {e.Message}");
+                ServerConfiguration = new();
             }
         }
 
@@ -38,11 +41,12 @@ namespace Analogy.LogServer.Configurator
             try
             {
                 // serialize JSON directly to a file
-                using (StreamWriter file = File.CreateText(ServerSettingFile))
+                var options = new JsonSerializerOptions
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(file, ServerConfiguration);
-                }
+                    WriteIndented = true,
+                };
+                string jsonString = JsonSerializer.Serialize(ServerConfiguration, options);
+                File.WriteAllText(ServerSettingFile, jsonString);
             }
             catch (Exception ex)
             {

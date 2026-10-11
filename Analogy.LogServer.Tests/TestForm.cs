@@ -1,4 +1,5 @@
-﻿using Analogy.Interfaces;
+﻿#pragma warning disable SA1300 // Element should begin with upper-case letter
+using Analogy.Interfaces;
 using Analogy.Interfaces.DataTypes;
 using Analogy.LogServer.Clients;
 using System;
@@ -27,11 +28,11 @@ namespace Analogy.LogServer.Tests
             producing = true;
             btnProducer.Enabled = false;
             var p = new AnalogyMessageProducer($"http://{txtIP.Text}");
-            var ai = new Dictionary<string, string> { { "some key", "some value" } };
+            var ai = new Dictionary<string, string>(StringComparer.Ordinal) { { "some key", "some value" } };
             for (int i = 0; i < 100000; i++)
             {
-                await p.Log(text: "test " + i, source: "none", additionalInformation: ai, level: AnalogyLogLevel.Debug).ConfigureAwait(false);
-                await p.Log(text: "test " + i, source: "none", additionalInformation: ai, level: AnalogyLogLevel.Information).ConfigureAwait(false);
+                await p.Log(text: "test " + i, source: "none", level: AnalogyLogLevel.Debug, additionalInformation: ai).ConfigureAwait(false);
+                await p.Log(text: "test " + i, source: "none", level: AnalogyLogLevel.Information, additionalInformation: ai).ConfigureAwait(false);
                 await Task.Delay(500).ConfigureAwait(false);
             }
 

@@ -1,4 +1,5 @@
-﻿#if !NETCOREAPP3_1 && !NET
+﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#if !NET
 using Analogy.Interfaces;
 using Grpc.Core;
 using Grpc.Core.Utils;
@@ -11,16 +12,21 @@ namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageConsumer : IDisposable
     {
+#pragma warning disable MA0046 // Use EventHandler<T> to declare events
         public event EventHandler<Interfaces.DataTypes.AnalogyLogMessage> OnNewMessage;
+#pragma warning restore MA0046 // Use EventHandler<T> to declare events
+#pragma warning disable MA0046 // Use EventHandler<T> to declare events
         public event EventHandler<string> OnError;
+#pragma warning restore MA0046 // Use EventHandler<T> to declare events
         private static Analogy.AnalogyClient Client { get; set; }
-        private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> _stream;
-        private CancellationTokenSource _cts;
+        private readonly AsyncServerStreamingCall<AnalogyGRPCLogMessage> stream;
+        private CancellationTokenSource cts;
         private Channel channel;
         private Task consumer;
+
         static AnalogyMessageConsumer()
         {
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", isEnabled: true);
         }
 
         public AnalogyMessageConsumer(string address)
@@ -28,19 +34,19 @@ namespace Analogy.LogServer.Clients
             channel = new Channel(address, ChannelCredentials.Insecure);
             Client = new Analogy.AnalogyClient(channel);
             AnalogyConsumerMessage m = new AnalogyConsumerMessage { Message = "client" };
-            _stream = Client.SubscribeForConsumingMessages(m);
+            stream = Client.SubscribeForConsumingMessages(m);
             consumer = Task.Factory.StartNew(GetMessages);
         }
 
         private async Task GetMessages()
         {
-            _cts = new CancellationTokenSource();
+            cts = new CancellationTokenSource();
             try
             {
-                while (await _stream.ResponseStream.MoveNext(_cts.Token))
+                while (await stream.ResponseStream.MoveNext(cts.Token))
                 {
-                    var m = _stream.ResponseStream.Current;
-                    var token = _cts.Token;
+                    var m = stream.ResponseStream.Current;
+                    var token = cts.Token;
                     Interfaces.DataTypes.AnalogyLogMessage msg = new Interfaces.DataTypes.AnalogyLogMessage()
                     {
                         Level = (Interfaces.DataTypes.AnalogyLogLevel)m.Level,
@@ -59,7 +65,7 @@ namespace Analogy.LogServer.Clients
                     };
                     if (!string.IsNullOrEmpty(m.Category))
                     {
-                        msg.AddOrReplaceAdditionalProperty("Category", m.Category);
+                        msg.AddOrReplaceAdditionalProperty("Category", m.Category, StringComparer.Ordinal);
                     }
                     msg.Id = string.IsNullOrEmpty(m.Id)
                         ? Guid.NewGuid()
@@ -78,16 +84,16 @@ namespace Analogy.LogServer.Clients
         }
         public async Task Stop()
         {
-            _cts?.Cancel();
+            cts?.Cancel();
             await consumer;
             await channel.ShutdownAsync();
         }
 
         public void Dispose()
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _stream?.Dispose();
+            cts?.Cancel();
+            cts?.Dispose();
+            stream?.Dispose();
             _ = channel?.ShutdownAsync();
         }
     }

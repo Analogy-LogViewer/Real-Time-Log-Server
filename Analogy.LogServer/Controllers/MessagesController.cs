@@ -32,7 +32,7 @@ namespace Analogy.LogServer.Controllers
                 Text = Level = Source = Module = MachineName = string.Empty;
             }
         }
-        [HttpPost()]
+        [HttpPost]
         public ActionResult LogMessageObject(Message msg)
         {
             AnalogyGRPCLogMessage m = new AnalogyGRPCLogMessage
@@ -54,7 +54,7 @@ namespace Analogy.LogServer.Controllers
             return Ok();
         }
 
-        [HttpPost()]
+        [HttpPost]
         public ActionResult LogMessage(string msg, string level)
         {
             AnalogyGRPCLogMessage m = new AnalogyGRPCLogMessage

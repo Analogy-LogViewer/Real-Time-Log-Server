@@ -92,17 +92,17 @@ csharp_style_expression_bodied_properties = true:silent
 
 # Pattern matching preferences
 csharp_style_pattern_matching_over_as_with_null_check = true
-csharp_style_pattern_matching_over_is_with_cast_check = true
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_prefer_extended_property_pattern = true
 csharp_style_prefer_not_pattern = true
 csharp_style_prefer_pattern_matching = true
 csharp_style_prefer_switch_expression = true
 
 # Null-checking preferences
-csharp_style_conditional_delegate_call = true
+csharp_style_conditional_delegate_call = true:suggestion
 
 # Modifier preferences
-csharp_prefer_static_local_function = true
+csharp_prefer_static_local_function = true:suggestion
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async
 csharp_style_prefer_readonly_struct = true
 csharp_style_prefer_readonly_struct_member = true
@@ -120,7 +120,7 @@ csharp_style_deconstructed_variable_declaration = true
 csharp_style_implicit_object_creation_when_type_is_apparent = true
 csharp_style_inlined_variable_declaration = true
 csharp_style_prefer_index_operator = true
-csharp_style_prefer_local_over_anonymous_function = true
+csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_null_check_over_type_check = true
 csharp_style_prefer_range_operator = true
 csharp_style_prefer_tuple_swap = true
@@ -231,50 +231,333 @@ dotnet_naming_style.pascal_case.required_suffix =
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 
+# Enable or disable reporting objects containing properties/fields with DataClassificationAttribute
+MA0153.report_types_with_data_classification_attributes = true
+
+csharp_style_prefer_primary_constructors = true:suggestion
+dotnet_diagnostic.CA1805.severity = error
+dotnet_diagnostic.MA0004.severity = silent
+dotnet_diagnostic.MA0015.severity = silent
+dotnet_diagnostic.MA0026.severity = suggestion
+dotnet_diagnostic.MA0051.severity = silent
+dotnet_diagnostic.SA1001.severity = error
+dotnet_diagnostic.SA1005.severity = silent
+dotnet_diagnostic.SA1008.severity = error
+dotnet_diagnostic.SA1101.severity = silent
+dotnet_diagnostic.SA1116.severity = silent
+dotnet_diagnostic.SA1117.severity = silent
+dotnet_diagnostic.SA1121.severity = error
+dotnet_diagnostic.SA1122.severity = none
+dotnet_diagnostic.SA1128.severity = silent
+dotnet_diagnostic.SA1201.severity = silent
+dotnet_diagnostic.SA1202.severity = silent
+dotnet_diagnostic.SA1212.severity = error
+dotnet_diagnostic.SA1313.severity = error
+dotnet_diagnostic.SA1400.severity = error
+dotnet_diagnostic.SA1413.severity = error
+dotnet_diagnostic.SA1503.severity = error
+dotnet_diagnostic.SA1505.severity = error
+dotnet_diagnostic.SA1507.severity = error
+dotnet_diagnostic.SA1508.severity = error
+dotnet_diagnostic.SA1513.severity = silent
+dotnet_diagnostic.SA1514.severity = error
+dotnet_diagnostic.SA1515.severity = silent
+dotnet_diagnostic.SA1516.severity = silent
+dotnet_diagnostic.SA1518.severity = none
+dotnet_diagnostic.SA1600.severity = silent
+dotnet_diagnostic.SA1611.severity = silent
+dotnet_diagnostic.SA1642.severity = silent
+dotnet_diagnostic.SA1633.severity = silent
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
 dotnet_naming_style.begins_with_i.word_separator = 
-dotnet_naming_style.begins_with_i.capitalization = pascal_case
-dotnet_diagnostic.SA1101.severity = silent
-dotnet_diagnostic.SA1513.severity = silent
-dotnet_diagnostic.SA1600.severity = suggestion
-dotnet_diagnostic.SA1508.severity = error
-dotnet_diagnostic.SA1128.severity = silent
-dotnet_diagnostic.SA1516.severity = silent
-dotnet_diagnostic.SA1201.severity = silent
-dotnet_diagnostic.MA0004.severity = silent
-dotnet_diagnostic.SA1117.severity = silent
-dotnet_diagnostic.MA0015.severity = silent
-dotnet_diagnostic.MA0026.severity = suggestion
-dotnet_diagnostic.SA1202.severity = suggestion
-dotnet_diagnostic.SA1116.severity = silent
-dotnet_diagnostic.MA0051.severity = silent
-dotnet_diagnostic.SA1633.severity = silent
-dotnet_diagnostic.SA1005.severity = silent
-csharp_style_prefer_primary_constructors = true:suggestion
-dotnet_diagnostic.SA1518.severity = error
-dotnet_diagnostic.SA1001.severity = error
-dotnet_diagnostic.SA1507.severity = error
-dotnet_diagnostic.SA1505.severity = error
-dotnet_diagnostic.SA1400.severity = error
-dotnet_diagnostic.SA1503.severity = error
-dotnet_diagnostic.SA1515.severity = error
-dotnet_diagnostic.SA1514.severity = error
-dotnet_diagnostic.SA1413.severity = error
-dotnet_diagnostic.SA1008.severity = error
-dotnet_diagnostic.SA1121.severity = error
-dotnet_diagnostic.SA1212.severity = error
-dotnet_diagnostic.SA1313.severity = error
-dotnet_diagnostic.CA1805.severity = error
+
+# Do not ignore method results
+dotnet_diagnostic.CA1806.severity = error
+
+# Initialize reference type static fields inline
+dotnet_diagnostic.CA1810.severity = error
+
+# Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = warning
+
+# Avoid unsealed attributes
+dotnet_diagnostic.CA1813.severity = error
+
+# Remove empty finalizers
+dotnet_diagnostic.CA1821.severity = error
+
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = error
+
+# Avoid unused private fields
+dotnet_diagnostic.CA1823.severity = error
+
+# CA1824: Mark assemblies with NeutralResourcesLanguageAttribute
+dotnet_diagnostic.CA1824.severity = error
+
+# Avoid zero-length array allocations
+dotnet_diagnostic.CA1825.severity = warning
+
+# Use property instead of Linq Enumerable method
+dotnet_diagnostic.CA1826.severity = warning
+
+# Do not use Count/LongCount when Any can be used
+dotnet_diagnostic.CA1827.severity = suggestion
+
+# Do not use CountAsync/LongCountAsync when AnyAsync can be used
+dotnet_diagnostic.CA1828.severity = suggestion
+
+# Use Length/Count property instead of Enumerable.Count method
+dotnet_diagnostic.CA1829.severity = warning
+
+# Prefer strongly-typed Append and Insert method overloads on StringBuilder.
+dotnet_diagnostic.CA1830.severity = warning
+
+# Use AsSpan instead of Range-based indexers for string when appropriate
+dotnet_diagnostic.CA1831.severity = warning
+
+# Use AsSpan or AsMemory instead of Range-based indexers for getting ReadOnlySpan or ReadOnlyMemory portion of an array
+dotnet_diagnostic.CA1832.severity = warning
+
+# Use AsSpan or AsMemory instead of Range-based indexers for getting Span or Memory portion of an array
+dotnet_diagnostic.CA1833.severity = warning
+
+#Unnecessary call to Contains(item)
+dotnet_diagnostic.CA1868.severity = error
+
+# CA1873: Avoid potentially expensive logging
+dotnet_diagnostic.CA1873.severity = none
+
+# Use StringBuilder.Append(char) for single character strings
+dotnet_diagnostic.CA1834.severity = warning
+
+# Prefer the memory-based overloads of ReadAsync/WriteAsync methods in stream-based classes
+dotnet_diagnostic.CA1835.severity = warning
+
+# Prefer IsEmpty over Count when available
+dotnet_diagnostic.CA1836.severity = warning
+
+# Use Environment.ProcessId instead of Process.GetCurrentProcess().Id
+dotnet_diagnostic.CA1837.severity = warning
+
+# Avoid StringBuilder parameters for P/Invokes
+dotnet_diagnostic.CA1838.severity = warning
+
+# Use Environment.ProcessPath instead of Process.GetCurrentProcess().MainModule.FileName
+dotnet_diagnostic.CA1839.severity = warning
+
+# Use Environment.CurrentManagedThreadId instead of Thread.CurrentThread.ManagedThreadId
+dotnet_diagnostic.CA1840.severity = warning
+
+# Prefer Dictionary Contains methods
+dotnet_diagnostic.CA1841.severity = warning
+
+# Do not use 'WhenAll' with a single task
+dotnet_diagnostic.CA1842.severity = error
+
+# Do not use 'WaitAll' with a single task
+dotnet_diagnostic.CA1843.severity = error
+
+# Provide memory-based overrides of async methods when subclassing 'Stream'
+dotnet_diagnostic.CA1844.severity = warning
+
+# Use span-based 'string.Concat'
+dotnet_diagnostic.CA1845.severity = warning
+
+# Prefer AsSpan over Substring
+dotnet_diagnostic.CA1846.severity = warning
+
+# Use string.Contains(char) instead of string.Contains(string) with single character
+dotnet_diagnostic.CA1847.severity = warning
+
+# Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = warning
+
+# Call async methods when in an async method
+dotnet_diagnostic.CA1849.severity = error
+
+# Prefer static HashData method over ComputeHash
+dotnet_diagnostic.CA1850.severity = error
+
+# Possible multiple enumerations of IEnumerable collection
+dotnet_diagnostic.CA1851.severity = warning
+
+# Seal internal types
+dotnet_diagnostic.CA1852.severity = error
+
+# Unnecessary call to 'Dictionary.ContainsKey(key)'
+dotnet_diagnostic.CA1853.severity = error
+
+# Prefer the IDictionary.TryGetValue(TKey, out TValue) method
+dotnet_diagnostic.CA1854.severity = error
+
+# Use Span<T>.Clear() instead of Span<T>.Fill()
+dotnet_diagnostic.CA1855.severity = error
+
+# Use StartsWith instead of IndexOf
+dotnet_diagnostic.CA1858.severity = error
+
+# Use concrete types when possible for improved performance
+dotnet_diagnostic.CA1859.severity = error
+
+# Avoid using 'Enumerable.Any()' extension method
+dotnet_diagnostic.CA1860.severity = error
+
+# Cache and reuse 'JsonSerializerOptions' instances
+dotnet_diagnostic.CA1869.severity = error
+
+# CS0162: Unreachable code detected
+dotnet_diagnostic.CS0162.severity = error
+
+# CS4014: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the 'await' operator to the result of the call.
+dotnet_diagnostic.CS4014.severity = error
+
+# CS8600: Converting null literal or possible null value to non-nullable type.
+dotnet_diagnostic.CS8600.severity = suggestion
+
+# CS8602: Dereference of a possibly null reference
+dotnet_diagnostic.CS8602.severity = error
+
+# CS8618: Non nullable field _name is not initialized. Consider declare the field as nullable type
+dotnet_diagnostic.CS8618.severity = error
+
+# S3928: Parameter names used into ArgumentException constructors should match an existing one
+dotnet_diagnostic.S3928.severity = error
+
+dotnet_diagnostic.CS8765.severity = suggestion
+
+# SYSLIB1054: Use 'LibraryImportAttribute' instead of 'DllImportAttribute'
+dotnet_diagnostic.SYSLIB1054.severity = error
+
+# Roslynator: Use expression-bodied lambda
+dotnet_diagnostic.RCS1021.severity = error
+
+# Roslynator: Optimize LINQ method call
+dotnet_diagnostic.RCS1077.severity = none
+
+# Roslynator: Use --/++ operator instead of assignment
+dotnet_diagnostic.RCS1089.severity = error
+
+# Roslynator: Remove redundant assignment
+dotnet_diagnostic.RCS1212.severity = error
+
+# Roslynator: Remove unused member declaration
+dotnet_diagnostic.RCS1213.severity = error
+
+# Roslynator: Mark local variable as const
+dotnet_diagnostic.RCS1118.severity = error
+
+# Use conditional access
+dotnet_diagnostic.RCS1146.severity = error
+
+# Roslynator: Unnecessary usage of verbatim string literal
+dotnet_diagnostic.RCS1192.severity = error
+# Roslynator: Order named arguments according to the order of parameters
+dotnet_diagnostic.RCS1205.severity = error
+
+# Roslynator: Make class sealed
+dotnet_diagnostic.RCS1225.severity = error
+dotnet_diagnostic.RCS1226.severity = error
+dotnet_diagnostic.RCS1235.severity = error
+dotnet_diagnostic.RCS1239.severity = error
+
+# Roslynator:Resource can be disposed asynchronously
+dotnet_diagnostic.RCS1261.severity = error
+
 dotnet_diagnostic.MA0134.severity = error
+# MA0153: Do not log symbols decorated with DataClassificationAttribute directly
+MA0153.report_types_with_data_classification_attribute = true
+dotnet_diagnostic.MA0153.severity = error
 dotnet_diagnostic.SA1408.severity = error
 dotnet_diagnostic.SA1210.severity = error
-dotnet_diagnostic.SA1122.severity = suggestion
 dotnet_diagnostic.SA1108.severity = silent
 dotnet_diagnostic.SA1012.severity = error
 dotnet_diagnostic.SA1500.severity = error
+dotnet_diagnostic.SA1134.severity = silent
+dotnet_diagnostic.SA1509.severity = error
+dotnet_diagnostic.SA1002.severity = suggestion
+dotnet_diagnostic.MA0003.severity = error
+dotnet_diagnostic.MA0005.severity = error
+dotnet_diagnostic.MA0010.severity = error
+dotnet_diagnostic.MA0019.severity = error
+dotnet_diagnostic.MA0012.severity = error
+dotnet_diagnostic.MA0022.severity = error
+dotnet_diagnostic.MA0028.severity = silent
+dotnet_diagnostic.MA0044.severity = error
+dotnet_diagnostic.MA0052.severity = error
+dotnet_diagnostic.SA1139.severity = error
+dotnet_diagnostic.SA1316.severity = error
+dotnet_diagnostic.SA1204.severity = none
+dotnet_diagnostic.SA1623.severity = none
+dotnet_diagnostic.SA1615.severity = none
+dotnet_diagnostic.MA0016.severity = none
+dotnet_diagnostic.SA1602.severity = none
+dotnet_diagnostic.MA0106.severity = error
+dotnet_diagnostic.SA1402.severity = none
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.RS0030.severity = error
+dotnet_diagnostic.SA1024.severity = error
+dotnet_diagnostic.SA1028.severity = error
+dotnet_diagnostic.SA1512.severity = error
+dotnet_diagnostic.MA0076.severity = error
+dotnet_diagnostic.SA1003.severity = error
 csharp_prefer_system_threading_lock = true:suggestion
-dotnet_diagnostic.MA0132.severity = error
+dotnet_diagnostic.CA2244.severity = error
+dotnet_diagnostic.SA1127.severity = none
+dotnet_diagnostic.CA1508.severity = warning
+dotnet_diagnostic.SA1111.severity = error
+dotnet_diagnostic.MA0074.severity = error
+dotnet_diagnostic.SA1135.severity = error
+dotnet_diagnostic.SA1502.severity = error
+dotnet_diagnostic.SA1517.severity = error
+dotnet_diagnostic.MA0062.severity = error
+dotnet_diagnostic.MA0002.severity = error
+dotnet_diagnostic.SA1214.severity = none
+dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.SA1611.severity = none
+dotnet_diagnostic.MA0111.severity = error
+dotnet_diagnostic.MA0140.severity = error
+dotnet_diagnostic.MA0141.severity = error
+dotnet_diagnostic.MA0142.severity = error
+dotnet_diagnostic.MA0143.severity = error
+dotnet_diagnostic.MA0148.severity = error
+dotnet_diagnostic.MA0149.severity = error
+dotnet_diagnostic.MA0150.severity = error
+dotnet_diagnostic.MA0151.severity = error
+dotnet_diagnostic.MA0152.severity = error
+dotnet_diagnostic.MA0159.severity = error
+dotnet_diagnostic.MA0160.severity = error
+dotnet_diagnostic.MA0164.severity = error
+dotnet_diagnostic.MA0124.severity = error
+dotnet_diagnostic.MA0125.severity = error
+dotnet_diagnostic.IDE0060.severity = error
+dotnet_diagnostic.RCS1163.severity = none
+dotnet_diagnostic.RCS1191.severity = error
+dotnet_diagnostic.RCS1214.severity = error
+dotnet_diagnostic.RCS1222.severity = none
+dotnet_diagnostic.RCS1251.severity = error
+dotnet_diagnostic.RCS1255.severity = error
+dotnet_diagnostic.RCS1259.severity = error
+dotnet_diagnostic.MA0166.severity = error
+dotnet_diagnostic.MA0167.severity = error
+dotnet_diagnostic.MA0168.severity = error
+dotnet_diagnostic.MA0169.severity = error
+dotnet_diagnostic.S3267.severity = none
+dotnet_diagnostic.S3168.severity = error
+dotnet_diagnostic.S3993.severity = suggestion
+dotnet_diagnostic.S6678.severity = warning
+dotnet_diagnostic.S2325.severity = error
+dotnet_diagnostic.S125.severity = none
+dotnet_diagnostic.S4136.severity = suggestion
+dotnet_diagnostic.S1199.severity = none
+dotnet_diagnostic.S4136.severity = error
+csharp_style_prefer_simple_property_accessors = true:suggestion
+dotnet_diagnostic.CA1068.severity = error
+dotnet_diagnostic.CA1069.severity = error
+dotnet_diagnostic.CA1816.severity = error
+dotnet_diagnostic.S2139.severity = none
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -293,9 +576,33 @@ dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent
 dotnet_diagnostic.CA1854.severity = error
 dotnet_diagnostic.CA1707.severity = error
-dotnet_diagnostic.CA2208.severity = error
+dotnet_diagnostic.CA2208.severity = none
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 dotnet_code_quality_unused_parameters = all:suggestion
 dotnet_diagnostic.CA2200.severity = error
 dotnet_diagnostic.CA1012.severity = error
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_diagnostic.CA1806.severity = warning
+dotnet_diagnostic.CA1840.severity = error
+dotnet_diagnostic.CA1837.severity = error
+dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA2017.severity = error
+dotnet_diagnostic.CA1416.severity = error
+dotnet_diagnostic.CA2245.severity = error
+dotnet_diagnostic.CA2242.severity = error
+dotnet_diagnostic.CA2241.severity = error
+dotnet_diagnostic.CA2247.severity = error
+dotnet_diagnostic.CA2248.severity = error
+dotnet_diagnostic.CA2254.severity = error
+dotnet_diagnostic.CA2263.severity = error
+dotnet_diagnostic.CA1860.severity = suggestion
+dotnet_diagnostic.MSTEST0001.severity = none
+dotnet_diagnostic.MSTEST0016.severity = error
+dotnet_diagnostic.MSTEST0037.severity = error
+dotnet_diagnostic.MSTEST0049.severity = error
+dotnet_diagnostic.MSTEST0058.severity = error
+dotnet_diagnostic.MSTEST0068.severity = error
+dotnet_diagnostic.IL2026.severity = error
+dotnet_diagnostic.IL2075.severity = error
+dotnet_diagnostic.IL3050.severity = error

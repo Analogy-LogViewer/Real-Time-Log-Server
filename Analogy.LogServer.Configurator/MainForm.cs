@@ -1,6 +1,4 @@
-﻿using Analogy.LogViewer.WindowsEventLogs;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +12,7 @@ namespace Analogy.LogServer.Configurator
 {
     public partial class MainForm : Form
     {
-        private ServerConfiguration ServiceConfiguration => ServerConfigurationManager.ConfigurationManager.ServerConfiguration;
+        private static ServerConfiguration ServiceConfiguration => ServerConfigurationManager.ConfigurationManager.ServerConfiguration;
         public MainForm()
         {
             InitializeComponent();
@@ -33,7 +31,7 @@ namespace Analogy.LogServer.Configurator
                 return;
             }
 
-            EventLogsSettings els = new EventLogsSettings(ServiceConfiguration);
+            EventLogsSettings els = new EventLogsSettings(MainForm.ServiceConfiguration);
             gbWindowsEventsLog.Controls.Add(els);
             els.Dock = DockStyle.Fill;
             LoadSettings();
@@ -41,22 +39,22 @@ namespace Analogy.LogServer.Configurator
 
         private void LoadSettings()
         {
-            chLogToFile.Checked = ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile;
-            txtbLogFileLocation.Text = ServiceConfiguration.Serilog.WriteTo[1].Args.PathFormat;
-            nudHoursToKeepHistory.Value = ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory;
-            nudMemoryUsageInMB.Value = ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB;
-            nudCleanUpIntervalMinutes.Value = ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes;
-            chkbEnableWindowsEventLogs.Checked = ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring;
+            chLogToFile.Checked = MainForm.ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile;
+            txtbLogFileLocation.Text = MainForm.ServiceConfiguration.Serilog.WriteTo[1].Args.PathFormat;
+            nudHoursToKeepHistory.Value = MainForm.ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory;
+            nudMemoryUsageInMB.Value = MainForm.ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB;
+            nudCleanUpIntervalMinutes.Value = MainForm.ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes;
+            chkbEnableWindowsEventLogs.Checked = MainForm.ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring;
         }
 
         private void SaveSettings()
         {
-            ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile = chLogToFile.Checked;
-            ServiceConfiguration.Serilog.WriteTo[1].Args.PathFormat = txtbLogFileLocation.Text;
-            ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory = (int)nudHoursToKeepHistory.Value;
-            ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB = (int)nudMemoryUsageInMB.Value;
-            ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes = (int)nudCleanUpIntervalMinutes.Value;
-            ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring = chkbEnableWindowsEventLogs.Checked;
+            MainForm.ServiceConfiguration.ServiceConfiguration.LogAlsoToLogFile = chLogToFile.Checked;
+            MainForm.ServiceConfiguration.Serilog.WriteTo[1].Args.PathFormat = txtbLogFileLocation.Text;
+            MainForm.ServiceConfiguration.ServiceConfiguration.HoursToKeepHistory = (int)nudHoursToKeepHistory.Value;
+            MainForm.ServiceConfiguration.ServiceConfiguration.MemoryUsageInMB = (int)nudMemoryUsageInMB.Value;
+            MainForm.ServiceConfiguration.ServiceConfiguration.CleanUpIntervalMinutes = (int)nudCleanUpIntervalMinutes.Value;
+            MainForm.ServiceConfiguration.ServiceConfiguration.WindowsEventLogsConfiguration.EnableMonitoring = chkbEnableWindowsEventLogs.Checked;
         }
     }
 }

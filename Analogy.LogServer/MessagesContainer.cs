@@ -13,14 +13,14 @@ namespace Analogy.LogServer
     {
         private readonly BlockingCollection<AnalogyGRPCLogMessage> messages;
 
-        private Task _consumer;
-        private readonly List<ILogConsumer> _consumers;
+        private Task consumer;
+        private readonly List<ILogConsumer> consumers;
         private ILogger<MessagesContainer> _logger;
-        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         public MessagesContainer(ServiceConfiguration serviceConfiguration, GRPCLogConsumer grpcLogConsumer, MessageHistoryContainer historyContainer, ILogger<MessagesContainer> logger)
         {
             _logger = logger;
-            _consumers = new List<ILogConsumer>();
+            consumers = new List<ILogConsumer>();
             AddConsumer(grpcLogConsumer);
             if (serviceConfiguration.LogAlsoToLogFile)
             {
@@ -32,14 +32,14 @@ namespace Analogy.LogServer
             }
 
             messages = new BlockingCollection<AnalogyGRPCLogMessage>();
-            _consumer = Task.Factory.StartNew(async () =>
+            consumer = Task.Factory.StartNew(async () =>
             {
                 foreach (var msg in messages.GetConsumingEnumerable())
                 {
                     try
                     {
-                        await _semaphoreSlim.WaitAsync();
-                        await Task.WhenAll(_consumers.Select(c => c.ConsumeLog(msg)).ToArray());
+                        await semaphoreSlim.WaitAsync();
+                        await Task.WhenAll(consumers.Select(c => c.ConsumeLog(msg)).ToArray());
                     }
                     catch (Exception e)
                     {
@@ -47,7 +47,7 @@ namespace Analogy.LogServer
                     }
                     finally
                     {
-                        _semaphoreSlim.Release();
+                        semaphoreSlim.Release();
                     }
                 }
             });
@@ -59,16 +59,16 @@ namespace Analogy.LogServer
         {
             try
             {
-                _semaphoreSlim.Wait();
-                if (!_consumers.Contains(consumer))
+                semaphoreSlim.Wait();
+                if (!consumers.Contains(consumer))
                 {
                     _logger.LogInformation("Add new consumer: {consumer}", consumer);
-                    _consumers.Add(consumer);
+                    consumers.Add(consumer);
                 }
             }
             finally
             {
-                _semaphoreSlim.Release();
+                semaphoreSlim.Release();
             }
         }
 
@@ -76,12 +76,12 @@ namespace Analogy.LogServer
         {
             try
             {
-                _semaphoreSlim.Wait();
-                _consumers.Remove(consumer);
+                semaphoreSlim.Wait();
+                consumers.Remove(consumer);
             }
             finally
             {
-                _semaphoreSlim.Release();
+                semaphoreSlim.Release();
             }
         }
 

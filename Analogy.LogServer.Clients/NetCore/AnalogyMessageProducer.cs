@@ -1,4 +1,5 @@
-﻿#if NETCOREAPP3_1 || NET
+﻿#pragma warning disable MA0046 // Use EventHandler<T> to declare events
+#if NET
 using Analogy.Interfaces;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -14,20 +15,24 @@ namespace Analogy.LogServer.Clients
 {
     public class AnalogyMessageProducer : IDisposable, IAsyncDisposable
     {
-        public event EventHandler<string> OnError;
-        private static readonly int ProcessId = Process.GetCurrentProcess().Id;
+        public event EventHandler<string>? OnError;
+#pragma warning restore MA0046 // Use EventHandler<T> to declare events
+        private static readonly int ProcessId = Environment.ProcessId;
         private static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
-        private GrpcChannel channel;
-        private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream;
+        private GrpcChannel channel = null!;
+        private AsyncClientStreamingCall<AnalogyGRPCLogMessage, AnalogyMessageReply> stream = null!;
         private bool connected = true;
-        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         static AnalogyMessageProducer()
         {
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", isEnabled: true);
         }
 
-        /// <param name="address">The address. for example: http://localhost:6000</param>
+        /// <summary>
+        /// Initializes a new instance.
+        /// The address. for example: http://localhost:6000.
+        /// </summary>
         public AnalogyMessageProducer(string address)
         {
             try
@@ -42,8 +47,11 @@ namespace Analogy.LogServer.Clients
             }
         }
 
-        public async Task Log(string text, string source, Interfaces.DataTypes.AnalogyLogLevel level, string category = "",
-            string machineName = null, string userName = null, string processName = null, int processId = 0, int threadId = 0, Dictionary<string, string> additionalInformation = null, [CallerMemberName] string memberName = "", [CallerLineNumber] long lineNumber = 0, [CallerFilePath] string filePath = "")
+        public async Task Log(string text, string source, Interfaces.DataTypes.AnalogyLogLevel level,
+            string category = "",
+            string machineName = "", string userName = "", string processName = "", int processId = 0, int threadId = 0,
+            Dictionary<string, string>? additionalInformation = null, [CallerMemberName] string memberName = "",
+            [CallerLineNumber] long lineNumber = 0, [CallerFilePath] string filePath = "")
         {
             if (!connected)
             {
@@ -63,12 +71,12 @@ namespace Analogy.LogServer.Clients
                 MachineName = machineName ?? Environment.MachineName,
                 MethodName = memberName,
                 Module = processName ?? ProcessName,
-                ProcessId = processId != 0 ? processId : ProcessId,
-                ThreadId = threadId != 0 ? threadId : Thread.CurrentThread.ManagedThreadId,
+                ProcessId = processId is not 0 ? processId : ProcessId,
+                ThreadId = threadId is not 0 ? threadId : Environment.CurrentManagedThreadId,
                 Source = source,
                 User = userName ?? Environment.UserName,
             };
-            if (additionalInformation != null)
+            if (additionalInformation is not null)
             {
                 foreach (KeyValuePair<string, string> keyValuePair in additionalInformation)
                 {
@@ -78,7 +86,7 @@ namespace Analogy.LogServer.Clients
 
             try
             {
-                await _semaphoreSlim.WaitAsync();
+                await semaphoreSlim.WaitAsync();
                 await stream.RequestStream.WriteAsync(m);
             }
             catch (Exception e)
@@ -88,11 +96,11 @@ namespace Analogy.LogServer.Clients
             }
             finally
             {
-                _semaphoreSlim.Release();
+                semaphoreSlim.Release();
             }
         }
 
-        private AnalogyGRPCLogLevel GetLogLevel(Interfaces.DataTypes.AnalogyLogLevel level)
+        private static AnalogyGRPCLogLevel GetLogLevel(Interfaces.DataTypes.AnalogyLogLevel level)
         {
             return level switch
             {
@@ -133,11 +141,13 @@ namespace Analogy.LogServer.Clients
             }
         }
 
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
         public void Dispose()
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
             try
             {
-                _semaphoreSlim.Dispose();
+                semaphoreSlim.Dispose();
                 channel?.Dispose();
                 stream?.Dispose();
             }
@@ -146,13 +156,13 @@ namespace Analogy.LogServer.Clients
                 OnError?.Invoke(this, $"Error during dispose: {e}");
             }
         }
-
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
         public async ValueTask DisposeAsync()
         {
             try
             {
-                _semaphoreSlim.Dispose();
-                if (channel != null)
+                semaphoreSlim.Dispose();
+                if (channel is not null)
                 {
                     await channel.ShutdownAsync();
                 }

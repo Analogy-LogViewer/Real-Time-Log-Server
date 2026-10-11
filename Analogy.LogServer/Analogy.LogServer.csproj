@@ -23,6 +23,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos\Analogy.proto" GrpcServices="Server" />
@@ -32,7 +33,6 @@
 		<PackageReference Include="Analogy.LogViewer.Interfaces" />
 		<PackageReference Include="Grpc.AspNetCore" />
 		<PackageReference Include="Grpc.Core" />
-		<PackageReference Include="Newtonsoft.Json" />
 		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Serilog.Enrichers.Environment" />
 		<PackageReference Include="Serilog.Enrichers.Process" />

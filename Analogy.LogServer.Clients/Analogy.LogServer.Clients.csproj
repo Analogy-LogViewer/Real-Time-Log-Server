@@ -12,6 +12,9 @@
 		<PackageIcon>Analogy.gRPC.service.png</PackageIcon>
 		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.gRPC</PackageProjectUrl>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<IsAotCompatible>true</IsAotCompatible>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net48'">

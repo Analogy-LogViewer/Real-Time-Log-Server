@@ -16,7 +16,7 @@ namespace Analogy.LogServer.Tests
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetCompatibleTextRenderingDefault(defaultValue: false);
             Application.Run(new TestForm());
         }
     }

@@ -8,6 +8,10 @@
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+		<DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<RepositoryType>git</RepositoryType>
 		<DebugType>portable</DebugType>

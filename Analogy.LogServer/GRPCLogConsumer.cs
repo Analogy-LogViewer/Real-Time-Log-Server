@@ -1,4 +1,6 @@
-﻿using Analogy.LogServer.Interfaces;
+﻿#pragma warning disable RCS1169 // Make field read-only
+#pragma warning disable SA1316
+using Analogy.LogServer.Interfaces;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,16 +13,16 @@ namespace Analogy.LogServer
 {
     public class GRPCLogConsumer : ILogConsumer
     {
-        private readonly ILogger<GRPCLogConsumer> _logger;
+        private readonly ILogger<GRPCLogConsumer> logger;
+
         private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)> clients;
         private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add)> pendingClients;
-        private readonly ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
-        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
-        private List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)> ActiveClients { get; set; }
+        private readonly ReaderWriterLockSlim sync = new ReaderWriterLockSlim();
+        private static readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
 
         public GRPCLogConsumer(ILogger<GRPCLogConsumer> logger)
         {
-            _logger = logger;
+            this.logger = logger;
             clients = new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool active)>();
             pendingClients = new List<(IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add)>();
         }
@@ -29,13 +31,13 @@ namespace Analogy.LogServer
         {
             try
             {
-                _logger.LogInformation("Adding client with message: {message}", requestMessage);
-                _sync.EnterWriteLock();
+                logger.LogInformation("Adding client with message: {message}", requestMessage);
+                sync.EnterWriteLock();
                 pendingClients.Add((responseStream, true));
             }
             finally
             {
-                _sync.ExitWriteLock();
+                sync.ExitWriteLock();
             }
         }
 
@@ -43,13 +45,13 @@ namespace Analogy.LogServer
         {
             try
             {
-                _logger.LogInformation("removing client with message");
-                _sync.EnterWriteLock();
+                logger.LogInformation("removing client with message");
+                sync.EnterWriteLock();
                 pendingClients.Add((responseStream, false));
             }
             finally
             {
-                _sync.ExitWriteLock();
+                sync.ExitWriteLock();
             }
         }
 
@@ -57,7 +59,7 @@ namespace Analogy.LogServer
         {
             try
             {
-                await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+                await semaphoreSlim.WaitAsync().ConfigureAwait(false);
                 if (pendingClients.Any())
                 {
                     foreach ((IServerStreamWriter<AnalogyGRPCLogMessage> stream, bool add) pendingClient in
@@ -77,7 +79,7 @@ namespace Analogy.LogServer
             }
             finally
             {
-                _semaphoreSlim.Release();
+                semaphoreSlim.Release();
             }
 
             for (int i = 0; i < clients.Count; i++)
@@ -90,21 +92,21 @@ namespace Analogy.LogServer
 
                 try
                 {
-                    await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+                    await semaphoreSlim.WaitAsync().ConfigureAwait(false);
                     await stream.WriteAsync(msg).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
                     clients[i] = (stream, false);
-                    _logger.LogDebug(e, "Error sending message");
+                    logger.LogDebug(e, "Error sending message");
                 }
                 finally
                 {
-                    _semaphoreSlim.Release();
+                    semaphoreSlim.Release();
                 }
             }
         }
 
-        public override string ToString() => $"gRPC consumer";
+        public override string ToString() => "gRPC consumer";
     }
 }
