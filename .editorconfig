@@ -603,6 +603,36 @@ dotnet_diagnostic.MSTEST0037.severity = error
 dotnet_diagnostic.MSTEST0049.severity = error
 dotnet_diagnostic.MSTEST0058.severity = error
 dotnet_diagnostic.MSTEST0068.severity = error
+# --- Trimming / Unreferenced Code Rules (IL2XXX) ---
+# Using types/members annotated with RequiresUnreferencedCode
 dotnet_diagnostic.IL2026.severity = error
+# Reflection patterns that cannot be statically analyzed
+dotnet_diagnostic.IL2055.severity = error
+dotnet_diagnostic.IL2057.severity = error
+dotnet_diagnostic.IL2058.severity = error
+dotnet_diagnostic.IL2059.severity = error
+dotnet_diagnostic.IL2060.severity = error
+dotnet_diagnostic.IL2061.severity = error
+# Mismatched DynamicallyAccessedMembers annotations on parameters/returns
+dotnet_diagnostic.IL2062.severity = error
+dotnet_diagnostic.IL2065.severity = error
+dotnet_diagnostic.IL2067.severity = error
+dotnet_diagnostic.IL2070.severity = error
+dotnet_diagnostic.IL2072.severity = error
 dotnet_diagnostic.IL2075.severity = error
+dotnet_diagnostic.IL2077.severity = error
+dotnet_diagnostic.IL2080.severity = error
+dotnet_diagnostic.IL2087.severity = error
+dotnet_diagnostic.IL2091.severity = error
+dotnet_diagnostic.IL2092.severity = error
+dotnet_diagnostic.IL2094.severity = error
+
+# --- Native AOT / Dynamic Code Rules (IL3XXX) ---
+# Calling members marked with RequiresDynamicCode (e.g., MakeGenericType, Emit)
 dotnet_diagnostic.IL3050.severity = error
+# Accessing Assembly.Location or similar APIs that break in single-file/AOT
+dotnet_diagnostic.IL3000.severity = error
+dotnet_diagnostic.IL3001.severity = error
+# Calling P/Invokes with complex structures requiring dynamic marshaling stub generation
+dotnet_diagnostic.IL3051.severity = error
+dotnet_diagnostic.IL3052.severity = error
