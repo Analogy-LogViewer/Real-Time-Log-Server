@@ -10,8 +10,8 @@
     <PackageVersion Include="Grpc.Core" Version="2.46.6" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.84.0" />
     <PackageVersion Include="Grpc.Tools" Version="2.84.0" />
-    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.303" />
-    <PackageVersion Include="Meziantou.Polyfill" Version="1.0.166" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.316" />
+    <PackageVersion Include="Meziantou.Polyfill" Version="1.0.168" />
     <PackageVersion Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="10.0.13" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.13" />
     <PackageVersion Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
